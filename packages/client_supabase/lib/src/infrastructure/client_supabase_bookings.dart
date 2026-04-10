@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../interfaces/i_client_supabase_bookings.dart';
-import '../models/booking_row.dart';
+import '../models/booking_with_profile_row.dart';
 import '../models/supabase_config.dart';
 
 class ClientSupabaseBookings implements IClientSupabaseBookings {
@@ -9,8 +9,11 @@ class ClientSupabaseBookings implements IClientSupabaseBookings {
 
   final Dio _dio;
 
+  /// PostgREST embed via FK [vob_guid] → [profiles.vob_guid].
+  static const _selectWithProfile = '*,profiles(*,profile_extensions(*))';
+
   @override
-  Future<List<BookingRow>> getBookings({required DateTime forDate}) async {
+  Future<List<BookingWithProfileRow>> getBookings({required DateTime forDate}) async {
     final startLocal = DateTime(forDate.year, forDate.month, forDate.day);
     final endLocal = startLocal.add(const Duration(days: 1));
     final startUtc = startLocal.toUtc();
@@ -23,6 +26,7 @@ class ClientSupabaseBookings implements IClientSupabaseBookings {
     final response = await _dio.get(
       '/bookings',
       queryParameters: <String, dynamic>{
+        'select': _selectWithProfile,
         'and': and,
         'order': 'booking_date.asc,court_no.asc',
       },
@@ -48,6 +52,9 @@ class ClientSupabaseBookings implements IClientSupabaseBookings {
       );
     }
 
-    return data.whereType<Map<String, dynamic>>().map(BookingRow.fromJson).toList(growable: false);
+    return data
+        .whereType<Map<String, dynamic>>()
+        .map(BookingWithProfileRow.fromPostgrestJson)
+        .toList(growable: false);
   }
 }

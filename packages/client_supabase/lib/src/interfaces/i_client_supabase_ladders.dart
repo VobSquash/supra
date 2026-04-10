@@ -1,12 +1,12 @@
-import '../models/ladder_entry_row.dart';
+import '../models/ladder_entry_with_profile_row.dart';
 
 abstract class IClientSupabaseLadders {
-  /// [public.ladder_mens] — Parse `LadderMens`.
-  Future<List<LadderEntryRow>> getLadderMens();
+  /// [public.ladder_mens] — Parse `LadderMens`, with embedded profile (FK `vob_guid`).
+  Future<List<LadderEntryWithProfileRow>> getLadderMens();
 
-  /// [public.ladder_ladies] — Parse `LadderLadies`.
-  Future<List<LadderEntryRow>> getLadderLadies();
+  /// [public.ladder_ladies] — Parse `LadderLadies`, with embedded profile.
+  Future<List<LadderEntryWithProfileRow>> getLadderLadies();
 
-  /// [public.ladder_masters] — Parse `LadderMasters`.
-  Future<List<LadderEntryRow>> getLadderMasters();
+  /// [public.ladder_masters] — Parse `LadderMasters`, with embedded profile.
+  Future<List<LadderEntryWithProfileRow>> getLadderMasters();
 }

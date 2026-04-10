@@ -106,6 +106,49 @@ void main() {
     expect(json['legacy_object_id'], 'parseObj1');
   });
 
+  test('LadderEntryWithProfileRow parses PostgREST embed', () {
+    final json = <String, dynamic>{
+      'id': 'c0000000-0000-4000-8000-000000000001',
+      'sort_order': 1,
+      'year': 2026,
+      'vob_guid': '11111111-1111-1111-1111-111111111101',
+      'team': 2,
+      'can_be_challenged': true,
+      'legacy_object_id': 'parseL1',
+      'profiles': <String, dynamic>{
+        'id': 'p1',
+        'vob_guid': '11111111-1111-1111-1111-111111111101',
+        'first_name': 'A',
+        'last_name': 'B',
+        'email': 'a@b.c',
+        'contact_number': '1',
+        'profile_type': 'user',
+        'is_active': true,
+        'date_of_birth': '1990-01-01',
+        'date_created': '2020-01-01T00:00:00Z',
+        'password_hashed': true,
+        'profile_extension_id': 'ext-1',
+        'profile_extensions': <String, dynamic>{
+          'id': 'ext-1',
+          'vob_guid': '11111111-1111-1111-1111-111111111101',
+          'ssa_number': 'ssa',
+          'emergency_contact_number': '000',
+          'firebase_number': 'fb',
+          'membership_type': 'gold',
+          'can_show_birthday': true,
+          'can_show_email': false,
+          'can_show_contact': true,
+          'is_coach': false,
+        },
+      },
+    };
+    final wrapped = LadderEntryWithProfileRow.fromPostgrestJson(json);
+    expect(wrapped.entry.sortOrder, 1);
+    expect(wrapped.profile?.profile.vobGuid, '11111111-1111-1111-1111-111111111101');
+    expect(wrapped.profile?.profile.firstName, 'A');
+    expect(wrapped.profile?.extension?.ssaNumber, 'ssa');
+  });
+
   test('LadderEntryRow round-trips Supabase-style JSON', () {
     final row = LadderEntryRow(
       id: 'c0000000-0000-4000-8000-000000000001',

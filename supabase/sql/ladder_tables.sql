@@ -1,5 +1,6 @@
 -- One table per Parse ladder class: LadderMens, LadderLadies, LadderMasters.
 -- PostgREST: /ladder_mens, /ladder_ladies, /ladder_masters
+-- After data is migrated, apply `profiles_vob_guid_fks.sql` for FK + embedded `profiles(...)`.
 --
 -- CLI: `dart run migration --ladders` / `--migrate --ladders`.
 --
@@ -10,7 +11,7 @@ create table if not exists public.ladder_mens (
   id uuid primary key,
   sort_order int,
   year int,
-  vob_guid text,
+  vob_guid uuid,
   team int,
   can_be_challenged boolean,
   legacy_object_id text
@@ -31,7 +32,7 @@ create table if not exists public.ladder_ladies (
   id uuid primary key,
   sort_order int,
   year int,
-  vob_guid text,
+  vob_guid uuid,
   team int,
   can_be_challenged boolean,
   legacy_object_id text
@@ -52,7 +53,7 @@ create table if not exists public.ladder_masters (
   id uuid primary key,
   sort_order int,
   year int,
-  vob_guid text,
+  vob_guid uuid,
   team int,
   can_be_challenged boolean,
   legacy_object_id text

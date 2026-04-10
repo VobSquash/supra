@@ -6,7 +6,6 @@ import 'package:middleware/src/injection.dart';
 import 'package:middleware/src/mappers/bookings/booking_with_profile.dart';
 import 'package:middleware/src/mappers/bookings/supabase_booking_mapper.dart';
 import 'package:middleware/src/mappers/profiles/supabase_profile_mapper.dart';
-import 'package:middleware/src/utils/vob_guid_normalize.dart';
 
 @LazySingleton(as: IBookingsFacade)
 class BookingsFacade implements IBookingsFacade {
@@ -19,24 +18,16 @@ class BookingsFacade implements IBookingsFacade {
   @override
   Future<BookingListDto> loadBookings({required DateTime forDate}) async {
     final bookingRows = await _client.bookings.getBookings(forDate: forDate);
-    final profileRows = await _client.profiles.getProfiles();
-
-    final byNormalizedVob = <String, BasicProfileDTO>{};
-    for (final p in profileRows) {
-      final basic = const SupabaseProfileMapper().convert<ProfileFull, BasicProfileDTO>(p);
-      final key = normalizeVobGuid(basic.vobGuid);
-      if (key != null && key.isNotEmpty) {
-        byNormalizedVob[key] = basic;
-      }
-    }
+    const profileMapper = SupabaseProfileMapper();
 
     final items = <BookingDto>[];
     for (final row in bookingRows) {
-      final v = normalizeVobGuid(row.vobGuid);
-      final prof = v != null ? byNormalizedVob[v] : null;
+      final prof = row.profile != null
+          ? profileMapper.convert<ProfileFull, BasicProfileDTO>(row.profile!)
+          : null;
       items.add(
         _mapper.convert<BookingWithProfile, BookingDto>(
-          BookingWithProfile(booking: row, profile: prof),
+          BookingWithProfile(booking: row.booking, profile: prof),
         ),
       );
     }

@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 import '../interfaces/i_client_supabase_ladders.dart';
-import '../models/ladder_entry_row.dart';
+import '../models/ladder_entry_with_profile_row.dart';
 import '../models/supabase_config.dart';
 
 class ClientSupabaseLadders implements IClientSupabaseLadders {
@@ -9,19 +9,23 @@ class ClientSupabaseLadders implements IClientSupabaseLadders {
 
   final Dio _dio;
 
-  @override
-  Future<List<LadderEntryRow>> getLadderMens() => _getTable('ladder_mens');
+  /// PostgREST embed via FK [vob_guid] → [profiles.vob_guid].
+  static const _selectWithProfile = '*,profiles(*,profile_extensions(*))';
 
   @override
-  Future<List<LadderEntryRow>> getLadderLadies() => _getTable('ladder_ladies');
+  Future<List<LadderEntryWithProfileRow>> getLadderMens() => _getTable('ladder_mens');
 
   @override
-  Future<List<LadderEntryRow>> getLadderMasters() => _getTable('ladder_masters');
+  Future<List<LadderEntryWithProfileRow>> getLadderLadies() => _getTable('ladder_ladies');
 
-  Future<List<LadderEntryRow>> _getTable(String table) async {
+  @override
+  Future<List<LadderEntryWithProfileRow>> getLadderMasters() => _getTable('ladder_masters');
+
+  Future<List<LadderEntryWithProfileRow>> _getTable(String table) async {
     final response = await _dio.get(
       '/$table',
       queryParameters: const <String, dynamic>{
+        'select': _selectWithProfile,
         'order': 'sort_order.asc',
       },
     );
@@ -46,6 +50,9 @@ class ClientSupabaseLadders implements IClientSupabaseLadders {
       );
     }
 
-    return data.whereType<Map<String, dynamic>>().map(LadderEntryRow.fromJson).toList(growable: false);
+    return data
+        .whereType<Map<String, dynamic>>()
+        .map(LadderEntryWithProfileRow.fromPostgrestJson)
+        .toList(growable: false);
   }
 }
