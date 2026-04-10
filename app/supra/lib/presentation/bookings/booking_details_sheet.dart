@@ -31,7 +31,8 @@ class _BookingDetailsContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-    final dt = booking.bookingDate?.toLocal();
+    // Match grid: DB timestamps use UTC wall clock for slot labels (see booking_schedule).
+    final u = booking.bookingDate?.toUtc();
     final display = booking.displayName?.trim();
     final profile = booking.profile;
     final ext = profile?.extendedProfile;
@@ -88,13 +89,15 @@ class _BookingDetailsContent extends StatelessWidget {
           _InfoRow(
             icon: Icons.calendar_today_outlined,
             label: 'Date',
-            value: dt != null ? dt.formateDateForUi() : '—',
+            value: u != null ? DateTime(u.year, u.month, u.day).formateDateForUi() : '—',
           ),
           const SizedBox(height: 8),
           _InfoRow(
             icon: Icons.schedule,
             label: 'Time',
-            value: dt != null ? dt.formateTimeFromDate() : '—',
+            value: u != null
+                ? DateTime(u.year, u.month, u.day, u.hour, u.minute).formateTimeFromDate()
+                : '—',
           ),
           if (booking.isMine) ...[
             const SizedBox(height: 12),

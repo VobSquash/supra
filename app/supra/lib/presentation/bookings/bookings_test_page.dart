@@ -166,22 +166,7 @@ class _BookingsTestPageState extends State<BookingsTestPage> {
     if (widget.nested) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          // Material(
-          //   color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.35),
-          //   child: Padding(
-          //     padding: const EdgeInsets.symmetric(horizontal: 4),
-          //     child: Row(
-          //       children: [
-          //         const Padding(padding: EdgeInsets.only(left: 12), child: Text('Bookings')),
-          //         const Spacer(),
-          //         ..._dateActions,
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          Expanded(child: body),
-        ],
+        children: [Expanded(child: body)],
       );
     }
 

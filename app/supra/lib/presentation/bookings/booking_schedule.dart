@@ -59,10 +59,18 @@ bool slotInBand(int slotStartMinutes, BookingTimeBand band) {
   }
 }
 
-bool _sameCalendarDay(DateTime a, DateTime b) {
-  final la = a.toLocal();
-  final lb = b.toLocal();
-  return la.year == lb.year && la.month == lb.month && la.day == lb.day;
+/// Whether [bookingUtc] falls on the same **calendar day** as [selectedCalendarDay]
+/// using **UTC date parts** (y/m/d).
+///
+/// Bookings in Supabase are `timestamptz`; migrated rows often store the **intended
+/// court wall time** with a `+00` offset rather than a shifted UTC instant. Using
+/// [DateTime.toLocal] then maps e.g. `20:15+00` to 22:15 in SAST and the wrong row
+/// (21:45). Matching on UTC wall clock keeps the grid aligned with stored values.
+bool _sameCalendarDayUtc(DateTime bookingUtc, DateTime selectedCalendarDay) {
+  final u = bookingUtc.toUtc();
+  return u.year == selectedCalendarDay.year &&
+      u.month == selectedCalendarDay.month &&
+      u.day == selectedCalendarDay.day;
 }
 
 /// Maps DB/API [courtNo] to grid columns 1–3 (supports 0-based 0,1,2).
@@ -73,15 +81,17 @@ int? courtNoOneBased(int? court) {
   return null;
 }
 
-/// Local time-of-day in minutes from midnight (date part ignored).
-int _minutesFromMidnightLocal(DateTime local) => local.hour * 60 + local.minute;
+/// Time-of-day in minutes from midnight (hour/minute only).
+int _minutesFromMidnight(int hour, int minute) => hour * 60 + minute;
 
 /// Which schedule row (slot **start** minutes) this booking belongs to.
 ///
-/// Bookings are aligned to **[start, start + 45)** in local time, not only when
-/// the timestamp equals the slot start (e.g. 14:30 still maps to the 14:15 row).
-int? slotStartForBookingLocalTime(DateTime local) {
-  final mins = _minutesFromMidnightLocal(local);
+/// Uses [hour] and [minute] as **court schedule wall time** (we pass UTC components
+/// from DB — see [_sameCalendarDayUtc]).
+///
+/// Aligned to **[start, start + 45)** (e.g. 14:30 → 14:15 row).
+int? slotStartForWallClock(int hour, int minute) {
+  final mins = _minutesFromMidnight(hour, minute);
   final lastWindowEnd = CourtSchedule.lastSlotStartMinutes + CourtSchedule.slotDurationMinutes;
   // Exact end-of-day stamp (e.g. 22:30) still belongs to the last 45‑minute block.
   if (mins == lastWindowEnd) {
@@ -98,7 +108,10 @@ int? slotStartForBookingLocalTime(DateTime local) {
   return null;
 }
 
-/// First booking wins per (slot minute, court); uses [bookingDate] in local time.
+/// First booking wins per (slot minute, court).
+///
+/// [bookingDate] is interpreted using **UTC wall-clock** hour/minute and UTC calendar
+/// date so it matches how rows are stored after migration (`20:15+00` → 20:15 slot).
 Map<(int, int), BookingDto> bookingBySlotAndCourt({
   required List<BookingDto> bookings,
   required DateTime selectedDay,
@@ -111,9 +124,9 @@ Map<(int, int), BookingDto> bookingBySlotAndCourt({
     if (dt == null) continue;
     final court = courtNoOneBased(courtRaw);
     if (court == null) continue;
-    final local = dt.toLocal();
-    if (!_sameCalendarDay(local, day)) continue;
-    final slotStart = slotStartForBookingLocalTime(local);
+    final u = dt.toUtc();
+    if (!_sameCalendarDayUtc(u, day)) continue;
+    final slotStart = slotStartForWallClock(u.hour, u.minute);
     if (slotStart == null) continue;
     final key = (slotStart, court);
     map.putIfAbsent(key, () => b);
