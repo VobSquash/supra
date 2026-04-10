@@ -18,4 +18,3 @@ Future<AppConfig> _loadAppConfigFromAsset() async {
   final json = jsonDecode(raw) as Map<String, dynamic>;
   return AppConfig.fromJson(json);
 }
-

@@ -7,13 +7,19 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
+import 'package:supra/bootstrap.dart';
 import 'package:supra/main.dart';
 
 void main() {
-  testWidgets('Home shows users test button', (WidgetTester tester) async {
+  testWidgets('Home shell shows welcome and bookings entry', (
+    WidgetTester tester,
+  ) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await bootstrap();
     await tester.pumpWidget(const SupraTestApp());
+    await tester.pumpAndSettle();
 
-    expect(find.text('Supra test pages'), findsOneWidget);
-    expect(find.text('Users: load active profiles'), findsOneWidget);
+    expect(find.textContaining('Welcome'), findsWidgets);
+    expect(find.text('Bookings'), findsWidgets);
   });
 }
