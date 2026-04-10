@@ -1,0 +1,30 @@
+name: app_bloc
+description: Application blocs; depends on middleware facades, not client_* directly.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.10.9
+
+dependencies:
+  bloc: ^9.0.0
+  client_models:
+    path: ../client_models
+  freezed_annotation: ^2.4.4
+  get_it: ^8.3.0
+  injectable: ^2.5.0
+  middleware:
+    path: ../middleware
+
+dev_dependencies:
+  build_runner: ^2.4.13
+  freezed: ^2.5.8
+  injectable_generator: ^2.4.1
+  lints: ^6.0.0
+  test: ^1.25.6
+
+## Run after freezed so injectable sees generated types
+global_options:
+  injectable_generator:injectable_config_builder:
+    runs_after:
+      - freezed

@@ -1,0 +1,24 @@
+name: migration
+description: Back4App → Supabase CLI (profiles, locations, settings, ladders).
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ^3.10.9
+
+dependencies:
+  args: ^2.5.0
+  client_models:
+    path: ../client_models
+  client_supabase:
+    path: ../client_supabase
+  dio: ^5.9.0
+  http: ^1.2.0
+  uuid: ^4.5.1
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6
+
+executables:
+  migration: migration

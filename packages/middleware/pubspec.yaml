@@ -1,0 +1,30 @@
+name: middleware
+description: Orchestration layer and sole entrypoint to client_* packages.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.8.0 <4.0.0"
+
+dependencies:
+  auto_mappr: ^2.5.0
+  auto_mappr_annotation: ^2.2.0
+  client_models:
+    path: ../client_models
+  client_supabase:
+    path: ../client_supabase
+  get_it: ^8.3.0
+  injectable: ^2.5.0
+  path: ^1.9.0
+
+dev_dependencies:
+  build_runner: ^2.4.6
+  injectable_generator: ^2.4.1
+  lints: ^6.0.0
+  test: ^1.25.6
+
+## Ensure codegen order to avoid race conditions in monorepo builds
+global_options:
+  auto_mappr:auto_mappr:
+    runs_after:
+      - injectable_generator:injectable_generator
