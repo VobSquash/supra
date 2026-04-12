@@ -12,7 +12,8 @@ part of 'booking_dto.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
 
 /// @nodoc
 mixin _$BookingDto {
@@ -36,19 +37,21 @@ mixin _$BookingDto {
 /// @nodoc
 abstract class $BookingDtoCopyWith<$Res> {
   factory $BookingDtoCopyWith(
-          BookingDto value, $Res Function(BookingDto) then) =
-      _$BookingDtoCopyWithImpl<$Res, BookingDto>;
+    BookingDto value,
+    $Res Function(BookingDto) then,
+  ) = _$BookingDtoCopyWithImpl<$Res, BookingDto>;
   @useResult
-  $Res call(
-      {String? objectId,
-      int? courtNo,
-      DateTime? bookingDate,
-      String? displayName,
-      BasicProfileDTO? profile,
-      int? groupBookingId,
-      bool isMine,
-      int? index,
-      String? profilePictureUrl});
+  $Res call({
+    String? objectId,
+    int? courtNo,
+    DateTime? bookingDate,
+    String? displayName,
+    BasicProfileDTO? profile,
+    int? groupBookingId,
+    bool isMine,
+    int? index,
+    String? profilePictureUrl,
+  });
 
   $BasicProfileDTOCopyWith<$Res>? get profile;
 }
@@ -78,44 +81,47 @@ class _$BookingDtoCopyWithImpl<$Res, $Val extends BookingDto>
     Object? index = freezed,
     Object? profilePictureUrl = freezed,
   }) {
-    return _then(_value.copyWith(
-      objectId: freezed == objectId
-          ? _value.objectId
-          : objectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      courtNo: freezed == courtNo
-          ? _value.courtNo
-          : courtNo // ignore: cast_nullable_to_non_nullable
-              as int?,
-      bookingDate: freezed == bookingDate
-          ? _value.bookingDate
-          : bookingDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      displayName: freezed == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profile: freezed == profile
-          ? _value.profile
-          : profile // ignore: cast_nullable_to_non_nullable
-              as BasicProfileDTO?,
-      groupBookingId: freezed == groupBookingId
-          ? _value.groupBookingId
-          : groupBookingId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      isMine: null == isMine
-          ? _value.isMine
-          : isMine // ignore: cast_nullable_to_non_nullable
-              as bool,
-      index: freezed == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int?,
-      profilePictureUrl: freezed == profilePictureUrl
-          ? _value.profilePictureUrl
-          : profilePictureUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ) as $Val);
+    return _then(
+      _value.copyWith(
+            objectId: freezed == objectId
+                ? _value.objectId
+                : objectId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            courtNo: freezed == courtNo
+                ? _value.courtNo
+                : courtNo // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            bookingDate: freezed == bookingDate
+                ? _value.bookingDate
+                : bookingDate // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
+            displayName: freezed == displayName
+                ? _value.displayName
+                : displayName // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            profile: freezed == profile
+                ? _value.profile
+                : profile // ignore: cast_nullable_to_non_nullable
+                      as BasicProfileDTO?,
+            groupBookingId: freezed == groupBookingId
+                ? _value.groupBookingId
+                : groupBookingId // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            isMine: null == isMine
+                ? _value.isMine
+                : isMine // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            index: freezed == index
+                ? _value.index
+                : index // ignore: cast_nullable_to_non_nullable
+                      as int?,
+            profilePictureUrl: freezed == profilePictureUrl
+                ? _value.profilePictureUrl
+                : profilePictureUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
+          )
+          as $Val,
+    );
   }
 
   /// Create a copy of BookingDto
@@ -137,20 +143,22 @@ class _$BookingDtoCopyWithImpl<$Res, $Val extends BookingDto>
 abstract class _$$BookingDtoImplCopyWith<$Res>
     implements $BookingDtoCopyWith<$Res> {
   factory _$$BookingDtoImplCopyWith(
-          _$BookingDtoImpl value, $Res Function(_$BookingDtoImpl) then) =
-      __$$BookingDtoImplCopyWithImpl<$Res>;
+    _$BookingDtoImpl value,
+    $Res Function(_$BookingDtoImpl) then,
+  ) = __$$BookingDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String? objectId,
-      int? courtNo,
-      DateTime? bookingDate,
-      String? displayName,
-      BasicProfileDTO? profile,
-      int? groupBookingId,
-      bool isMine,
-      int? index,
-      String? profilePictureUrl});
+  $Res call({
+    String? objectId,
+    int? courtNo,
+    DateTime? bookingDate,
+    String? displayName,
+    BasicProfileDTO? profile,
+    int? groupBookingId,
+    bool isMine,
+    int? index,
+    String? profilePictureUrl,
+  });
 
   @override
   $BasicProfileDTOCopyWith<$Res>? get profile;
@@ -161,8 +169,9 @@ class __$$BookingDtoImplCopyWithImpl<$Res>
     extends _$BookingDtoCopyWithImpl<$Res, _$BookingDtoImpl>
     implements _$$BookingDtoImplCopyWith<$Res> {
   __$$BookingDtoImplCopyWithImpl(
-      _$BookingDtoImpl _value, $Res Function(_$BookingDtoImpl) _then)
-      : super(_value, _then);
+    _$BookingDtoImpl _value,
+    $Res Function(_$BookingDtoImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of BookingDto
   /// with the given fields replaced by the non-null parameter values.
@@ -179,61 +188,63 @@ class __$$BookingDtoImplCopyWithImpl<$Res>
     Object? index = freezed,
     Object? profilePictureUrl = freezed,
   }) {
-    return _then(_$BookingDtoImpl(
-      objectId: freezed == objectId
-          ? _value.objectId
-          : objectId // ignore: cast_nullable_to_non_nullable
-              as String?,
-      courtNo: freezed == courtNo
-          ? _value.courtNo
-          : courtNo // ignore: cast_nullable_to_non_nullable
-              as int?,
-      bookingDate: freezed == bookingDate
-          ? _value.bookingDate
-          : bookingDate // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
-      displayName: freezed == displayName
-          ? _value.displayName
-          : displayName // ignore: cast_nullable_to_non_nullable
-              as String?,
-      profile: freezed == profile
-          ? _value.profile
-          : profile // ignore: cast_nullable_to_non_nullable
-              as BasicProfileDTO?,
-      groupBookingId: freezed == groupBookingId
-          ? _value.groupBookingId
-          : groupBookingId // ignore: cast_nullable_to_non_nullable
-              as int?,
-      isMine: null == isMine
-          ? _value.isMine
-          : isMine // ignore: cast_nullable_to_non_nullable
-              as bool,
-      index: freezed == index
-          ? _value.index
-          : index // ignore: cast_nullable_to_non_nullable
-              as int?,
-      profilePictureUrl: freezed == profilePictureUrl
-          ? _value.profilePictureUrl
-          : profilePictureUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
+    return _then(
+      _$BookingDtoImpl(
+        objectId: freezed == objectId
+            ? _value.objectId
+            : objectId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        courtNo: freezed == courtNo
+            ? _value.courtNo
+            : courtNo // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        bookingDate: freezed == bookingDate
+            ? _value.bookingDate
+            : bookingDate // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
+        displayName: freezed == displayName
+            ? _value.displayName
+            : displayName // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        profile: freezed == profile
+            ? _value.profile
+            : profile // ignore: cast_nullable_to_non_nullable
+                  as BasicProfileDTO?,
+        groupBookingId: freezed == groupBookingId
+            ? _value.groupBookingId
+            : groupBookingId // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        isMine: null == isMine
+            ? _value.isMine
+            : isMine // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        index: freezed == index
+            ? _value.index
+            : index // ignore: cast_nullable_to_non_nullable
+                  as int?,
+        profilePictureUrl: freezed == profilePictureUrl
+            ? _value.profilePictureUrl
+            : profilePictureUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
+      ),
+    );
   }
 }
 
 /// @nodoc
 
 class _$BookingDtoImpl extends _BookingDto {
-  const _$BookingDtoImpl(
-      {required this.objectId,
-      required this.courtNo,
-      required this.bookingDate,
-      required this.displayName,
-      required this.profile,
-      required this.groupBookingId,
-      required this.isMine,
-      required this.index,
-      this.profilePictureUrl})
-      : super._();
+  const _$BookingDtoImpl({
+    required this.objectId,
+    required this.courtNo,
+    required this.bookingDate,
+    required this.displayName,
+    required this.profile,
+    required this.groupBookingId,
+    required this.isMine,
+    required this.index,
+    this.profilePictureUrl,
+  }) : super._();
 
   @override
   final String? objectId;
@@ -276,8 +287,18 @@ class _$BookingDtoImpl extends _BookingDto {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, objectId, courtNo, bookingDate,
-      displayName, profile, groupBookingId, isMine, index, profilePictureUrl);
+  int get hashCode => Object.hash(
+    runtimeType,
+    objectId,
+    courtNo,
+    bookingDate,
+    displayName,
+    profile,
+    groupBookingId,
+    isMine,
+    index,
+    profilePictureUrl,
+  );
 
   /// Create a copy of BookingDto
   /// with the given fields replaced by the non-null parameter values.
@@ -289,16 +310,17 @@ class _$BookingDtoImpl extends _BookingDto {
 }
 
 abstract class _BookingDto extends BookingDto {
-  const factory _BookingDto(
-      {required final String? objectId,
-      required final int? courtNo,
-      required final DateTime? bookingDate,
-      required final String? displayName,
-      required final BasicProfileDTO? profile,
-      required final int? groupBookingId,
-      required final bool isMine,
-      required final int? index,
-      final String? profilePictureUrl}) = _$BookingDtoImpl;
+  const factory _BookingDto({
+    required final String? objectId,
+    required final int? courtNo,
+    required final DateTime? bookingDate,
+    required final String? displayName,
+    required final BasicProfileDTO? profile,
+    required final int? groupBookingId,
+    required final bool isMine,
+    required final int? index,
+    final String? profilePictureUrl,
+  }) = _$BookingDtoImpl;
   const _BookingDto._() : super._();
 
   @override

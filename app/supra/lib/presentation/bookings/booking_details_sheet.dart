@@ -1,8 +1,10 @@
 import 'package:client_models/client_models.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import '../../engine/launch_service.dart';
 import '../../engine/theme/supra_colors.dart';
+
+const _launch = LaunchService();
 
 /// Presents [booking] in a modal bottom sheet — header, booking facts, optional contact.
 Future<void> showBookingDetailsSheet(BuildContext context, BookingDto booking) {
@@ -154,15 +156,13 @@ class _BookingDetailsContent extends StatelessWidget {
 Future<void> _launchEmail(String? raw) async {
   final e = raw?.trim();
   if (e == null || e.isEmpty) return;
-  final uri = Uri.parse('mailto:$e');
-  if (await canLaunchUrl(uri)) await launchUrl(uri);
+  await _launch.launchEmail(e);
 }
 
 Future<void> _launchTel(String? raw) async {
   final t = raw?.trim();
   if (t == null || t.isEmpty) return;
-  final uri = Uri.parse('tel:${t.replaceAll(RegExp(r'\s+'), '')}');
-  if (await canLaunchUrl(uri)) await launchUrl(uri);
+  await _launch.launchDialer(t);
 }
 
 class _InfoRow extends StatelessWidget {
