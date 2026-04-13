@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 
 import '../interfaces/i_client_supabase_ladders.dart';
 import '../models/ladder_entry_with_profile_row.dart';
+import '../models/member_ladder_membership_with_profile_row.dart';
 import '../models/supabase_config.dart';
 
 class ClientSupabaseLadders implements IClientSupabaseLadders {
@@ -20,6 +21,51 @@ class ClientSupabaseLadders implements IClientSupabaseLadders {
 
   @override
   Future<List<LadderEntryWithProfileRow>> getLadderMasters() => _getTable('ladder_masters');
+
+  static const _viewMembershipWithProfile = 'v_member_ladder_membership_with_profile';
+
+  @override
+  Future<List<MemberLadderMembershipWithProfileRow>> getMemberLadderMembershipWithProfile(
+    String vobGuid,
+  ) async {
+    final trimmed = vobGuid.trim();
+    if (trimmed.isEmpty) {
+      return const [];
+    }
+    final response = await _dio.get(
+      '/$_viewMembershipWithProfile',
+      queryParameters: <String, dynamic>{
+        'select': '*',
+        'vob_guid': 'eq.$trimmed',
+        'order': 'ladder_type.asc,ladder_rank.asc',
+      },
+    );
+
+    final status = response.statusCode ?? 0;
+    if (status < 200 || status >= 300) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+        error: 'Failed to load $_viewMembershipWithProfile (HTTP $status)',
+      );
+    }
+
+    final data = response.data;
+    if (data is! List) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.unknown,
+        error: 'Unexpected $_viewMembershipWithProfile payload: expected a JSON array',
+      );
+    }
+
+    return data
+        .whereType<Map<String, dynamic>>()
+        .map(MemberLadderMembershipWithProfileRow.fromJson)
+        .toList(growable: false);
+  }
 
   Future<List<LadderEntryWithProfileRow>> _getTable(String table) async {
     final response = await _dio.get(

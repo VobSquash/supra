@@ -7,6 +7,7 @@ export 'src/dto/club_captains/club_captain_dto.dart';
 export 'src/dto/league_fixtures/league_fixture.dart';
 export 'src/dto/ladder/ladder_item_dto.dart';
 export 'src/dto/ladder/ladders_dto.dart';
+export 'src/dto/ladder/member_ladder_membership_with_profile_dto.dart';
 export 'src/dto/location/locations_dto.dart';
 export 'src/dto/location/locations_item_dto.dart';
 export 'src/dto/settings/fees.dart';

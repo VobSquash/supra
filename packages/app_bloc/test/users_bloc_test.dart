@@ -23,6 +23,10 @@ class _FakeUsersFacade implements IUsersFacade {
       return null;
     }
   }
+
+  @override
+  Future<List<MemberLadderMembershipWithProfileDTO>> loadMemberLadderMembership(String vobGuid) async =>
+      const [];
 }
 
 void main() {
@@ -36,6 +40,25 @@ void main() {
     final bloc = UsersBloc(_FakeUsersFacade([sample]));
 
     bloc.add(const UsersEvent.onLoadBasicProfiles());
+    await bloc.stream.firstWhere(
+      (s) => s.status.status == BaseLoadingStatus.loadingSuccess,
+    );
+    expect(bloc.state.profiles.length, 1);
+    expect(bloc.state.profiles.first.vobGuid, 'g1');
+    await bloc.close();
+  });
+
+  test('onLoadActiveProfiles ends in loadingSuccess with profiles', () async {
+    final sample = BasicProfileDTO.empty().copyWith(
+      objectId: '1',
+      vobGuid: 'g1',
+      firstName: 'A',
+      lastName: 'B',
+      isActive: true,
+    );
+    final bloc = UsersBloc(_FakeUsersFacade([sample]));
+
+    bloc.add(const UsersEvent.onLoadActiveProfiles());
     await bloc.stream.firstWhere(
       (s) => s.status.status == BaseLoadingStatus.loadingSuccess,
     );

@@ -2,6 +2,7 @@ import 'package:client_models/client_models.dart';
 import 'package:client_supabase/client_supabase.dart';
 import 'package:injectable/injectable.dart';
 import 'package:middleware/src/injection.dart';
+import 'package:middleware/src/mappers/ladder/member_ladder_membership_mapper.dart';
 import 'package:middleware/src/mappers/profiles/supabase_profile_mapper.dart';
 
 import 'i_users_facade.dart';
@@ -38,5 +39,11 @@ class UsersFacade implements IUsersFacade {
     final full = await _client.profiles.getByVobGuid(vobGuid);
     if (full == null) return null;
     return _toBasic(full);
+  }
+
+  @override
+  Future<List<MemberLadderMembershipWithProfileDTO>> loadMemberLadderMembership(String vobGuid) async {
+    final rows = await _client.ladders.getMemberLadderMembershipWithProfile(vobGuid);
+    return rows.map(mapMemberLadderMembershipWithProfileRow).toList(growable: false);
   }
 }

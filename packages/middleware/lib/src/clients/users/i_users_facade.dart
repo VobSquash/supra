@@ -7,4 +7,8 @@ abstract class IUsersFacade {
   Future<List<BasicProfileDTO>> loadBasicProfiles();
   Future<List<BasicProfileDTO>> loadActiveBasicProfiles();
   Future<BasicProfileDTO?> loadProfileByVobGuid(String vobGuid);
+
+  /// Ladder membership + profile + extension rows for a member (profile / member-details UI).
+  /// Backed by `v_member_ladder_membership_with_profile`; transport lives on the ladders client.
+  Future<List<MemberLadderMembershipWithProfileDTO>> loadMemberLadderMembership(String vobGuid);
 }

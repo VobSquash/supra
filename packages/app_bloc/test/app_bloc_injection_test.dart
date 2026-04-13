@@ -13,6 +13,10 @@ class _FakeFacade implements IUsersFacade {
 
   @override
   Future<BasicProfileDTO?> loadProfileByVobGuid(String vobGuid) async => null;
+
+  @override
+  Future<List<MemberLadderMembershipWithProfileDTO>> loadMemberLadderMembership(String vobGuid) async =>
+      const [];
 }
 
 class _FakeLocationsFacade implements ILocationsFacade {

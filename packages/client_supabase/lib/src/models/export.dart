@@ -5,6 +5,7 @@ export 'ladder_entry.dart';
 export 'league_fixture_row.dart';
 export 'ladder_entry_row.dart';
 export 'ladder_entry_with_profile_row.dart';
+export 'member_ladder_membership_with_profile_row.dart';
 export 'location.dart';
 export 'location_row.dart';
 export 'profile.dart';

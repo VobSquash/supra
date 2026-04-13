@@ -20,6 +20,7 @@ class SupraTestApp extends StatelessWidget {
       title: 'Supra',
       theme: SupraTheme.dark,
       initialRoute: RouteNames.initial,
+      debugShowCheckedModeBanner: false,
       onGenerateRoute: AppRouter.generateRoute,
       builder: (context, child) {
         return GlassicBackground(child: child ?? const SizedBox.shrink());
