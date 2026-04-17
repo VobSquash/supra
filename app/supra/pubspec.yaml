@@ -44,6 +44,7 @@ dependencies:
     path: ../../packages/client_models
   client_supabase:
     path: ../../packages/client_supabase
+  dio: ^5.3.3
   flutter_gen: ^5.13.0+1
   intl: ^0.18.1
   url_launcher: ^6.3.2

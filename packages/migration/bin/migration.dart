@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:migration/src/auth/run_auth_profile_import.dart';
 import 'package:migration/src/migration_runner.dart';
 
 Future<void> main(List<String> arguments) async {
@@ -61,6 +62,21 @@ Future<void> main(List<String> arguments) async {
     ..addOption(
       'supabase-key',
       help: 'Supabase API key for writes (overrides migration_config / env).',
+    )
+    ..addFlag(
+      'import-auth-from-profile',
+      help: 'One-off: read public.profiles (email + encrypted password), decrypt, '
+          'create auth.users via Admin API. Requires --email and service role key.',
+      defaultsTo: false,
+    )
+    ..addOption(
+      'email',
+      help: 'Profile email to import into Supabase Auth (use with --import-auth-from-profile).',
+    )
+    ..addFlag(
+      'auth-dry-run',
+      help: 'With --import-auth-from-profile: decrypt + validate only; do not call Admin API.',
+      defaultsTo: false,
     );
 
   final results = parser.parse(arguments);
@@ -68,6 +84,41 @@ Future<void> main(List<String> arguments) async {
   if (results['help'] as bool) {
     stdout.writeln('Usage: dart run migration [options]');
     stdout.writeln(parser.usage);
+    return;
+  }
+
+  final importAuth = results['import-auth-from-profile'] as bool;
+  final importEmail = (results['email'] as String?)?.trim();
+
+  if (importAuth) {
+    if (importEmail == null || importEmail.isEmpty) {
+      stderr.writeln('--import-auth-from-profile requires --email=<profile email>');
+      exitCode = 2;
+      return;
+    }
+    final configPath = results['config'] as String;
+    final configFile = File(configPath);
+    if (!configFile.existsSync()) {
+      stderr.writeln('Config file not found: $configPath');
+      exitCode = 2;
+      return;
+    }
+    final supabaseKeyOpt = results['supabase-key'] as String?;
+    final supabaseKey = (supabaseKeyOpt != null && supabaseKeyOpt.isNotEmpty)
+        ? supabaseKeyOpt
+        : null;
+    try {
+      await runAuthProfileImport(
+        configFile: configFile,
+        email: importEmail,
+        dryRun: results['auth-dry-run'] as bool,
+        supabaseKeyOverride: supabaseKey,
+      );
+    } on Object catch (e, st) {
+      stderr.writeln(e);
+      stderr.writeln(st);
+      exitCode = 1;
+    }
     return;
   }
 

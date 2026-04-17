@@ -14,44 +14,50 @@ DateTime _calendarDay(DateTime d) => DateTime(d.year, d.month, d.day);
 @injectable
 class BookingsBloc extends BaseBloc<BookingsEvent, BookingsState> {
   BookingsBloc(this._facade) : super(initialState1: BookingsState.initial()) {
-    on<BookingsEvent>(
-      (event, emit) async {
-        await event.map(
-          onLoadBookings: (e) async {
-            final day = _calendarDay(e.forDate);
-            await handleLoadingState<BookingListDto>(
-              emit,
-              initialState: BookingsState(
-                selectedDate: day,
-                bookings: const [],
-                status: BaseLoading.initial(),
+    on<BookingsEvent>((event, emit) async {
+      await event.map(
+        onLoadBookings: (e) async {
+          final day = _calendarDay(e.forDate);
+          await handleLoadingState<BookingListDto>(
+            emit,
+            initialState: BookingsState(
+              selectedDate: day,
+              bookings: const [],
+              status: BaseLoading.initial(),
+            ),
+            onLoading: () => state.copyWith(
+              selectedDate: day,
+              bookings: const [],
+              status: BaseLoading.loading(),
+            ),
+            action: () => _facade.loadBookings(forDate: day),
+            onSuccess: (result) => state.copyWith(
+              selectedDate: day,
+              bookings: result?.bookings ?? const [],
+              status: BaseLoading.success(),
+            ),
+            onError: (error) => state.copyWith(
+              bookings: const [],
+              status: BaseLoading.error(
+                error ?? 'Unknown error while loading bookings',
               ),
-              onLoading: () => state.copyWith(
-                selectedDate: day,
-                bookings: const [],
-                status: BaseLoading.loading(),
-              ),
-              action: () => _facade.loadBookings(forDate: day),
-              onSuccess: (result) => state.copyWith(
-                selectedDate: day,
-                bookings: result?.bookings ?? const [],
-                status: BaseLoading.success(),
-              ),
-              onError: (error) => state.copyWith(
-                bookings: const [],
-                status: BaseLoading.error(
-                  error ?? 'Unknown error while loading bookings',
-                ),
-              ),
-            );
-          },
-          onResetBookings: (_) async {
-            emit(BookingsState.initial());
-          },
-        );
-      },
-    );
+            ),
+          );
+        },
+        onResetBookings: (_) async {
+          emit(BookingsState.initial());
+        },
+      );
+    });
   }
 
   final IBookingsFacade _facade;
+
+  Future<void> createBooking({required CreateBookingDto booking}) {
+    return _facade.createBooking(booking: booking);
+  }
+
+  Future<void> deleteBooking({required String bookingId}) {
+    return _facade.deleteBooking(bookingId: bookingId);
+  }
 }

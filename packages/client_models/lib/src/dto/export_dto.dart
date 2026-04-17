@@ -1,5 +1,6 @@
 export 'bookings/booking_dto.dart';
 export 'bookings/booking_list_dto.dart';
+export 'bookings/create_booking_dto.dart';
 export 'club_captains/club_captain_dto.dart';
 export 'ladder/ladder_item_dto.dart';
 export 'ladder/ladders_dto.dart';

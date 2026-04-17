@@ -1,0 +1,11 @@
+{
+  "back_4_app_app_id": "REPLACE",
+  "back_4_app_client_id": "REPLACE",
+  "back_4_app_master_key": "REPLACE",
+  "back_4_app_base_url": "https://parseapi.back4app.com",
+  "skin_id": null,
+  "box_name": "REPLACE",
+  "supabase_url": "https://YOUR_PROJECT.supabase.co",
+  "anon_key": "YOUR_ANON_KEY",
+  "supabase_service_role_key": "YOUR_SERVICE_ROLE_KEY"
+}

@@ -1,0 +1,62 @@
+Running `(cd /Users/brent.styles/.pub-cache/hosted/pub.dev/objective_c-9.3.0/; TMPDIR=/var/folders/27/cmx2rz0x2l1736mtmfz8l7q80000gp/T/ PATH=/Users/brent.styles/fvm/versions/3.38.10/bin/:/usr/local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Users/brent.styles/.pub-cache/bin:/Users/brent.styles/fvm/default/bin:/Users/brent.styles/shorebird/bin HOME=/Users/brent.styles /Users/brent.styles/fvm/versions/3.38.10/bin/cache/dart-sdk/bin/dart --packages=/Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/package_config.json /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/objective_c/9fb02c5622aea66c3a53a942a16bf409/hook.dill --config=/Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/objective_c/9fb02c5622aea66c3a53a942a16bf409/input.json )`.
+INFO: 2026-04-13 16:03:06.627491: Running `which clang`.
+
+INFO: 2026-04-13 16:03:06.646796: Running `/usr/bin/clang --version`.
+
+INFO: 2026-04-13 16:03:06.790146: Running `/usr/bin/clang --version`.
+
+INFO: 2026-04-13 16:03:06.864554: Running: /usr/bin/clang -isysroot /Applications/Xcode-26.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=12 -c /Users/brent.styles/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c.c -fpic -I src -o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/objective_c.c.o
+
+art_api_dl.c.o
+
+INFO: 2026-04-13 16:03:06.864807: Running: /usr/bin/clang -isysroot /Applications/Xcode-26.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=12 -c /Users/brent.styles/.pub-cache/hosted/pub.dev/objective_c-9.3.0/test/util.c -fpic -I src -o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/test/util.c.o
+INFO: 2026-04-13 16:03:06.867948: Running: /usr/bin/clang -isysroot /Applications/Xcode-26.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=12 -x objective-c -fobjc-arc -c /Users/brent.styles/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/input_stream_adapter.m -fpic -I src -o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/input_stream_adapter.m.o
+INFO: 2026-04-13 16:03:06.868121: Running: /usr/bin/clang -isysroot /Applications/Xcode-26.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=12 -x objective-c -fobjc-arc -c /Users/brent.styles/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c.m -fpic -I src -o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/objective_c.m.o
+INFO: 2026-04-13 16:03:06.868241: Running: /usr/bin/clang -isysroot /Applications/Xcode-26.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=12 -x objective-c -fobjc-arc -c /Users/brent.styles/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/observer.m -fpic -I src -o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/observer.m.o
+INFO: 2026-04-13 16:03:06.868344: Running: /usr/bin/clang -isysroot /Applications/Xcode-26.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=12 -x objective-c -fobjc-arc -c /Users/brent.styles/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/ns_number.m -fpic -I src -o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/ns_number.m.o
+INFO: 2026-04-13 16:03:06.868447: Running: /usr/bin/clang -isysroot /Applications/Xcode-26.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=12 -x objective-c -fobjc-arc -c /Users/brent.styles/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/protocol.m -fpic -I src -o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/protocol.m.o
+INFO: 2026-04-13 16:03:06.868554: Running: /usr/bin/clang -isysroot /Applications/Xcode-26.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=12 -x objective-c -fobjc-arc -c /Users/brent.styles/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c_bindings_generated.m -fpic -I src -o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-04-13 16:03:07.099490: 
+INFO: 2026-04-13 16:03:07.099567: 
+INFO: 2026-04-13 16:03:07.099596: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/objective_c.c.o
+
+INFO: 2026-04-13 16:03:07.099733: 
+INFO: 2026-04-13 16:03:07.099746: 
+INFO: 2026-04-13 16:03:07.099756: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/include/dart_api_dl.c.o
+
+INFO: 2026-04-13 16:03:07.114778: 
+INFO: 2026-04-13 16:03:07.114810: 
+INFO: 2026-04-13 16:03:07.114821: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/test/util.c.o
+
+INFO: 2026-04-13 16:03:07.116358: 
+INFO: 2026-04-13 16:03:07.116377: 
+INFO: 2026-04-13 16:03:07.116387: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/observer.m.o
+
+INFO: 2026-04-13 16:03:07.184582: 
+INFO: 2026-04-13 16:03:07.184672: 
+
+INFO: 2026-04-13 16:03:07.184711: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/protocol.m.o
+
+INFO: 2026-04-13 16:03:07.570431: 
+INFO: 2026-04-13 16:03:07.570468: 
+INFO: 2026-04-13 16:03:07.570479: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/ns_number.m.o
+
+INFO: 2026-04-13 16:03:07.581835: 
+INFO: 2026-04-13 16:03:07.581870: 
+INFO: 2026-04-13 16:03:07.581881: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/objective_c.m.o
+
+INFO: 2026-04-13 16:03:07.582116: 
+INFO: 2026-04-13 16:03:07.582136: 
+INFO: 2026-04-13 16:03:07.582146: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/input_stream_adapter.m.o
+
+INFO: 2026-04-13 16:03:07.594930: 
+INFO: 2026-04-13 16:03:07.594957: 
+INFO: 2026-04-13 16:03:07.594966: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/objective_c_bindings_generated.m.o
+
+INFO: 2026-04-13 16:03:07.595252: Running: /usr/bin/clang -shared -Wl,-encryptable -undefined dynamic_lookup -isysroot /Applications/Xcode-26.2.0.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target arm64-apple-darwin -mmacos-version-min=12 /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/include/dart_api_dl.c.o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/objective_c.c.o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/test/util.c.o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/input_stream_adapter.m.o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/objective_c.m.o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/observer.m.o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/ns_number.m.o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/protocol.m.o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/obj/src/objective_c_bindings_generated.m.o -o /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/objective_c.dylib
+
+INFO: 2026-04-13 16:03:07.751620: 
+INFO: 2026-04-13 16:03:07.751674: 
+INFO: 2026-04-13 16:03:07.751684: Generated /Users/brent.styles/Documents/Working/vob/supra/packages/migration/.dart_tool/hooks_runner/shared/objective_c/build/9fb02c5622/objective_c.dylib
+

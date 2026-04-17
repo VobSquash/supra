@@ -22,7 +22,7 @@ import 'supabase_booking_mapper.auto_mappr.dart';
 class SupabaseBookingMapper extends $SupabaseBookingMapper {
   const SupabaseBookingMapper() : super();
 
-  static String? mapObjectId(BookingWithProfile w) => w.booking.legacyObjectId;
+  static String? mapObjectId(BookingWithProfile w) => w.booking.id;
 
   static int? mapCourtNo(BookingWithProfile w) => w.booking.courtNo;
 
@@ -34,7 +34,13 @@ class SupabaseBookingMapper extends $SupabaseBookingMapper {
 
   static int? mapGroupBookingId(BookingWithProfile w) => w.booking.groupBookingId;
 
-  static bool mapIsMine(BookingWithProfile w) => false;
+  static bool mapIsMine(BookingWithProfile w) {
+    final mine = w.currentUserVobGuid?.trim().toLowerCase();
+    final bookingGuid = w.booking.vobGuid?.trim().toLowerCase();
+    if (mine == null || mine.isEmpty) return false;
+    if (bookingGuid == null || bookingGuid.isEmpty) return false;
+    return mine == bookingGuid;
+  }
 
   static int? mapIndex(BookingWithProfile w) => null;
 

@@ -1,6 +1,10 @@
 /// One-off Back4App → Supabase migrations (profiles, locations).
 library;
 
+export 'src/auth/plaintext_from_profile_password.dart';
+export 'src/auth/run_auth_profile_import.dart';
+export 'src/auth/stored_password_crypto.dart';
+export 'src/auth/supabase_auth_profile_importer.dart';
 export 'src/back4app/back4app_ladder_extractor.dart';
 export 'src/back4app/back4app_location_extractor.dart';
 export 'src/back4app/back4app_profile_extractor.dart';
