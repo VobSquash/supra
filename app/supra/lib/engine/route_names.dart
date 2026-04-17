@@ -15,6 +15,9 @@ class RouteNames {
   static const String leagueFixtures = '/league-fixtures';
   static const String bookings = '/bookings';
 
+  /// Admin / fixture block bookings (test harness).
+  static const String adminBookings = '/admin-bookings';
+
   /// Profile placeholder (auth later).
   static const String profile = '/profile';
 

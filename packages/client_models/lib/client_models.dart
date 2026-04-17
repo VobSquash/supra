@@ -4,6 +4,7 @@ export 'src/app_config.dart';
 export 'src/dto/bookings/booking_dto.dart';
 export 'src/dto/bookings/booking_list_dto.dart';
 export 'src/dto/bookings/create_booking_dto.dart';
+export 'src/dto/bookings/create_admin_booking_dto.dart';
 export 'src/dto/club_captains/club_captain_dto.dart';
 export 'src/dto/league_fixtures/league_fixture.dart';
 export 'src/dto/ladder/ladder_item_dto.dart';

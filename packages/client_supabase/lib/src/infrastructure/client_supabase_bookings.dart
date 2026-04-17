@@ -143,6 +143,38 @@ class ClientSupabaseBookings implements IClientSupabaseBookings {
           'Unexpected delete response: expected a JSON array (Prefer: return=representation).',
     );
   }
+
+  @override
+  Future<int> fetchMaxGroupBookingId() async {
+    final response = await _dio.get(
+      '/bookings',
+      queryParameters: <String, dynamic>{
+        'select': 'group_booking_id',
+        'group_booking_id': 'gt.0',
+        'order': 'group_booking_id.desc',
+        'limit': 1,
+      },
+    );
+
+    final status = response.statusCode ?? 0;
+    if (status < 200 || status >= 300) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+        error: 'Failed to load max group_booking_id (HTTP $status)',
+      );
+    }
+
+    final data = response.data;
+    if (data is! List || data.isEmpty) return 0;
+    final row = data.first;
+    if (row is! Map<String, dynamic>) return 0;
+    final v = row['group_booking_id'];
+    if (v is int) return v;
+    if (v is num) return v.toInt();
+    return 0;
+  }
 }
 
 String? _postgrestErrorText(Object? data) {

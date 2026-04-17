@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../presentation/auth/login_page.dart';
+import '../presentation/bookings/admin_bookings_test_page.dart';
 import '../presentation/bookings/bookings_test_page.dart';
 import '../presentation/home/home_page.dart';
 import '../presentation/ladders/ladders_test_page.dart';
@@ -79,6 +80,12 @@ class AppRouter {
         return BlocProvider<BookingsBloc>(
           create: (_) => appBlocSl<BookingsBloc>(),
           child: const BookingsTestPage(),
+        );
+
+      case RouteNames.adminBookings:
+        return BlocProvider<BookingsBloc>(
+          create: (_) => appBlocSl<BookingsBloc>(),
+          child: const AdminBookingsTestPage(),
         );
 
       case RouteNames.profile:

@@ -105,10 +105,14 @@ class BookingsDateSelectorTile extends StatelessWidget {
     super.key,
     required this.selectedDate,
     required this.onTap,
+    this.label = 'Bookings for',
   });
 
   final DateTime selectedDate;
   final VoidCallback onTap;
+
+  /// Short line above the formatted date (e.g. fixture / admin flows).
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +139,7 @@ class BookingsDateSelectorTile extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Bookings for',
+                        label,
                         style: Theme.of(context).textTheme.labelMedium?.copyWith(
                               color: scheme.onSurfaceVariant,
                             ),

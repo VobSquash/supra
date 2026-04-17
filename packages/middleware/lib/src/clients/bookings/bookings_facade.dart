@@ -1,6 +1,7 @@
 import 'package:client_models/client_models.dart';
 import 'package:client_supabase/client_supabase.dart';
 import 'package:injectable/injectable.dart';
+import 'package:middleware/src/clients/bookings/booking_slot_schedule.dart';
 import 'package:middleware/src/clients/bookings/i_bookings_facade.dart';
 import 'package:middleware/src/injection.dart';
 import 'package:middleware/src/mappers/bookings/booking_with_profile.dart';
@@ -82,6 +83,140 @@ class BookingsFacade implements IBookingsFacade {
       throw ArgumentError('bookingId must not be empty');
     }
     await _client.bookings.deleteBooking(bookingId: id);
+  }
+
+  @override
+  Future<void> createAdminBookings({required CreateAdminBookingDto dto}) async {
+    final title = dto.bookingTitle.trim();
+    if (title.isEmpty) {
+      throw ArgumentError('bookingTitle must not be empty');
+    }
+
+    final courts = <int>[
+      if (dto.court1) 1,
+      if (dto.court2) 2,
+      if (dto.court3) 3,
+    ];
+    if (courts.isEmpty) {
+      throw ArgumentError('Select at least one court');
+    }
+
+    final startMin = BookingSlotSchedule.parseMinutesFromMidnight(
+      dto.timeslotStart,
+    );
+    final endMin = BookingSlotSchedule.parseMinutesFromMidnight(
+      dto.timeslotEnd,
+    );
+    if (startMin == null || endMin == null) {
+      throw ArgumentError('timeslotStart and timeslotEnd must be HH:mm');
+    }
+    if (!BookingSlotSchedule.isValidSlotStartMinutes(startMin) ||
+        !BookingSlotSchedule.isValidSlotStartMinutes(endMin)) {
+      throw ArgumentError(
+        'Start and end must align to slot boundaries (45-minute grid, first 05:15).',
+      );
+    }
+
+    final slotStarts = BookingSlotSchedule.slotStartsInclusive(
+      startMin,
+      endMin,
+    );
+    if (slotStarts.isEmpty) {
+      throw ArgumentError('No slots in the requested time range');
+    }
+
+    final day = DateTime(
+      dto.selectedDate.year,
+      dto.selectedDate.month,
+      dto.selectedDate.day,
+    );
+    final existing = await loadBookings(forDate: day);
+    final existingRows = existing.bookings ?? const <BookingDto>[];
+
+    final groupId = (await _client.bookings.fetchMaxGroupBookingId()) + 1;
+
+    final firstSlotUtc = BookingSlotSchedule.utcWallSlot(day, slotStarts.first);
+    final memberContext = await _resolveBookingContext(
+      CreateBookingDto(
+        courtNo: courts.first,
+        bookingDate: firstSlotUtc,
+        displayName: title,
+      ),
+    );
+    if (memberContext == null) {
+      throw StateError(
+        'Unable to create admin booking: no vob_guid found for current session.',
+      );
+    }
+
+    for (final court in courts) {
+      for (final slotMin in slotStarts) {
+        final slotUtc = BookingSlotSchedule.utcWallSlot(day, slotMin);
+        for (final b in existingRows) {
+          if (_bookingMatchesSlot(b, court, slotUtc)) {
+            final kind = _isGeneralMemberBooking(b) ? 'member' : 'existing';
+            throw StateError(
+              'Slot already booked ($kind): court $court at ${slotUtc.toIso8601String()}',
+            );
+          }
+        }
+      }
+    }
+
+    for (final court in courts) {
+      for (final slotMin in slotStarts) {
+        final slotUtc = BookingSlotSchedule.utcWallSlot(day, slotMin);
+        await _client.bookings.createBooking(
+          booking: CreateBookingDto(
+            courtNo: court,
+            bookingDate: slotUtc,
+            vobGuid: memberContext.vobGuid,
+            displayName: title,
+            groupBookingId: groupId,
+            legacyObjectId: '',
+          ),
+        );
+      }
+    }
+  }
+
+  @override
+  Future<void> deleteBookingAsAdmin({required String bookingId}) async {
+    final id = bookingId.trim();
+    if (id.isEmpty) {
+      throw ArgumentError('bookingId must not be empty');
+    }
+    await _client.bookings.deleteBooking(bookingId: id);
+  }
+
+  @override
+  Future<void> deleteAllBookingsForDateAsAdmin({
+    required DateTime forDate,
+  }) async {
+    final day = DateTime(forDate.year, forDate.month, forDate.day);
+    final list = await loadBookings(forDate: day);
+    final rows = list.bookings ?? const <BookingDto>[];
+    for (final b in rows) {
+      final id = b.objectId?.trim();
+      if (id == null || id.isEmpty) continue;
+      await _client.bookings.deleteBooking(bookingId: id);
+    }
+  }
+
+  static bool _bookingMatchesSlot(BookingDto b, int court, DateTime slotUtc) {
+    if ((b.courtNo ?? -1) != court) return false;
+    final d = b.bookingDate?.toUtc();
+    if (d == null) return false;
+    return d.year == slotUtc.year &&
+        d.month == slotUtc.month &&
+        d.day == slotUtc.day &&
+        d.hour == slotUtc.hour &&
+        d.minute == slotUtc.minute;
+  }
+
+  /// General (non-admin) booking: `group_booking_id` 0 — blocks admin slot takeover.
+  static bool _isGeneralMemberBooking(BookingDto b) {
+    return (b.groupBookingId ?? 0) == 0;
   }
 
   Future<_BookingCreateContext?> _resolveBookingContext(

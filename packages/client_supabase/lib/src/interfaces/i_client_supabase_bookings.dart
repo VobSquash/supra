@@ -14,4 +14,7 @@ abstract class IClientSupabaseBookings {
 
   /// Deletes a single row by primary key `id`.
   Future<void> deleteBooking({required String bookingId});
+
+  /// Largest existing `group_booking_id` for admin rows (`> 0`), or `0` if none.
+  Future<int> fetchMaxGroupBookingId();
 }

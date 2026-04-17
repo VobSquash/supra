@@ -1,0 +1,28 @@
+-- Optional RLS for admin booking flows (create/delete any row).
+--
+-- The app calls the same PostgREST endpoints as members; [IBookingsFacade] exposes:
+--   - createAdminBookings  → many POST /bookings (group_booking_id > 0, vob_guid = admin’s profile)
+--   - deleteBookingAsAdmin → DELETE /bookings?id=eq...
+--   - deleteAllBookingsForDateAsAdmin → many DELETEs
+--
+-- Member policies use profiles.id = auth.uid() or email match. Admins need either:
+--
+-- 1) **Service role** from a trusted backend only (not from the Flutter client), or
+--
+-- 2) **JWT claims** (e.g. app_metadata.role = 'admin') and policies like:
+--
+--    create policy "bookings_insert_admin"
+--      on public.bookings for insert to authenticated
+--      with check (
+--        (auth.jwt() -> 'app_metadata' ->> 'role') = 'admin'
+--      );
+--
+--    create policy "bookings_delete_admin"
+--      on public.bookings for delete to authenticated
+--      using (
+--        (auth.jwt() -> 'app_metadata' ->> 'role') = 'admin'
+--      );
+--
+-- Adjust to your real admin signal (profile_type, etc.).
+--
+-- Until admin policies exist, admin inserts/deletes may fail under RLS the same as members.

@@ -119,9 +119,12 @@ class _BookingsTestPageState extends State<BookingsTestPage> {
       );
       if (!mounted) return;
       context.read<BookingsBloc>().add(BookingsEvent.onLoadBookings(forDate: selectedDate));
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Booked court $courtNo at ${formatSlotRangeLabel(slotStartMinutes)}.')));
+      final dayUi = DateTime(selectedDate.year, selectedDate.month, selectedDate.day).formateDateForUi();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Booked court $courtNo on $dayUi at ${formatSlotRangeLabel(slotStartMinutes)}.'),
+        ),
+      );
     } catch (error) {
       if (!mounted) return;
       final msg = _bookingCreateErrorMessage(error);
@@ -165,11 +168,12 @@ class _BookingsTestPageState extends State<BookingsTestPage> {
     final id = booking.objectId?.trim();
     if (id == null || id.isEmpty) return;
 
+    final dayUi = DateTime(selectedDate.year, selectedDate.month, selectedDate.day).formateDateForUi();
     final shouldDelete = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Delete booking?'),
-        content: const Text('This removes only this booking. You cannot undo this action.'),
+        content: Text('This removes only this booking on $dayUi. You cannot undo this action.'),
         actions: [
           TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
           FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Delete')),
@@ -184,7 +188,7 @@ class _BookingsTestPageState extends State<BookingsTestPage> {
       await context.read<BookingsBloc>().deleteBooking(bookingId: id);
       if (!mounted) return;
       context.read<BookingsBloc>().add(BookingsEvent.onLoadBookings(forDate: selectedDate));
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Booking deleted.')));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Booking deleted ($dayUi).')));
     } catch (error) {
       if (!mounted) return;
       final msg = _bookingDeleteErrorMessage(error);

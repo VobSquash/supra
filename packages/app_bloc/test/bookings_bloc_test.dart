@@ -28,6 +28,15 @@ class _FakeBookingsFacade implements IBookingsFacade {
 
   @override
   Future<void> deleteBooking({required String bookingId}) async {}
+
+  @override
+  Future<void> createAdminBookings({required CreateAdminBookingDto dto}) async {}
+
+  @override
+  Future<void> deleteBookingAsAdmin({required String bookingId}) async {}
+
+  @override
+  Future<void> deleteAllBookingsForDateAsAdmin({required DateTime forDate}) async {}
 }
 
 void main() {

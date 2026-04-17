@@ -173,6 +173,7 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
                   children: [
                     _HomeOverview(
                       onOpenBookings: () => _goToTab(_tabBookings),
+                      onOpenAdminBookings: () => Navigator.of(context).pushNamed(RouteNames.adminBookings),
                       onOpenMembers: () => Navigator.of(context).pushNamed(RouteNames.users),
                       onOpenLadders: () => Navigator.of(context).pushNamed(RouteNames.ladders),
                     ),
@@ -332,9 +333,15 @@ class _ProfileAppBarButton extends StatelessWidget {
 }
 
 class _HomeOverview extends StatelessWidget {
-  const _HomeOverview({required this.onOpenBookings, required this.onOpenMembers, required this.onOpenLadders});
+  const _HomeOverview({
+    required this.onOpenBookings,
+    required this.onOpenAdminBookings,
+    required this.onOpenMembers,
+    required this.onOpenLadders,
+  });
 
   final VoidCallback onOpenBookings;
+  final VoidCallback onOpenAdminBookings;
   final VoidCallback onOpenMembers;
   final VoidCallback onOpenLadders;
 
@@ -354,6 +361,16 @@ class _HomeOverview extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             _HeroBookingCard(onPressed: onOpenBookings),
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: onOpenAdminBookings,
+              icon: const Icon(Icons.admin_panel_settings_outlined),
+              label: const Text('Admin bookings (test)'),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size.fromHeight(52),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+              ),
+            ),
             const SizedBox(height: 16),
             if (wide)
               Row(

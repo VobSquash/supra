@@ -60,4 +60,16 @@ class BookingsBloc extends BaseBloc<BookingsEvent, BookingsState> {
   Future<void> deleteBooking({required String bookingId}) {
     return _facade.deleteBooking(bookingId: bookingId);
   }
+
+  Future<void> createAdminBookings({required CreateAdminBookingDto dto}) {
+    return _facade.createAdminBookings(dto: dto);
+  }
+
+  Future<void> deleteBookingAsAdmin({required String bookingId}) {
+    return _facade.deleteBookingAsAdmin(bookingId: bookingId);
+  }
+
+  Future<void> deleteAllBookingsForDateAsAdmin({required DateTime forDate}) {
+    return _facade.deleteAllBookingsForDateAsAdmin(forDate: forDate);
+  }
 }
