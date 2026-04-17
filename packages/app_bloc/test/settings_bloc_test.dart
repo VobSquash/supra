@@ -1,6 +1,6 @@
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
-import 'package:middleware/middleware.dart';
+import 'package:middleware/middleware_clients.dart';
 import 'package:test/test.dart';
 
 class _FakeSettingsFacade implements ISettingsFacade {

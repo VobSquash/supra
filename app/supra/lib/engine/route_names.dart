@@ -4,6 +4,8 @@
 class RouteNames {
   RouteNames._();
 
+  static const String login = '/login';
+
   static const String initial = '/';
 
   static const String users = '/users';

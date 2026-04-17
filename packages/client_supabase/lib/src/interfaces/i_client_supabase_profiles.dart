@@ -13,5 +13,15 @@ abstract class IClientSupabaseProfiles {
   ///
   /// Returns `null` when not found.
   Future<ProfileFull?> getByVobGuid(String vobGuid);
+
+  /// Loads a single profile by the Supabase auth user id (`profiles.id`).
+  ///
+  /// Returns `null` when not found.
+  Future<ProfileFull?> getByAuthUserId(String authUserId);
+
+  /// Loads a single profile by email.
+  ///
+  /// Returns `null` when not found.
+  Future<ProfileFull?> getByEmail(String email);
 }
 

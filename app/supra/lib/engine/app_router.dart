@@ -3,6 +3,7 @@ import 'package:client_models/client_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../presentation/auth/login_page.dart';
 import '../presentation/bookings/bookings_test_page.dart';
 import '../presentation/home/home_page.dart';
 import '../presentation/ladders/ladders_test_page.dart';
@@ -38,6 +39,9 @@ class AppRouter {
 
   static Widget _pageForRoute(String route, RouteSettings settings) {
     switch (route) {
+      case RouteNames.login:
+        return const LoginPage();
+
       case RouteNames.initial:
         return const SupraHomePage();
 

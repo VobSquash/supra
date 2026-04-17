@@ -1,0 +1,14 @@
+name: session_storage
+description: Session snapshot model and persistence abstractions (Hive / secure storage implementations added later).
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.8.0 <4.0.0"
+
+dependencies:
+  meta: ^1.16.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6

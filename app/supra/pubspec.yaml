@@ -42,11 +42,14 @@ dependencies:
     path: ../../packages/middleware
   client_models:
     path: ../../packages/client_models
+  client_supabase:
+    path: ../../packages/client_supabase
   flutter_gen: ^5.13.0+1
   intl: ^0.18.1
   url_launcher: ^6.3.2
   map_launcher: ^4.5.0
   flutter_svg: ^2.2.3
+  supabase_flutter: ^2.12.2
 
 dev_dependencies:
   flutter_test:

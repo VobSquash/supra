@@ -90,6 +90,56 @@ class ClientSupabaseProfiles implements IClientSupabaseProfiles {
 
     return null;
   }
+
+  @override
+  Future<ProfileFull?> getByAuthUserId(String authUserId) async {
+    final normalized = authUserId.trim();
+    if (normalized.isEmpty) return null;
+    return _getSingleByFilter('id', 'eq.$normalized');
+  }
+
+  @override
+  Future<ProfileFull?> getByEmail(String email) async {
+    final normalized = email.trim().toLowerCase();
+    if (normalized.isEmpty) return null;
+    return _getSingleByFilter('email', 'eq.$normalized');
+  }
+
+  Future<ProfileFull?> _getSingleByFilter(String field, String filter) async {
+    final response = await _dio.get(
+      '/profiles',
+      queryParameters: <String, dynamic>{
+        'select': '*,profile_extensions(*)',
+        field: filter,
+        'limit': 1,
+      },
+    );
+
+    final status = response.statusCode ?? 0;
+    if (status < 200 || status >= 300) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+        error: 'Failed to load profile by $field (HTTP $status)',
+      );
+    }
+
+    final data = response.data;
+    if (data is! List) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.unknown,
+        error: 'Unexpected profile payload: expected a JSON array',
+      );
+    }
+
+    if (data.isEmpty) return null;
+    final row = data.first;
+    if (row is! Map<String, dynamic>) return null;
+    return ProfileFull.fromPostgrestJson(row);
+  }
 }
 
 String? _normalizeUuidLike(String input) {

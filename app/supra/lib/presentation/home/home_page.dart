@@ -87,11 +87,29 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
     Navigator.of(context).pushNamed(name);
   }
 
-  /// Replace with profile display name from auth when available.
-  String get _welcomeDisplayName => _kWelcomeNamePlaceholder;
+  Future<void> _confirmAndLogout() async {
+    final shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Log out?'),
+        content: const Text('Are you sure you want to sign out?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Log out')),
+        ],
+      ),
+    );
+
+    if (!mounted || shouldLogout != true) return;
+    context.read<AuthBloc>().add(const AuthEvent.signOutRequested());
+  }
 
   @override
   Widget build(BuildContext context) {
+    final welcomeName = context.watch<AuthBloc>().state.maybeWhen(
+      authenticated: (snap) => snap.displayName ?? snap.email?.split('@').first ?? _kWelcomeNamePlaceholder,
+      orElse: () => _kWelcomeNamePlaceholder,
+    );
     final scheme = Theme.of(context).colorScheme;
     final topPad = MediaQuery.paddingOf(context).top;
     final homeAppBarFullHeight = topPad + _kHomeAppBarToolbarHeight + _kHomeWelcomeBarHeight;
@@ -102,6 +120,7 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
       titleSpacing: 16,
       toolbarHeight: _kHomeAppBarToolbarHeight,
       title: const _SupraAppBarTitle(),
+      // Keep actions minimal: the profile control is very wide (~160px); extra actions overflow off-screen on phones.
       actions: [
         Padding(
           padding: const EdgeInsetsDirectional.only(end: 10),
@@ -114,8 +133,11 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
       bottom: PreferredSize(
         preferredSize: const Size.fromHeight(_kHomeWelcomeBarHeight),
         child: Builder(
-          builder: (context) =>
-              _HomeWelcomeBar(welcomeName: _welcomeDisplayName, onOpenMenu: () => Scaffold.of(context).openDrawer()),
+          builder: (context) => _HomeWelcomeBar(
+            welcomeName: welcomeName,
+            onOpenMenu: () => Scaffold.of(context).openDrawer(),
+            onLogout: _confirmAndLogout,
+          ),
         ),
       ),
     );
@@ -208,12 +230,13 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
   }
 }
 
-/// Second row under the logo: menu + welcome. Lives in [AppBar.bottom].
+/// Second row under the logo: menu + welcome + log out. Lives in [AppBar.bottom].
 class _HomeWelcomeBar extends StatelessWidget {
-  const _HomeWelcomeBar({required this.welcomeName, required this.onOpenMenu});
+  const _HomeWelcomeBar({required this.welcomeName, required this.onOpenMenu, required this.onLogout});
 
   final String welcomeName;
   final VoidCallback onOpenMenu;
+  final VoidCallback onLogout;
 
   @override
   Widget build(BuildContext context) {
@@ -222,7 +245,7 @@ class _HomeWelcomeBar extends StatelessWidget {
     return Material(
       color: scheme.primary.withValues(alpha: 0.18),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(4, 0, 8, 8),
+        padding: const EdgeInsets.fromLTRB(4, 0, 4, 8),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -245,6 +268,14 @@ class _HomeWelcomeBar extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+            ),
+            TextButton.icon(
+              icon: Icon(Icons.logout, size: 20, color: scheme.primary),
+              label: Text(
+                'Log out',
+                style: TextStyle(color: scheme.primary, fontWeight: FontWeight.w600),
+              ),
+              onPressed: onLogout,
             ),
           ],
         ),

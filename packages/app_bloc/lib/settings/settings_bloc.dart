@@ -2,7 +2,7 @@ import 'package:app_bloc/base/base_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:middleware/middleware.dart';
+import 'package:middleware/middleware_clients.dart';
 
 part 'settings_bloc.freezed.dart';
 part 'settings_events.dart';

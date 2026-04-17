@@ -1,5 +1,5 @@
 name: client_supabase
-description: Self-contained Supabase REST client with DIO, dependency injection, and configurable credentials.
+description: Supabase REST client (Dio), DI, and optional GoTrue-aware Dio interceptor for RLS.
 version: 1.0.0
 publish_to: none
 
@@ -9,6 +9,7 @@ environment:
 dependencies:
   dio: ^5.3.3
   get_it: ^8.3.0
+  supabase_flutter: ^2.12.2
   injectable: ^2.5.0
   json_annotation: ^4.11.0
   path: ^1.9.0

@@ -1,5 +1,6 @@
 library;
 
+export 'auth/auth_bloc.dart';
 export 'base/base_bloc.dart';
 export 'bookings/bookings_bloc.dart';
 export 'injection.dart';

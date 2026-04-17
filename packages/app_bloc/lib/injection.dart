@@ -1,6 +1,7 @@
+import 'package:auth/auth.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
-import 'package:middleware/middleware.dart';
+import 'package:middleware/middleware_clients.dart';
 
 import 'injection.config.dart';
 
@@ -16,7 +17,7 @@ final appBlocSl = GetIt.instance;
 /// not define a second `GetItInjectableX` extension that would collide with
 /// `middleware` when both are imported in the app.
 ///
-/// [IUsersFacade] / [ILocationsFacade] / [ISettingsFacade] / [ILaddersFacade] / [ILeagueFixturesFacade] / [IBookingsFacade] are provided by [registerMiddleware]; listed in
+/// [IUsersFacade] / [ILocationsFacade] / [ISettingsFacade] / [ILaddersFacade] / [ILeagueFixturesFacade] / [IBookingsFacade] / [AuthService] are provided by [registerMiddleware]; listed in
 /// [ignoreUnregisteredTypes] only so this package’s codegen does not require
 /// middleware to be analyzed as part of app_bloc’s graph.
 @InjectableInit(
@@ -30,6 +31,7 @@ final appBlocSl = GetIt.instance;
     ILaddersFacade,
     ILeagueFixturesFacade,
     IBookingsFacade,
+    AuthService,
   ],
 )
 void configureAppBlocDependencies() {}

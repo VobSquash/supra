@@ -1,5 +1,6 @@
 import 'package:client_supabase/client_supabase.dart';
 import 'package:injectable/injectable.dart';
+import 'package:session_storage/session_storage.dart';
 
 import 'clients/client_configs.dart';
 
@@ -17,4 +18,8 @@ abstract class MiddlewareInfrastructureModule {
 
   @LazySingleton()
   IClientSupabase clientSupabase(ClientConfigs clientConfigs) => ClientSupabase(config: clientConfigs.supabaseConfig);
+
+  /// Replace with encrypted / file-backed [SessionStore] when persisting on device.
+  @lazySingleton
+  SessionStore sessionStore() => InMemorySessionStore();
 }

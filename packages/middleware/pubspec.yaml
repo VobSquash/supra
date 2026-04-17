@@ -7,12 +7,18 @@ environment:
   sdk: ">=3.8.0 <4.0.0"
 
 dependencies:
+  auth:
+    path: ../auth
   auto_mappr: ^2.5.0
+  dart_jsonwebtoken: ^2.17.0
   auto_mappr_annotation: ^2.2.0
   client_models:
     path: ../client_models
   client_supabase:
     path: ../client_supabase
+  session_storage:
+    path: ../session_storage
+  supabase_flutter: ^2.12.2
   get_it: ^8.3.0
   injectable: ^2.5.0
   path: ^1.9.0

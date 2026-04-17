@@ -1,7 +1,9 @@
 import 'package:app_bloc/app_bloc.dart';
+import 'package:auth/auth.dart';
 import 'package:client_models/client_models.dart';
 import 'package:get_it/get_it.dart';
-import 'package:middleware/middleware.dart';
+import 'package:middleware/middleware_clients.dart';
+import 'package:session_storage/session_storage.dart';
 import 'package:test/test.dart';
 
 class _FakeFacade implements IUsersFacade {
@@ -44,6 +46,24 @@ class _FakeBookingsFacade implements IBookingsFacade {
   Future<BookingListDto> loadBookings({required DateTime forDate}) async => BookingListDto.empty();
 }
 
+class _FakeAuthService implements AuthService {
+  @override
+  Future<AuthResult> signIn({
+    required String email,
+    required String encodedPassword,
+  }) async =>
+      const AuthResult.failure('test');
+
+  @override
+  Future<AuthResult> restoreFromStoredToken(String jwt) async => const AuthResult.failure('test');
+
+  @override
+  Future<SessionSnapshot?> tryRestoreActiveSession() async => null;
+
+  @override
+  Future<void> signOut() async {}
+}
+
 void main() {
   tearDown(() async {
     await GetIt.instance.reset();
@@ -57,6 +77,7 @@ void main() {
     sl.registerSingleton<ILaddersFacade>(_FakeLaddersFacade());
     sl.registerSingleton<ILeagueFixturesFacade>(_FakeLeagueFixturesFacade());
     sl.registerSingleton<IBookingsFacade>(_FakeBookingsFacade());
+    sl.registerSingleton<AuthService>(_FakeAuthService());
     registerAppBlocDependencies(sl);
 
     final a = sl<UsersBloc>();
@@ -74,6 +95,7 @@ void main() {
     sl.registerSingleton<ILaddersFacade>(_FakeLaddersFacade());
     sl.registerSingleton<ILeagueFixturesFacade>(_FakeLeagueFixturesFacade());
     sl.registerSingleton<IBookingsFacade>(_FakeBookingsFacade());
+    sl.registerSingleton<AuthService>(_FakeAuthService());
     registerAppBlocDependencies(sl);
 
     final a = sl<LocationsBloc>();
@@ -91,6 +113,7 @@ void main() {
     sl.registerSingleton<ILaddersFacade>(_FakeLaddersFacade());
     sl.registerSingleton<ILeagueFixturesFacade>(_FakeLeagueFixturesFacade());
     sl.registerSingleton<IBookingsFacade>(_FakeBookingsFacade());
+    sl.registerSingleton<AuthService>(_FakeAuthService());
     registerAppBlocDependencies(sl);
 
     final a = sl<SettingsBloc>();
@@ -108,6 +131,7 @@ void main() {
     sl.registerSingleton<ILaddersFacade>(_FakeLaddersFacade());
     sl.registerSingleton<ILeagueFixturesFacade>(_FakeLeagueFixturesFacade());
     sl.registerSingleton<IBookingsFacade>(_FakeBookingsFacade());
+    sl.registerSingleton<AuthService>(_FakeAuthService());
     registerAppBlocDependencies(sl);
 
     final a = sl<LaddersBloc>();
@@ -125,6 +149,7 @@ void main() {
     sl.registerSingleton<ILaddersFacade>(_FakeLaddersFacade());
     sl.registerSingleton<ILeagueFixturesFacade>(_FakeLeagueFixturesFacade());
     sl.registerSingleton<IBookingsFacade>(_FakeBookingsFacade());
+    sl.registerSingleton<AuthService>(_FakeAuthService());
     registerAppBlocDependencies(sl);
 
     final a = sl<LeagueFixturesBloc>();
@@ -142,6 +167,7 @@ void main() {
     sl.registerSingleton<ILaddersFacade>(_FakeLaddersFacade());
     sl.registerSingleton<ILeagueFixturesFacade>(_FakeLeagueFixturesFacade());
     sl.registerSingleton<IBookingsFacade>(_FakeBookingsFacade());
+    sl.registerSingleton<AuthService>(_FakeAuthService());
     registerAppBlocDependencies(sl);
 
     final a = sl<BookingsBloc>();
