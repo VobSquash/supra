@@ -1,3 +1,5 @@
+import 'package:client_models/client_models.dart';
+
 import '../models/profile_full.dart';
 
 /// Profiles endpoints (profiles + embedded profile_extensions).
@@ -23,5 +25,11 @@ abstract class IClientSupabaseProfiles {
   ///
   /// Returns `null` when not found.
   Future<ProfileFull?> getByEmail(String email);
+
+  /// Inserts [profiles] + [profile_extensions] and links [profiles.profile_extension_id].
+  ///
+  /// Requires PostgREST + RLS allowing the signed-in user to perform these writes (see
+  /// `supabase/sql/profiles_admin_mutations.sql`).
+  Future<ProfileFull> createMemberProfile({required CreateMemberProfileDto dto});
 }
 

@@ -27,6 +27,15 @@ class _FakeUsersFacade implements IUsersFacade {
   @override
   Future<List<MemberLadderMembershipWithProfileDTO>> loadMemberLadderMembership(String vobGuid) async =>
       const [];
+
+  @override
+  Future<BasicProfileDTO> createMemberProfileAsAdmin({required CreateMemberProfileDto dto}) async {
+    return BasicProfileDTO.empty().copyWith(
+      firstName: dto.firstName,
+      lastName: dto.lastName,
+      email: dto.email,
+    );
+  }
 }
 
 void main() {

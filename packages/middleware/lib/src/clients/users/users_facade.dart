@@ -4,12 +4,15 @@ import 'package:injectable/injectable.dart';
 import 'package:middleware/src/injection.dart';
 import 'package:middleware/src/mappers/ladder/member_ladder_membership_mapper.dart';
 import 'package:middleware/src/mappers/profiles/supabase_profile_mapper.dart';
+import 'package:session_storage/session_storage.dart';
 
 import 'i_users_facade.dart';
 
 @LazySingleton(as: IUsersFacade)
 class UsersFacade implements IUsersFacade {
-  UsersFacade();
+  UsersFacade(this._sessionStore);
+
+  final SessionStore _sessionStore;
 
   IClientSupabase get _client => middlewareSl<IClientSupabase>();
 
@@ -45,5 +48,17 @@ class UsersFacade implements IUsersFacade {
   Future<List<MemberLadderMembershipWithProfileDTO>> loadMemberLadderMembership(String vobGuid) async {
     final rows = await _client.ladders.getMemberLadderMembershipWithProfile(vobGuid);
     return rows.map(mapMemberLadderMembershipWithProfileRow).toList(growable: false);
+  }
+
+  @override
+  Future<BasicProfileDTO> createMemberProfileAsAdmin({required CreateMemberProfileDto dto}) async {
+    final session = await _sessionStore.read();
+    final pt = ProfileTypeEnum.get(session?.profileTypeId ?? -1);
+    if (!pt.isAdminOrElevated) {
+      throw StateError('Only administrators or elevated users can add member profiles.');
+    }
+
+    final full = await _client.profiles.createMemberProfile(dto: dto);
+    return _toBasic(full);
   }
 }

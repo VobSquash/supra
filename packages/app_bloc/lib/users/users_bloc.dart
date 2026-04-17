@@ -22,18 +22,14 @@ class UsersBloc extends BaseBloc<UsersEvent, UsersState> {
       (event, emit) async {
         await handleLoadingState<List<BasicProfileDTO>>(
           emit,
-          initialState: UsersState.initial(),
-          onLoading: () => UsersState(
-            profiles: const [],
-            status: BaseLoading.loading(),
-          ),
+          initialState: state.copyWith(status: BaseLoading.initial()),
+          onLoading: () => state.copyWith(status: BaseLoading.loading()),
           action: () => _usersFacade.loadBasicProfiles(),
           onSuccess: (result) => UsersState(
             profiles: result ?? const [],
             status: BaseLoading.success(),
           ),
-          onError: (error) => UsersState(
-            profiles: const [],
+          onError: (error) => state.copyWith(
             status: BaseLoading.error(
               error ?? 'Unknown error while loading profiles',
             ),
@@ -46,18 +42,14 @@ class UsersBloc extends BaseBloc<UsersEvent, UsersState> {
       (event, emit) async {
         await handleLoadingState<List<BasicProfileDTO>>(
           emit,
-          initialState: UsersState.initial(),
-          onLoading: () => UsersState(
-            profiles: const [],
-            status: BaseLoading.loading(),
-          ),
+          initialState: state.copyWith(status: BaseLoading.initial()),
+          onLoading: () => state.copyWith(status: BaseLoading.loading()),
           action: () => _usersFacade.loadActiveBasicProfiles(),
           onSuccess: (result) => UsersState(
             profiles: result ?? const [],
             status: BaseLoading.success(),
           ),
-          onError: (error) => UsersState(
-            profiles: const [],
+          onError: (error) => state.copyWith(
             status: BaseLoading.error(
               error ?? 'Unknown error while loading active profiles',
             ),
@@ -98,4 +90,9 @@ class UsersBloc extends BaseBloc<UsersEvent, UsersState> {
   }
 
   final IUsersFacade _usersFacade;
+
+  /// Creates a profile + extension (admin / elevated only). Reload the list on success.
+  Future<BasicProfileDTO> createMemberProfileAsAdmin({required CreateMemberProfileDto dto}) {
+    return _usersFacade.createMemberProfileAsAdmin(dto: dto);
+  }
 }

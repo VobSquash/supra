@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../engine/launch_service.dart';
 import '../../engine/route.dart';
+import 'add_member_profile_page.dart';
 
 const _launch = LaunchService();
 
@@ -45,12 +46,46 @@ class _UsersTestPageState extends State<UsersTestPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Active profiles')),
+      floatingActionButton: BlocBuilder<AuthBloc, AuthState>(
+        builder: (context, authState) {
+          final canAdd = authState.maybeWhen(
+            authenticated: (s) => ProfileTypeEnum.get(s.profileTypeId ?? -1).isAdminOrElevated,
+            orElse: () => false,
+          );
+          if (!canAdd) {
+            return const SizedBox.shrink();
+          }
+          return FloatingActionButton.extended(
+            icon: const Icon(Icons.person_add_outlined),
+            label: const Text('Add member'),
+            onPressed: () async {
+              final usersBloc = context.read<UsersBloc>();
+              final added = await Navigator.of(context).push<bool>(
+                MaterialPageRoute<bool>(
+                  builder: (ctx) => BlocProvider<UsersBloc>.value(
+                    value: usersBloc,
+                    child: const AddMemberProfilePage(),
+                  ),
+                ),
+              );
+              if (!context.mounted) return;
+              if (added == true) {
+                usersBloc.add(const UsersEvent.onLoadActiveProfiles());
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('Profile created.')));
+              }
+            },
+          );
+        },
+      ),
       body: BlocBuilder<UsersBloc, UsersState>(
         builder: (context, state) {
           final status = state.status.status;
           final message = state.status.message?.trim();
 
-          if (status == BaseLoadingStatus.loadingFailed) {
+          // Full-screen error only when we have nothing to show (first load failed).
+          if (status == BaseLoadingStatus.loadingFailed && state.profiles.isEmpty) {
             return Center(
               child: Padding(
                 padding: const EdgeInsets.all(16),
@@ -96,6 +131,34 @@ class _UsersTestPageState extends State<UsersTestPage> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
+              if (status == BaseLoadingStatus.loadingFailed && state.profiles.isNotEmpty)
+                Material(
+                  color: Theme.of(context).colorScheme.errorContainer,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 10, 8, 10),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.warning_amber_rounded, color: Theme.of(context).colorScheme.error),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            message?.isNotEmpty == true
+                                ? message!
+                                : 'Could not refresh the list. Showing the last loaded profiles.',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.read<UsersBloc>().add(const UsersEvent.onLoadActiveProfiles());
+                          },
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
                 child: TextField(

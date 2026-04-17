@@ -55,8 +55,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.lazySingleton<_i743.IBookingsFacade>(() => _i992.BookingsFacade());
     gh.lazySingleton<_i122.ISettingsFacade>(() => _i814.SettingsFacade());
-    gh.lazySingleton<_i856.IUsersFacade>(() => _i710.UsersFacade());
     gh.lazySingleton<_i686.ILaddersFacade>(() => _i432.LaddersFacade());
+    gh.lazySingleton<_i856.IUsersFacade>(
+      () => _i710.UsersFacade(gh<_i698.SessionStore>()),
+    );
     gh.lazySingleton<_i680.IClientSupabase>(
       () => middlewareInfrastructureModule.clientSupabase(
         gh<_i692.ClientConfigs>(),

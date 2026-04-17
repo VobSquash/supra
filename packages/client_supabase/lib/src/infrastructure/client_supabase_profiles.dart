@@ -1,8 +1,10 @@
+import 'package:client_models/client_models.dart';
 import 'package:dio/dio.dart';
 
 import '../interfaces/i_client_supabase_profiles.dart';
 import '../models/profile_full.dart';
 import '../models/supabase_config.dart';
+import 'postgrest_uuid.dart';
 
 class ClientSupabaseProfiles implements IClientSupabaseProfiles {
   ClientSupabaseProfiles({required SupabaseConfig config, required Dio dio}) : _dio = dio;
@@ -140,6 +142,146 @@ class ClientSupabaseProfiles implements IClientSupabaseProfiles {
     if (row is! Map<String, dynamic>) return null;
     return ProfileFull.fromPostgrestJson(row);
   }
+
+  @override
+  Future<ProfileFull> createMemberProfile({required CreateMemberProfileDto dto}) async {
+    final email = dto.email.trim().toLowerCase();
+    if (email.isEmpty) {
+      throw ArgumentError('email must not be empty');
+    }
+    final first = dto.firstName.trim();
+    final last = dto.lastName.trim();
+    if (first.isEmpty || last.isEmpty) {
+      throw ArgumentError('firstName and lastName must not be empty');
+    }
+    if (dto.membershipType == MembershipTypeEnum.unknown) {
+      throw ArgumentError('membershipType must not be unknown');
+    }
+
+    final profileId = newUuidV4();
+    final vobGuid = newUuidV4();
+    final extensionId = newUuidV4();
+
+    final dob = DateTime(dto.dateOfBirth.year, dto.dateOfBirth.month, dto.dateOfBirth.day);
+    final dobStr =
+        '${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}';
+
+    final prefer = <String, dynamic>{'Prefer': 'return=representation'};
+
+    final profileRes = await _dio.post<dynamic>(
+      '/profiles',
+      data: <String, dynamic>{
+        'id': profileId,
+        'vob_guid': vobGuid,
+        'first_name': first,
+        'last_name': last,
+        'email': email,
+        'contact_number': dto.contactNumber.trim(),
+        'password': 'unset',
+        'profile_type': 'user',
+        'is_active': true,
+        'date_of_birth': dobStr,
+        'password_hashed': false,
+      },
+      options: Options(headers: prefer),
+    );
+
+    final pStatus = profileRes.statusCode ?? 0;
+    if (pStatus < 200 || pStatus >= 300) {
+      final msg = _httpFailDetail(profileRes, 'Failed to create profile');
+      throw DioException(
+        requestOptions: profileRes.requestOptions,
+        response: profileRes,
+        type: DioExceptionType.badResponse,
+        error: msg,
+      );
+    }
+
+    final extRes = await _dio.post<dynamic>(
+      '/profile_extensions',
+      data: <String, dynamic>{
+        'id': extensionId,
+        'vob_guid': vobGuid,
+        'emergency_contact_number': dto.emergencyContactNumber.trim(),
+        'membership_type': dto.membershipType.identifierType,
+        'is_coach': false,
+        'can_show_email': true,
+        'can_show_contact': true,
+        'can_show_birthday': false,
+        'ssa_number': null,
+        'firebase_number': null,
+      },
+      options: Options(headers: prefer),
+    );
+
+    final eStatus = extRes.statusCode ?? 0;
+    if (eStatus < 200 || eStatus >= 300) {
+      final msg = _httpFailDetail(extRes, 'Profile row created but extension insert failed');
+      throw DioException(
+        requestOptions: extRes.requestOptions,
+        response: extRes,
+        type: DioExceptionType.badResponse,
+        error: msg,
+      );
+    }
+
+    final patchRes = await _dio.patch<dynamic>(
+      '/profiles',
+      queryParameters: <String, dynamic>{'id': 'eq.$profileId'},
+      data: <String, dynamic>{'profile_extension_id': extensionId},
+      options: Options(headers: prefer),
+    );
+
+    final patchStatus = patchRes.statusCode ?? 0;
+    if (patchStatus < 200 || patchStatus >= 300) {
+      final msg = _httpFailDetail(
+        patchRes,
+        'Profile and extension created but could not link profile_extension_id',
+      );
+      throw DioException(
+        requestOptions: patchRes.requestOptions,
+        response: patchRes,
+        type: DioExceptionType.badResponse,
+        error: msg,
+      );
+    }
+
+    final full = await getByVobGuid(vobGuid);
+    if (full == null) {
+      throw DioException(
+        requestOptions: profileRes.requestOptions,
+        response: profileRes,
+        type: DioExceptionType.unknown,
+        error: 'Profile created but could not reload row for vob_guid $vobGuid',
+      );
+    }
+    return full;
+  }
+}
+
+String _httpFailDetail(Response<dynamic> response, String fallback) {
+  final code = response.statusCode ?? 0;
+  final pg = _postgrestErrorText(response.data);
+  if (pg != null) return 'HTTP $code: $pg';
+  final raw = response.data;
+  if (raw != null && raw.toString().isNotEmpty) {
+    return 'HTTP $code: $raw';
+  }
+  return 'HTTP $code: $fallback';
+}
+
+String? _postgrestErrorText(Object? data) {
+  if (data is! Map) return null;
+  final message = data['message']?.toString().trim();
+  final details = data['details']?.toString().trim();
+  final hint = data['hint']?.toString().trim();
+  final parts = <String>[
+    if (message != null && message.isNotEmpty) message,
+    if (details != null && details.isNotEmpty) details,
+    if (hint != null && hint.isNotEmpty) hint,
+  ];
+  if (parts.isEmpty) return null;
+  return parts.join(' | ');
 }
 
 String? _normalizeUuidLike(String input) {

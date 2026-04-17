@@ -11,4 +11,7 @@ abstract class IUsersFacade {
   /// Ladder membership + profile + extension rows for a member (profile / member-details UI).
   /// Backed by `v_member_ladder_membership_with_profile`; transport lives on the ladders client.
   Future<List<MemberLadderMembershipWithProfileDTO>> loadMemberLadderMembership(String vobGuid);
+
+  /// Inserts a new [profiles] row + [profile_extensions] (admin / elevated only; see session check).
+  Future<BasicProfileDTO> createMemberProfileAsAdmin({required CreateMemberProfileDto dto});
 }

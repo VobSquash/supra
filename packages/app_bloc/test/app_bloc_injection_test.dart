@@ -19,6 +19,10 @@ class _FakeFacade implements IUsersFacade {
   @override
   Future<List<MemberLadderMembershipWithProfileDTO>> loadMemberLadderMembership(String vobGuid) async =>
       const [];
+
+  @override
+  Future<BasicProfileDTO> createMemberProfileAsAdmin({required CreateMemberProfileDto dto}) async =>
+      BasicProfileDTO.empty();
 }
 
 class _FakeLocationsFacade implements ILocationsFacade {
@@ -44,6 +48,21 @@ class _FakeLeagueFixturesFacade implements ILeagueFixturesFacade {
 class _FakeBookingsFacade implements IBookingsFacade {
   @override
   Future<BookingListDto> loadBookings({required DateTime forDate}) async => BookingListDto.empty();
+
+  @override
+  Future<void> createBooking({required CreateBookingDto booking}) async {}
+
+  @override
+  Future<void> deleteBooking({required String bookingId}) async {}
+
+  @override
+  Future<void> createAdminBookings({required CreateAdminBookingDto dto}) async {}
+
+  @override
+  Future<void> deleteBookingAsAdmin({required String bookingId}) async {}
+
+  @override
+  Future<void> deleteAllBookingsForDateAsAdmin({required DateTime forDate}) async {}
 }
 
 class _FakeAuthService implements AuthService {
