@@ -59,4 +59,77 @@ class LaddersFacade implements ILaddersFacade {
       showLadderBreakdown: show,
     );
   }
+
+  @override
+  Future<void> saveLadderDivision({
+    required LadderDivision division,
+    required List<LadderItemDTO> items,
+  }) async {
+    final rows = <LadderEntryUpsert>[];
+    for (var i = 0; i < items.length; i++) {
+      final guid = items[i].vobGuid?.trim() ?? '';
+      if (guid.isEmpty) continue;
+      rows.add(
+        LadderEntryUpsert(
+          vobGuid: guid,
+          sortOrder: i + 1,
+          team: items[i].team,
+          canBeChallenged: items[i].canBeChallenged,
+        ),
+      );
+    }
+    final year = DateTime.now().year;
+    await _client.ladders.replaceLadderDivisionForYear(
+      table: _tableForDivision(division),
+      year: year,
+      rows: rows,
+    );
+  }
+
+  @override
+  Future<void> addMemberToDivision({
+    required LadderDivision division,
+    required String vobGuid,
+    required int sortOrder,
+    int? team,
+    bool canBeChallenged = false,
+  }) async {
+    final guid = vobGuid.trim();
+    if (guid.isEmpty) {
+      throw ArgumentError('vobGuid must not be empty');
+    }
+    await _client.ladders.upsertLadderDivisionRows(
+      table: _tableForDivision(division),
+      rows: <LadderEntryUpsert>[
+        LadderEntryUpsert(
+          vobGuid: guid,
+          sortOrder: sortOrder,
+          team: team,
+          canBeChallenged: canBeChallenged,
+        ),
+      ],
+    );
+  }
+
+  @override
+  Future<void> removeMemberFromDivision({
+    required LadderDivision division,
+    required String vobGuid,
+  }) {
+    return _client.ladders.deleteLadderDivisionMember(
+      table: _tableForDivision(division),
+      vobGuid: vobGuid,
+    );
+  }
+
+  String _tableForDivision(LadderDivision division) {
+    switch (division) {
+      case LadderDivision.men:
+        return 'ladder_mens';
+      case LadderDivision.ladies:
+        return 'ladder_ladies';
+      case LadderDivision.masters:
+        return 'ladder_masters';
+    }
+  }
 }

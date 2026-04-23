@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:app_bloc/app_bloc.dart';
+import 'package:client_models/client_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supra/gen/assets.gen.dart';
@@ -554,6 +555,38 @@ class _HomeDrawer extends StatelessWidget {
               leading: const Icon(Icons.groups_outlined),
               title: const Text('Users (test)'),
               onTap: () => onNavigate(RouteNames.users),
+            ),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, authState) {
+                final canAdmin = authState.maybeWhen(
+                  authenticated: (s) => ProfileTypeEnum.get(s.profileTypeId ?? -1).isAdminOrElevated,
+                  orElse: () => false,
+                );
+                if (!canAdmin) {
+                  return const SizedBox.shrink();
+                }
+                return ListTile(
+                  leading: const Icon(Icons.manage_accounts_outlined),
+                  title: const Text('All profiles (admin)'),
+                  onTap: () => onNavigate(RouteNames.adminProfiles),
+                );
+              },
+            ),
+            BlocBuilder<AuthBloc, AuthState>(
+              builder: (context, authState) {
+                final canAdmin = authState.maybeWhen(
+                  authenticated: (s) => ProfileTypeEnum.get(s.profileTypeId ?? -1).isAdminOrElevated,
+                  orElse: () => false,
+                );
+                if (!canAdmin) {
+                  return const SizedBox.shrink();
+                }
+                return ListTile(
+                  leading: const Icon(Icons.leaderboard_outlined),
+                  title: const Text('Ladder management'),
+                  onTap: () => onNavigate(RouteNames.adminLadders),
+                );
+              },
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),

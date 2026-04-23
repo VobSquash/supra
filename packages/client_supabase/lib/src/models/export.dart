@@ -2,6 +2,7 @@ export 'booking_row.dart';
 export 'booking_with_profile_row.dart';
 export 'club_captain_row.dart';
 export 'ladder_entry.dart';
+export 'ladder_entry_upsert.dart';
 export 'league_fixture_row.dart';
 export 'ladder_entry_row.dart';
 export 'ladder_entry_with_profile_row.dart';

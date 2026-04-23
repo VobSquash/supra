@@ -14,4 +14,18 @@ abstract class IUsersFacade {
 
   /// Inserts a new [profiles] row + [profile_extensions] (admin / elevated only; see session check).
   Future<BasicProfileDTO> createMemberProfileAsAdmin({required CreateMemberProfileDto dto});
+
+  /// Signed-in user’s profile (Supabase `auth.uid()` row, with legacy email fallback).
+  Future<BasicProfileDTO?> loadCurrentUserProfile();
+
+  /// PATCH editable fields for the signed-in user. Requires RLS allowing self-service updates.
+  Future<BasicProfileDTO> updateOwnProfile({required UpdateOwnProfileDto dto});
+
+  /// Administrator / elevated: update member profile (+ extension) fields. Session-checked in facade.
+  Future<BasicProfileDTO> updateMemberProfileAsAdmin({
+    required String profileRowId,
+    required String? vobGuid,
+    String? extensionId,
+    required UpdateAdminProfileDto dto,
+  });
 }

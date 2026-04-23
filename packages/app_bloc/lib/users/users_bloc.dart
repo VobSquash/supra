@@ -95,4 +95,19 @@ class UsersBloc extends BaseBloc<UsersEvent, UsersState> {
   Future<BasicProfileDTO> createMemberProfileAsAdmin({required CreateMemberProfileDto dto}) {
     return _usersFacade.createMemberProfileAsAdmin(dto: dto);
   }
+
+  /// PATCH member profile (+ extension) fields (admin / elevated only).
+  Future<BasicProfileDTO> updateMemberProfileAsAdmin({
+    required String profileRowId,
+    required String? vobGuid,
+    String? extensionId,
+    required UpdateAdminProfileDto dto,
+  }) {
+    return _usersFacade.updateMemberProfileAsAdmin(
+      profileRowId: profileRowId,
+      vobGuid: vobGuid,
+      extensionId: extensionId,
+      dto: dto,
+    );
+  }
 }

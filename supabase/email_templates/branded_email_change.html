@@ -1,0 +1,65 @@
+<!--
+  Supabase → Authentication → Email Templates → Change email address
+  Suggested subject: VOB Squash — confirm your new email
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirm email change</title>
+</head>
+<body style="margin:0;padding:0;background-color:#e8eaee;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#e8eaee;padding:28px 12px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" style="max-width:520px;border-collapse:collapse;background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(15,30,54,0.08);">
+          <tr>
+            <td style="height:3px;background:linear-gradient(90deg,#132743,#28D6F5);"></td>
+          </tr>
+          <tr>
+            <td style="padding:28px 24px 20px 24px;text-align:center;background-color:#ffffff;">
+              <img
+                src="https://gyqndbxplxbhxznzogcw.supabase.co/storage/v1/object/public/images/home_dark_mode.png"
+                width="280"
+                alt="VOB Squash"
+                style="max-width:100%;width:280px;height:auto;display:block;margin:0 auto;border:0;outline:none;"
+              />
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 28px 8px 28px;">
+              <h1 style="margin:0;font-size:22px;font-weight:700;color:#132743;line-height:1.3;">Confirm your new email</h1>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:8px 28px 28px 28px;">
+              <p style="margin:0 0 12px 0;font-size:15px;line-height:1.55;color:#3d4a5c;">
+                You asked to change your email to <strong style="color:#132743;">{{ .NewEmail }}</strong>.
+              </p>
+              <p style="margin:0 0 16px 0;font-size:15px;line-height:1.55;color:#3d4a5c;">
+                Confirm the update for <strong style="color:#132743;">{{ .Email }}</strong> using the button below.
+              </p>
+              <table role="presentation" cellspacing="0" cellpadding="0" style="margin:22px 0;">
+                <tr>
+                  <td style="border-radius:8px;background-color:#132743;">
+                    <a href="{{ .ConfirmationURL }}" target="_blank" rel="noopener" style="display:inline-block;padding:14px 28px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;">Confirm new email</a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:0;font-size:13px;line-height:1.5;color:#5c6670;">
+                <a href="{{ .ConfirmationURL }}" style="color:#132743;word-break:break-all;">{{ .ConfirmationURL }}</a>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 28px 24px 28px;border-top:1px solid #e8eaee;">
+              <p style="margin:16px 0 0 0;font-size:12px;line-height:1.5;color:#8a939c;text-align:center;">VOB Squash · {{ .SiteURL }}</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

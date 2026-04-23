@@ -18,6 +18,8 @@ export 'src/dto/settings/settings.dart';
 export 'src/dto/settings/system_settings.dart';
 export 'src/dto/users/basic_profile_dto.dart';
 export 'src/dto/users/create_member_profile_dto.dart';
+export 'src/dto/users/update_own_profile_dto.dart';
+export 'src/dto/users/update_admin_profile_dto.dart';
 export 'src/dto/users/extended_profile_dto.dart';
 export 'src/enums/ladder_types.dart';
 export 'src/enums/membership_types.dart';

@@ -88,6 +88,23 @@ class AppAuthService implements AuthService {
     return AuthResult.signedIn(enriched);
   }
 
+  @override
+  Future<AuthResult> updatePassword({required String newPassword}) async {
+    final trimmed = newPassword.trim();
+    if (trimmed.length < 6) {
+      return const AuthResult.failure('Password must be at least 6 characters.');
+    }
+    try {
+      await Supabase.instance.client.auth.updateUser(UserAttributes(password: trimmed));
+      return const AuthResult.credentialsOk();
+    } on AuthException catch (e) {
+      final m = e.message.trim();
+      return AuthResult.failure(m.isEmpty ? 'Could not update password.' : m);
+    } catch (e) {
+      return AuthResult.failure(e.toString());
+    }
+  }
+
   Future<SessionSnapshot> _enrichFromProfiles(
     SessionSnapshot base,
     User? user,
@@ -142,8 +159,12 @@ int? _profileTypeToId(String? raw) {
   if (raw == null) return null;
   switch (raw.trim().toLowerCase()) {
     case 'user':
+    case 'member':
       return 1;
     case 'administrator':
+    case 'admin':
+    case 'super_admin':
+    case 'superadmin':
       return 2;
     case 'elivated':
     case 'elevated':

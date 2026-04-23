@@ -36,6 +36,27 @@ class _FakeUsersFacade implements IUsersFacade {
       email: dto.email,
     );
   }
+
+  @override
+  Future<BasicProfileDTO?> loadCurrentUserProfile() async => null;
+
+  @override
+  Future<BasicProfileDTO> updateOwnProfile({required UpdateOwnProfileDto dto}) async =>
+      BasicProfileDTO.empty();
+
+  @override
+  Future<BasicProfileDTO> updateMemberProfileAsAdmin({
+    required String profileRowId,
+    required String? vobGuid,
+    String? extensionId,
+    required UpdateAdminProfileDto dto,
+  }) async =>
+      BasicProfileDTO.empty().copyWith(
+        email: dto.email,
+        isActive: dto.isActive,
+        firstName: dto.firstName,
+        lastName: dto.lastName,
+      );
 }
 
 void main() {

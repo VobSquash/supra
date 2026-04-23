@@ -24,4 +24,7 @@ abstract class AuthService {
 
   /// Clear local session; Supabase sign-out should be called by the implementation if used.
   Future<void> signOut();
+
+  /// Sets a new password for the **current** Supabase session (user must already be signed in).
+  Future<AuthResult> updatePassword({required String newPassword});
 }

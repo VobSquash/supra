@@ -7,11 +7,13 @@ import '../presentation/auth/login_page.dart';
 import '../presentation/bookings/admin_bookings_test_page.dart';
 import '../presentation/bookings/bookings_test_page.dart';
 import '../presentation/home/home_page.dart';
+import '../presentation/ladders/admin_ladders_management_page.dart';
 import '../presentation/ladders/ladders_test_page.dart';
 import '../presentation/league_fixtures/league_fixtures_test_page.dart';
 import '../presentation/locations/locations_test_page.dart';
-import '../presentation/profile/profile_placeholder_page.dart';
+import '../presentation/profile/profile_page.dart';
 import '../presentation/settings/settings_test_page.dart';
+import '../presentation/users/admin_profiles_test_page.dart';
 import '../presentation/users/profile_details_page.dart';
 import '../presentation/users/users_test_page.dart';
 import 'route_names.dart';
@@ -29,9 +31,7 @@ class AppRouter {
       pageBuilder: (context, animation, secondaryAnimation) => page,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         const curve = Curves.easeInOut;
-        final opacityAnimation = animation.drive(
-          Tween<double>(begin: 0, end: 1).chain(CurveTween(curve: curve)),
-        );
+        final opacityAnimation = animation.drive(Tween<double>(begin: 0, end: 1).chain(CurveTween(curve: curve)));
         return FadeTransition(opacity: opacityAnimation, child: child);
       },
       transitionDuration: const Duration(milliseconds: 500),
@@ -47,27 +47,27 @@ class AppRouter {
         return const SupraHomePage();
 
       case RouteNames.users:
+        return BlocProvider<UsersBloc>(create: (_) => appBlocSl<UsersBloc>(), child: const UsersTestPage());
+
+      case RouteNames.adminProfiles:
         return BlocProvider<UsersBloc>(
           create: (_) => appBlocSl<UsersBloc>(),
-          child: const UsersTestPage(),
+          child: const AdminProfilesTestPage(),
         );
 
       case RouteNames.locations:
-        return BlocProvider<LocationsBloc>(
-          create: (_) => appBlocSl<LocationsBloc>(),
-          child: const LocationsTestPage(),
-        );
+        return BlocProvider<LocationsBloc>(create: (_) => appBlocSl<LocationsBloc>(), child: const LocationsTestPage());
 
       case RouteNames.settings:
-        return BlocProvider<SettingsBloc>(
-          create: (_) => appBlocSl<SettingsBloc>(),
-          child: const SettingsTestPage(),
-        );
+        return BlocProvider<SettingsBloc>(create: (_) => appBlocSl<SettingsBloc>(), child: const SettingsTestPage());
 
       case RouteNames.ladders:
+        return BlocProvider<LaddersBloc>(create: (_) => appBlocSl<LaddersBloc>(), child: const LaddersTestPage());
+
+      case RouteNames.adminLadders:
         return BlocProvider<LaddersBloc>(
           create: (_) => appBlocSl<LaddersBloc>(),
-          child: const LaddersTestPage(),
+          child: const AdminLaddersManagementPage(),
         );
 
       case RouteNames.leagueFixtures:
@@ -77,10 +77,7 @@ class AppRouter {
         );
 
       case RouteNames.bookings:
-        return BlocProvider<BookingsBloc>(
-          create: (_) => appBlocSl<BookingsBloc>(),
-          child: const BookingsTestPage(),
-        );
+        return BlocProvider<BookingsBloc>(create: (_) => appBlocSl<BookingsBloc>(), child: const BookingsTestPage());
 
       case RouteNames.adminBookings:
         return BlocProvider<BookingsBloc>(
@@ -89,14 +86,12 @@ class AppRouter {
         );
 
       case RouteNames.profile:
-        return const ProfilePlaceholderPage();
+        return const ProfilePage();
 
       case RouteNames.profileDetails:
         final profile = settings.arguments;
         if (profile is! BasicProfileDTO) {
-          return const Scaffold(
-            body: Center(child: Text('Missing or invalid profile argument.')),
-          );
+          return const Scaffold(body: Center(child: Text('Missing or invalid profile argument.')));
         }
         return ProfileDetailsPage(profile: profile);
 

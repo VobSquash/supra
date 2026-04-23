@@ -257,6 +257,182 @@ class ClientSupabaseProfiles implements IClientSupabaseProfiles {
     }
     return full;
   }
+
+  @override
+  Future<ProfileFull> patchMemberProfileFields({
+    required String profileRowId,
+    required String? vobGuid,
+    String? extensionId,
+    required UpdateOwnProfileDto dto,
+  }) async {
+    final first = dto.firstName.trim();
+    final last = dto.lastName.trim();
+    if (first.isEmpty || last.isEmpty) {
+      throw ArgumentError('firstName and lastName must not be empty');
+    }
+
+    final dob = DateTime(dto.dateOfBirth.year, dto.dateOfBirth.month, dto.dateOfBirth.day);
+    final dobStr =
+        '${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}';
+
+    final prefer = <String, dynamic>{'Prefer': 'return=minimal'};
+
+    final profilePatch = await _dio.patch<dynamic>(
+      '/profiles',
+      queryParameters: <String, dynamic>{'id': 'eq.$profileRowId'},
+      data: <String, dynamic>{
+        'first_name': first,
+        'last_name': last,
+        'contact_number': dto.contactNumber.trim(),
+        'date_of_birth': dobStr,
+      },
+      options: Options(headers: prefer),
+    );
+
+    final pStatus = profilePatch.statusCode ?? 0;
+    if (pStatus < 200 || pStatus >= 300) {
+      final msg = _httpFailDetail(profilePatch, 'Failed to update profile');
+      throw DioException(
+        requestOptions: profilePatch.requestOptions,
+        response: profilePatch,
+        type: DioExceptionType.badResponse,
+        error: msg,
+      );
+    }
+
+    final ext = extensionId?.trim();
+    if (ext != null && ext.isNotEmpty) {
+      final ssa = dto.ssaNumber.trim();
+      final extRes = await _dio.patch<dynamic>(
+        '/profile_extensions',
+        queryParameters: <String, dynamic>{'id': 'eq.$ext'},
+        data: <String, dynamic>{
+          'emergency_contact_number': dto.emergencyContactNumber.trim(),
+          'can_show_email': dto.canShowEmail,
+          'can_show_contact': dto.canShowContactNumber,
+          'can_show_birthday': dto.canShowDateOfBirth,
+          'ssa_number': ssa.isEmpty ? null : ssa,
+        },
+        options: Options(headers: prefer),
+      );
+      final eStatus = extRes.statusCode ?? 0;
+      if (eStatus < 200 || eStatus >= 300) {
+        final msg = _httpFailDetail(extRes, 'Failed to update profile extension');
+        throw DioException(
+          requestOptions: extRes.requestOptions,
+          response: extRes,
+          type: DioExceptionType.badResponse,
+          error: msg,
+        );
+      }
+    }
+
+    final guid = vobGuid?.trim();
+    if (guid != null && guid.isNotEmpty) {
+      final reloaded = await getByVobGuid(guid);
+      if (reloaded != null) return reloaded;
+    }
+    final byId = await getByAuthUserId(profileRowId.trim());
+    if (byId != null) return byId;
+    throw DioException(
+      requestOptions: profilePatch.requestOptions,
+      response: profilePatch,
+      type: DioExceptionType.unknown,
+      error: 'Profile updated but could not reload row',
+    );
+  }
+
+  @override
+  Future<ProfileFull> patchProfileAdminFields({
+    required String profileRowId,
+    required String? vobGuid,
+    String? extensionId,
+    required UpdateAdminProfileDto dto,
+  }) async {
+    final email = dto.email.trim().toLowerCase();
+    if (email.isEmpty) {
+      throw ArgumentError('email must not be empty');
+    }
+    final first = dto.firstName.trim();
+    final last = dto.lastName.trim();
+    if (first.isEmpty || last.isEmpty) {
+      throw ArgumentError('firstName and lastName must not be empty');
+    }
+
+    final dob = DateTime(dto.dateOfBirth.year, dto.dateOfBirth.month, dto.dateOfBirth.day);
+    final dobStr =
+        '${dob.year.toString().padLeft(4, '0')}-${dob.month.toString().padLeft(2, '0')}-${dob.day.toString().padLeft(2, '0')}';
+
+    final prefer = <String, dynamic>{'Prefer': 'return=minimal'};
+
+    final profilePatch = await _dio.patch<dynamic>(
+      '/profiles',
+      queryParameters: <String, dynamic>{'id': 'eq.$profileRowId'},
+      data: <String, dynamic>{
+        'email': email,
+        'is_active': dto.isActive,
+        'first_name': first,
+        'last_name': last,
+        'contact_number': dto.contactNumber.trim(),
+        'date_of_birth': dobStr,
+      },
+      options: Options(headers: prefer),
+    );
+
+    final pStatus = profilePatch.statusCode ?? 0;
+    if (pStatus < 200 || pStatus >= 300) {
+      final msg = _httpFailDetail(profilePatch, 'Failed to update profile (admin)');
+      throw DioException(
+        requestOptions: profilePatch.requestOptions,
+        response: profilePatch,
+        type: DioExceptionType.badResponse,
+        error: msg,
+      );
+    }
+
+    final ext = extensionId?.trim();
+    if (ext != null && ext.isNotEmpty) {
+      final ssa = dto.ssaNumber.trim();
+      final extRes = await _dio.patch<dynamic>(
+        '/profile_extensions',
+        queryParameters: <String, dynamic>{'id': 'eq.$ext'},
+        data: <String, dynamic>{
+          'emergency_contact_number': dto.emergencyContactNumber.trim(),
+          'can_show_email': dto.canShowEmail,
+          'can_show_contact': dto.canShowContactNumber,
+          'can_show_birthday': dto.canShowDateOfBirth,
+          'ssa_number': ssa.isEmpty ? null : ssa,
+        },
+        options: Options(headers: prefer),
+      );
+      final eStatus = extRes.statusCode ?? 0;
+      if (eStatus < 200 || eStatus >= 300) {
+        final msg = _httpFailDetail(extRes, 'Failed to update profile extension (admin)');
+        throw DioException(
+          requestOptions: extRes.requestOptions,
+          response: extRes,
+          type: DioExceptionType.badResponse,
+          error: msg,
+        );
+      }
+    }
+
+    final guid = vobGuid?.trim();
+    if (guid != null && guid.isNotEmpty) {
+      final reloaded = await getByVobGuid(guid);
+      if (reloaded != null) return reloaded;
+    }
+    final byEmail = await getByEmail(email);
+    if (byEmail != null) return byEmail;
+    final byId = await getByAuthUserId(profileRowId.trim());
+    if (byId != null) return byId;
+    throw DioException(
+      requestOptions: profilePatch.requestOptions,
+      response: profilePatch,
+      type: DioExceptionType.unknown,
+      error: 'Profile updated but could not reload row',
+    );
+  }
 }
 
 String _httpFailDetail(Response<dynamic> response, String fallback) {

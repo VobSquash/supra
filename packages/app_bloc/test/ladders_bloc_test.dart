@@ -11,6 +11,27 @@ class _FakeLaddersFacade implements ILaddersFacade {
           LadderItemDTO.empty().copyWith(order: 0, profile: BasicProfileDTO.empty().copyWith(firstName: 'A', lastName: 'B')),
         ],
       );
+
+  @override
+  Future<void> saveLadderDivision({
+    required LadderDivision division,
+    required List<LadderItemDTO> items,
+  }) async {}
+
+  @override
+  Future<void> addMemberToDivision({
+    required LadderDivision division,
+    required String vobGuid,
+    required int sortOrder,
+    int? team,
+    bool canBeChallenged = false,
+  }) async {}
+
+  @override
+  Future<void> removeMemberFromDivision({
+    required LadderDivision division,
+    required String vobGuid,
+  }) async {}
 }
 
 void main() {

@@ -44,4 +44,37 @@ class LaddersBloc extends BaseBloc<LaddersEvent, LaddersState> {
   }
 
   final ILaddersFacade _laddersFacade;
+
+  Future<void> saveLadderDivision({
+    required LadderDivision division,
+    required List<LadderItemDTO> items,
+  }) {
+    return _laddersFacade.saveLadderDivision(division: division, items: items);
+  }
+
+  Future<void> addMemberToDivision({
+    required LadderDivision division,
+    required String vobGuid,
+    required int sortOrder,
+    int? team,
+    bool canBeChallenged = false,
+  }) {
+    return _laddersFacade.addMemberToDivision(
+      division: division,
+      vobGuid: vobGuid,
+      sortOrder: sortOrder,
+      team: team,
+      canBeChallenged: canBeChallenged,
+    );
+  }
+
+  Future<void> removeMemberFromDivision({
+    required LadderDivision division,
+    required String vobGuid,
+  }) {
+    return _laddersFacade.removeMemberFromDivision(
+      division: division,
+      vobGuid: vobGuid,
+    );
+  }
 }

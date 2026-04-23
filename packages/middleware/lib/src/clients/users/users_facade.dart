@@ -5,6 +5,7 @@ import 'package:middleware/src/injection.dart';
 import 'package:middleware/src/mappers/ladder/member_ladder_membership_mapper.dart';
 import 'package:middleware/src/mappers/profiles/supabase_profile_mapper.dart';
 import 'package:session_storage/session_storage.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'i_users_facade.dart';
 
@@ -60,5 +61,62 @@ class UsersFacade implements IUsersFacade {
 
     final full = await _client.profiles.createMemberProfile(dto: dto);
     return _toBasic(full);
+  }
+
+  Future<ProfileFull?> _profileFullForCurrentAuthUser() async {
+    final uid = Supabase.instance.client.auth.currentUser?.id.trim();
+    if (uid == null || uid.isEmpty) return null;
+    var full = await _client.profiles.getByAuthUserId(uid);
+    if (full == null) {
+      final email = Supabase.instance.client.auth.currentUser?.email?.trim().toLowerCase();
+      if (email != null && email.isNotEmpty) {
+        full = await _client.profiles.getByEmail(email);
+      }
+    }
+    return full;
+  }
+
+  @override
+  Future<BasicProfileDTO?> loadCurrentUserProfile() async {
+    final full = await _profileFullForCurrentAuthUser();
+    if (full == null) return null;
+    return _toBasic(full);
+  }
+
+  @override
+  Future<BasicProfileDTO> updateOwnProfile({required UpdateOwnProfileDto dto}) async {
+    final full = await _profileFullForCurrentAuthUser();
+    if (full == null) {
+      throw StateError('Could not load your profile.');
+    }
+    final patched = await _client.profiles.patchMemberProfileFields(
+      profileRowId: full.profile.id,
+      vobGuid: full.profile.vobGuid,
+      extensionId: full.extension?.id ?? full.profile.profileExtensionId,
+      dto: dto,
+    );
+    return _toBasic(patched);
+  }
+
+  @override
+  Future<BasicProfileDTO> updateMemberProfileAsAdmin({
+    required String profileRowId,
+    required String? vobGuid,
+    String? extensionId,
+    required UpdateAdminProfileDto dto,
+  }) async {
+    final session = await _sessionStore.read();
+    final pt = ProfileTypeEnum.get(session?.profileTypeId ?? -1);
+    if (!pt.isAdminOrElevated) {
+      throw StateError('Only administrators or elevated users can update member profiles.');
+    }
+
+    final patched = await _client.profiles.patchProfileAdminFields(
+      profileRowId: profileRowId,
+      vobGuid: vobGuid,
+      extensionId: extensionId,
+      dto: dto,
+    );
+    return _toBasic(patched);
   }
 }

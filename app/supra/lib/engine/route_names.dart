@@ -23,4 +23,10 @@ class RouteNames {
 
   /// [RouteSettings.arguments] must be a [BasicProfileDTO].
   static const String profileDetails = '/profile-details';
+
+  /// All profiles (including inactive); admin / elevated. [BlocProvider]<[UsersBloc]>.
+  static const String adminProfiles = '/admin-profiles';
+
+  /// Admin/elevated ladder order management (quick re-order + add members).
+  static const String adminLadders = '/admin-ladders';
 }

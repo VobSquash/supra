@@ -11,8 +11,12 @@ enum ProfileTypeEnum {
 
   static ProfileTypeEnum get(Object querier) {
     if (querier is String) {
+      final s = querier.toLowerCase().trim();
+      if (s == 'admin' || s == 'super_admin' || s == 'superadmin') {
+        return ProfileTypeEnum.administrator;
+      }
       return ProfileTypeEnum.values.firstWhere(
-          (el) => el.identifierType == querier.toLowerCase(),
+          (el) => el.identifierType == s,
           orElse: () => ProfileTypeEnum.unknown);
     }
     return ProfileTypeEnum.values.firstWhere((el) => el.id == querier,

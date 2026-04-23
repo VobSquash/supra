@@ -186,8 +186,12 @@ bool? _bool(Map<String, dynamic> m, String a, String b) {
 int? _stringToProfileTypeId(String raw) {
   switch (raw.trim().toLowerCase()) {
     case 'user':
+    case 'member':
       return 1;
     case 'administrator':
+    case 'admin':
+    case 'super_admin':
+    case 'superadmin':
       return 2;
     case 'elivated':
     case 'elevated':

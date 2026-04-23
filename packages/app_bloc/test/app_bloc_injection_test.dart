@@ -23,6 +23,22 @@ class _FakeFacade implements IUsersFacade {
   @override
   Future<BasicProfileDTO> createMemberProfileAsAdmin({required CreateMemberProfileDto dto}) async =>
       BasicProfileDTO.empty();
+
+  @override
+  Future<BasicProfileDTO?> loadCurrentUserProfile() async => null;
+
+  @override
+  Future<BasicProfileDTO> updateOwnProfile({required UpdateOwnProfileDto dto}) async =>
+      BasicProfileDTO.empty();
+
+  @override
+  Future<BasicProfileDTO> updateMemberProfileAsAdmin({
+    required String profileRowId,
+    required String? vobGuid,
+    String? extensionId,
+    required UpdateAdminProfileDto dto,
+  }) async =>
+      BasicProfileDTO.empty();
 }
 
 class _FakeLocationsFacade implements ILocationsFacade {
@@ -38,6 +54,27 @@ class _FakeSettingsFacade implements ISettingsFacade {
 class _FakeLaddersFacade implements ILaddersFacade {
   @override
   Future<LaddersListDTO> loadLadders() async => LaddersListDTO.empty();
+
+  @override
+  Future<void> saveLadderDivision({
+    required LadderDivision division,
+    required List<LadderItemDTO> items,
+  }) async {}
+
+  @override
+  Future<void> addMemberToDivision({
+    required LadderDivision division,
+    required String vobGuid,
+    required int sortOrder,
+    int? team,
+    bool canBeChallenged = false,
+  }) async {}
+
+  @override
+  Future<void> removeMemberFromDivision({
+    required LadderDivision division,
+    required String vobGuid,
+  }) async {}
 }
 
 class _FakeLeagueFixturesFacade implements ILeagueFixturesFacade {
@@ -81,6 +118,10 @@ class _FakeAuthService implements AuthService {
 
   @override
   Future<void> signOut() async {}
+
+  @override
+  Future<AuthResult> updatePassword({required String newPassword}) async =>
+      const AuthResult.failure('test');
 }
 
 void main() {

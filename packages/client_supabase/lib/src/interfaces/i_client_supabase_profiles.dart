@@ -31,5 +31,24 @@ abstract class IClientSupabaseProfiles {
   /// Requires PostgREST + RLS allowing the signed-in user to perform these writes (see
   /// `supabase/sql/profiles_admin_mutations.sql`).
   Future<ProfileFull> createMemberProfile({required CreateMemberProfileDto dto});
+
+  /// PATCH member-editable columns on [profiles] and [profile_extensions].
+  ///
+  /// [profileRowId] is `profiles.id`. When [extensionId] is null, only the profile row is updated.
+  /// Reload uses [vobGuid] when non-empty, otherwise [profileRowId] with [getByAuthUserId].
+  Future<ProfileFull> patchMemberProfileFields({
+    required String profileRowId,
+    required String? vobGuid,
+    String? extensionId,
+    required UpdateOwnProfileDto dto,
+  });
+
+  /// PATCH member [profiles] + optional [profile_extensions] (admin / elevated; see RLS).
+  Future<ProfileFull> patchProfileAdminFields({
+    required String profileRowId,
+    required String? vobGuid,
+    String? extensionId,
+    required UpdateAdminProfileDto dto,
+  });
 }
 
