@@ -598,6 +598,12 @@ class _HomeDrawer extends StatelessWidget {
               title: const Text('Ladders (test)'),
               onTap: () => onNavigate(RouteNames.ladders),
             ),
+            ListTile(
+              leading: const Icon(Icons.local_drink_outlined),
+              title: const Text('Fridge calculator'),
+              subtitle: const Text('Local demo — club fridge pricing'),
+              onTap: () => onNavigate(RouteNames.fridgeCalculator),
+            ),
           ],
         ),
       ),

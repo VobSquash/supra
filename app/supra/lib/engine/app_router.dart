@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../presentation/auth/login_page.dart';
+import '../presentation/calculator/fridge_calculator_page.dart';
 import '../presentation/bookings/admin_bookings_test_page.dart';
 import '../presentation/bookings/bookings_test_page.dart';
 import '../presentation/home/home_page.dart';
@@ -69,6 +70,9 @@ class AppRouter {
           create: (_) => appBlocSl<LaddersBloc>(),
           child: const AdminLaddersManagementPage(),
         );
+
+      case RouteNames.fridgeCalculator:
+        return const FridgeCalculatorPage();
 
       case RouteNames.leagueFixtures:
         return BlocProvider<LeagueFixturesBloc>(

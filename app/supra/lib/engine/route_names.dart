@@ -29,4 +29,7 @@ class RouteNames {
 
   /// Admin/elevated ladder order management (quick re-order + add members).
   static const String adminLadders = '/admin-ladders';
+
+  /// Standalone fridge price calculator (local persistence only; not tied to Supabase).
+  static const String fridgeCalculator = '/fridge-calculator';
 }
