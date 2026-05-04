@@ -1,19 +1,27 @@
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:middleware/middleware_clients.dart';
 import 'package:supra/gen/assets.gen.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../engine/route.dart';
 import '../../engine/theme/supra_colors.dart';
 import '../bookings/bookings_test_page.dart';
 import '../league_fixtures/league_fixtures_test_page.dart';
 import '../locations/locations_test_page.dart';
+import '../profile/profile_photo_prompt_sheet.dart';
+import '../widgets/profile_avatar.dart';
 
 /// Display name until auth supplies a real name.
 const String _kWelcomeNamePlaceholder = 'member';
+
+const _kAvatarPromptSkippedKey = 'avatar_prompt_skipped';
 
 /// Primary shell: logo + welcome only on Home; other tabs are full-bleed under the status bar.
 class SupraHomePage extends StatefulWidget {
@@ -42,6 +50,9 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
   late final AnimationController _homeAppBarAnimationController;
   late final CurvedAnimation _homeAppBarCurve;
 
+  BasicProfileDTO? _homeProfile;
+  bool _homeProfileLoaded = false;
+
   @override
   void initState() {
     super.initState();
@@ -52,6 +63,40 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
       curve: Curves.easeOutCubic,
       reverseCurve: Curves.easeOutCubic,
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _refreshHomeProfile();
+      if (!mounted) return;
+      await _maybeOfferAvatarPrompt();
+    });
+  }
+
+  Future<void> _refreshHomeProfile() async {
+    if (!mounted) return;
+    final isAuthed = context.read<AuthBloc>().state.maybeWhen(
+          authenticated: (_) => true,
+          orElse: () => false,
+        );
+    if (!isAuthed) {
+      setState(() {
+        _homeProfile = null;
+        _homeProfileLoaded = true;
+      });
+      return;
+    }
+    try {
+      final p = await appBlocSl<IUsersFacade>().loadCurrentUserProfile();
+      if (!mounted) return;
+      setState(() {
+        _homeProfile = p;
+        _homeProfileLoaded = true;
+      });
+    } catch (_) {
+      if (!mounted) return;
+      setState(() {
+        _homeProfile = null;
+        _homeProfileLoaded = true;
+      });
+    }
   }
 
   @override
@@ -74,6 +119,9 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
     if (index == _selectedTab) return;
     setState(() => _selectedTab = index);
     _syncHomeAppBarAnimation();
+    if (index == _tabHome) {
+      unawaited(_refreshHomeProfile());
+    }
   }
 
   void _goToTab(int index) {
@@ -81,11 +129,41 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
     setState(() => _selectedTab = index);
     _syncHomeAppBarAnimation();
     _pageController.animateToPage(index, duration: _tabAnimationDuration, curve: Curves.easeOutCubic);
+    if (index == _tabHome) {
+      unawaited(_refreshHomeProfile());
+    }
   }
 
   void _openRoute(String name) {
     Navigator.of(context).pop();
     Navigator.of(context).pushNamed(name);
+  }
+
+  Future<void> _maybeOfferAvatarPrompt() async {
+    if (!mounted) return;
+    final isAuthed = context.read<AuthBloc>().state.maybeWhen(
+          authenticated: (_) => true,
+          orElse: () => false,
+        );
+    if (!isAuthed) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    if (prefs.getBool(_kAvatarPromptSkippedKey) ?? false) return;
+
+    final profile = _homeProfile;
+
+    final url = profile?.profilePictureUrl?.trim();
+    if (url != null && url.isNotEmpty) return;
+
+    if (!mounted) return;
+    await showProfilePhotoOnboardingSheet(
+      context: context,
+      prefs: prefs,
+      skippedPrefsKey: _kAvatarPromptSkippedKey,
+    );
+
+    await _refreshHomeProfile();
   }
 
   Future<void> _confirmAndLogout() async {
@@ -111,6 +189,11 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
       authenticated: (snap) => snap.displayName ?? snap.email?.split('@').first ?? _kWelcomeNamePlaceholder,
       orElse: () => _kWelcomeNamePlaceholder,
     );
+    final avatarDisplayName = () {
+      final n = _homeProfile?.displayName.trim();
+      if (n != null && n.isNotEmpty) return n;
+      return welcomeName;
+    }();
     final scheme = Theme.of(context).colorScheme;
     final topPad = MediaQuery.paddingOf(context).top;
     final homeAppBarFullHeight = topPad + _kHomeAppBarToolbarHeight + _kHomeWelcomeBarHeight;
@@ -127,7 +210,16 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
           padding: const EdgeInsetsDirectional.only(end: 10),
           child: Tooltip(
             message: 'Profile',
-            child: _ProfileAppBarButton(onPressed: () => Navigator.of(context).pushNamed(RouteNames.profile)),
+            child: _ProfileAppBarButton(
+              displayName: avatarDisplayName,
+              imageUrl: _homeProfile?.profilePictureUrl,
+              loading: !_homeProfileLoaded,
+              onPressed: () async {
+                await Navigator.of(context).pushNamed(RouteNames.profile);
+                if (!mounted) return;
+                await _refreshHomeProfile();
+              },
+            ),
           ),
         ),
       ],
@@ -447,8 +539,16 @@ class _SupraAppBarTitle extends StatelessWidget {
 
 /// Large circular profile control for the home [AppBar] (easy to spot / tap).
 class _ProfileAppBarButton extends StatelessWidget {
-  const _ProfileAppBarButton({required this.onPressed});
+  const _ProfileAppBarButton({
+    required this.displayName,
+    required this.imageUrl,
+    required this.loading,
+    required this.onPressed,
+  });
 
+  final String displayName;
+  final String? imageUrl;
+  final bool loading;
   final VoidCallback onPressed;
 
   static const double _diameter = 160;
@@ -456,6 +556,26 @@ class _ProfileAppBarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+
+    final Widget inner;
+    if (loading) {
+      inner = SizedBox(
+        width: 28,
+        height: 28,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          color: scheme.primary,
+        ),
+      );
+    } else if (imageUrl != null && imageUrl!.trim().isNotEmpty) {
+      inner = ProfileAvatar(
+        displayName: displayName,
+        imageUrl: imageUrl,
+        radius: 38,
+      );
+    } else {
+      inner = Icon(Icons.person_rounded, size: 45, color: scheme.primary);
+    }
 
     return Material(
       color: scheme.primary.withValues(alpha: 0.18),
@@ -467,7 +587,7 @@ class _ProfileAppBarButton extends StatelessWidget {
         child: SizedBox(
           width: _diameter,
           height: _diameter,
-          child: Center(child: Icon(Icons.person_rounded, size: 45, color: scheme.primary)),
+          child: Center(child: inner),
         ),
       ),
     );

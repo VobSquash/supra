@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../engine/theme/supra_colors.dart';
+import '../widgets/profile_avatar.dart';
 import 'booking_details_sheet.dart';
 import 'booking_schedule.dart';
 import 'bookings_accessibility.dart';
@@ -654,12 +655,22 @@ class _CourtCell extends StatelessWidget {
         ? Border.all(color: Colors.white.withValues(alpha: 0.5), width: 2)
         : Border.all(color: Colors.black.withValues(alpha: 0.12), width: 1);
 
+    final pic = b.profilePictureUrl?.trim().isNotEmpty == true
+        ? b.profilePictureUrl
+        : b.profile?.profilePictureUrl;
+
     final radius = BorderRadius.circular(12);
     final inner = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       child: compact
-          ? _BookedCompactBody(courtNo: courtNo, showCourtLabel: showCourtLabel, name: name, mine: mine)
-          : _BookedStackedBody(name: name, mine: mine),
+          ? _BookedCompactBody(
+              courtNo: courtNo,
+              showCourtLabel: showCourtLabel,
+              name: name,
+              mine: mine,
+              imageUrl: pic,
+            )
+          : _BookedStackedBody(name: name, mine: mine, imageUrl: pic),
     );
 
     final card = Container(
@@ -753,12 +764,14 @@ class _BookedCompactBody extends StatelessWidget {
     required this.showCourtLabel,
     required this.name,
     required this.mine,
+    this.imageUrl,
   });
 
   final int courtNo;
   final bool showCourtLabel;
   final String name;
   final bool mine;
+  final String? imageUrl;
 
   static const Color _onCourt = Color(0xFFFFFFFF);
   static final Color _onCourtMuted = Colors.white.withValues(alpha: 0.88);
@@ -783,13 +796,22 @@ class _BookedCompactBody extends StatelessWidget {
             ],
           ),
         if (showCourtLabel) const SizedBox(height: 4),
-        Text(
-          name,
-          maxLines: 2,
-          overflow: TextOverflow.ellipsis,
-          style: Theme.of(
-            context,
-          ).textTheme.titleSmall?.copyWith(color: _onCourt, fontWeight: FontWeight.w600, height: 1.15),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ProfileAvatar(displayName: name, imageUrl: imageUrl, radius: 14),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(
+                  context,
+                ).textTheme.titleSmall?.copyWith(color: _onCourt, fontWeight: FontWeight.w600, height: 1.15),
+              ),
+            ),
+          ],
         ),
         const Spacer(),
       ],
@@ -798,10 +820,11 @@ class _BookedCompactBody extends StatelessWidget {
 }
 
 class _BookedStackedBody extends StatelessWidget {
-  const _BookedStackedBody({required this.name, required this.mine});
+  const _BookedStackedBody({required this.name, required this.mine, this.imageUrl});
 
   final String name;
   final bool mine;
+  final String? imageUrl;
 
   static const Color _onCourt = Color(0xFFFFFFFF);
 
@@ -810,6 +833,8 @@ class _BookedStackedBody extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        ProfileAvatar(displayName: name, imageUrl: imageUrl, radius: 18),
+        const SizedBox(width: 10),
         Expanded(
           child: Text(
             name,

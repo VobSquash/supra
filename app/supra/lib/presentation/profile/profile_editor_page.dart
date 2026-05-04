@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:middleware/middleware.dart';
 
 import '../../engine/theme/supra_colors.dart';
+import '../widgets/profile_avatar.dart';
+import 'profile_photo_pick_upload.dart';
 
 /// Full-screen edit form (pushed from [ProfilePage]).
 class ProfileEditorPage extends StatefulWidget {
@@ -31,7 +33,10 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
   late bool _canShowDateOfBirth;
 
   bool _saving = false;
+  bool _uploadingPhoto = false;
   String? _errorText;
+
+  late BasicProfileDTO _workingProfile;
 
   IUsersFacade get _users => appBlocSl<IUsersFacade>();
 
@@ -39,6 +44,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
   void initState() {
     super.initState();
     final p = widget.profile;
+    _workingProfile = p;
 
     _firstName = TextEditingController(text: p.firstName?.trim() ?? '');
     _lastName = TextEditingController(text: p.lastName?.trim() ?? '');
@@ -129,6 +135,28 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
     return 'Something went wrong.';
   }
 
+  Future<void> _pickProfilePhoto() async {
+    setState(() {
+      _uploadingPhoto = true;
+      _errorText = null;
+    });
+
+    final updated = await ProfilePhotoPickUpload.pickAndUploadFromGallery(
+      context,
+      awaitPickerDelay: true,
+    );
+
+    if (!mounted) return;
+    setState(() => _uploadingPhoto = false);
+
+    if (updated != null) {
+      setState(() => _workingProfile = updated);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Profile photo updated')),
+      );
+    }
+  }
+
   Future<void> _save() async {
     FocusScope.of(context).unfocus();
 
@@ -201,7 +229,7 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final profile = widget.profile;
+    final profile = _workingProfile;
     final email = (profile.email?.trim().isEmpty ?? true) ? null : profile.email!.trim();
 
     return Scaffold(
@@ -247,17 +275,33 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                           child: Column(
                             children: [
                               const SizedBox(height: 8),
-                              CircleAvatar(
-                                radius: 36,
-                                backgroundColor: scheme.surfaceContainerHighest,
-                                child: Text(
-                                  _initial(profile.displayName),
-                                  style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
+                              GestureDetector(
+                                onTap: (_saving || _uploadingPhoto) ? null : _pickProfilePhoto,
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    ProfileAvatar(
+                                      displayName: profile.displayName,
+                                      imageUrl: profile.profilePictureUrl,
+                                      radius: 36,
+                                    ),
+                                    if (_uploadingPhoto)
+                                      SizedBox(
+                                        width: 72,
+                                        height: 72,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                          color: scheme.secondary,
+                                        ),
+                                      ),
+                                  ],
                                 ),
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Profile photo coming soon',
+                                _uploadingPhoto
+                                    ? 'Uploading photo…'
+                                    : 'Tap to change photo',
                                 style: textTheme.labelSmall?.copyWith(
                                   color: scheme.onSurfaceVariant.withValues(alpha: 0.85),
                                 ),
@@ -463,14 +507,14 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
                   children: [
                     Expanded(
                       child: OutlinedButton(
-                        onPressed: _saving ? null : () => Navigator.pop(context),
+                        onPressed: (_saving || _uploadingPhoto) ? null : () => Navigator.pop(context),
                         child: const Text('Cancel'),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: FilledButton(
-                        onPressed: _saving ? null : _save,
+                        onPressed: (_saving || _uploadingPhoto) ? null : _save,
                         style: FilledButton.styleFrom(padding: const EdgeInsets.symmetric(vertical: 14)),
                         child: _saving
                             ? SizedBox(
@@ -492,11 +536,5 @@ class _ProfileEditorPageState extends State<ProfileEditorPage> {
         ),
       ),
     );
-  }
-
-  String _initial(String name) {
-    final t = name.trim();
-    if (t.isEmpty) return '?';
-    return t.substring(0, 1).toUpperCase();
   }
 }

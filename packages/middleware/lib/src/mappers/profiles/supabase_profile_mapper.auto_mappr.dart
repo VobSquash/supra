@@ -318,6 +318,9 @@ class $SupabaseProfileMapper implements _i1.AutoMapprInterface {
           _i6.SupabaseProfileMapper.mapEmergencyContactNumber(model),
       isActive: _i6.SupabaseProfileMapper.mapIsActive(model),
       extendedProfile: _i6.SupabaseProfileMapper.mapExtendedProfile(model),
+      profilePictureUrl: _i6.SupabaseProfileMapper.mapProfilePictureDisplayUrl(
+        model,
+      ),
     );
   }
 }

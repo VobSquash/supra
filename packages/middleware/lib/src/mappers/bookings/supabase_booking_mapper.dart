@@ -44,5 +44,5 @@ class SupabaseBookingMapper extends $SupabaseBookingMapper {
 
   static int? mapIndex(BookingWithProfile w) => null;
 
-  static String? mapProfilePictureUrl(BookingWithProfile w) => null;
+  static String? mapProfilePictureUrl(BookingWithProfile w) => w.profile?.profilePictureUrl;
 }

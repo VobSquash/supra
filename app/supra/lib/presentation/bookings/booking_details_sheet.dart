@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../engine/launch_service.dart';
 import '../../engine/theme/supra_colors.dart';
+import '../widgets/profile_avatar.dart';
 
 const _launch = LaunchService();
 
@@ -66,6 +67,15 @@ class _BookingDetailsContent extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
+          Center(
+            child: ProfileAvatar(
+              displayName: titleLine,
+              imageUrl: booking.profilePictureUrl ?? profile?.profilePictureUrl,
+              radius: 36,
+              zoomOnTap: true,
+            ),
+          ),
+          const SizedBox(height: 12),
           Text(
             titleLine,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(

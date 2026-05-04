@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../engine/theme/supra_colors.dart';
+import '../widgets/profile_avatar.dart';
 
 const _adminResetFunctionName = 'admin-reset-password';
 
@@ -376,17 +377,14 @@ class _AdminProfileEditPageState extends State<AdminProfileEditPage> {
                           child: Column(
                             children: [
                               const SizedBox(height: 8),
-                              CircleAvatar(
+                              ProfileAvatar(
+                                displayName: p.displayName,
+                                imageUrl: p.profilePictureUrl,
                                 radius: 36,
-                                backgroundColor: scheme.surfaceContainerHighest,
-                                child: Text(
-                                  _initial(p.displayName),
-                                  style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w700),
-                                ),
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                'Profile photo coming soon',
+                                'Profile photo is set by the member in the app',
                                 style: textTheme.labelSmall?.copyWith(
                                   color: scheme.onSurfaceVariant.withValues(alpha: 0.85),
                                 ),
@@ -631,12 +629,6 @@ class _AdminProfileEditPageState extends State<AdminProfileEditPage> {
         ),
       ),
     );
-  }
-
-  String _initial(String name) {
-    final t = name.trim();
-    if (t.isEmpty) return '?';
-    return t.substring(0, 1).toUpperCase();
   }
 }
 

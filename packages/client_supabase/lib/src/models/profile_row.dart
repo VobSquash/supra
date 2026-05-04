@@ -24,6 +24,8 @@ class ProfileRow implements IProfile {
     this.dateCreated,
     this.passwordHashed,
     this.profileExtensionId,
+    this.profilePictureUrl,
+    this.profilePictureUpdatedAt,
   });
 
   factory ProfileRow.fromJson(Map<String, dynamic> json) => _$ProfileRowFromJson(json);
@@ -76,6 +78,14 @@ class ProfileRow implements IProfile {
   @override
   @JsonKey(name: 'profile_extension_id')
   final String? profileExtensionId;
+
+  @override
+  @JsonKey(name: 'profile_picture_url')
+  final String? profilePictureUrl;
+
+  @override
+  @JsonKey(name: 'profile_picture_updated_at')
+  final String? profilePictureUpdatedAt;
 
   Map<String, dynamic> toJson() => _$ProfileRowToJson(this);
 

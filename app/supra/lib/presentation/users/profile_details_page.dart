@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:middleware/middleware.dart';
 
 import '../../engine/launch_service.dart';
+import '../widgets/profile_avatar.dart';
 
 const _launch = LaunchService();
 
@@ -64,6 +65,14 @@ class _ProfileDetailsPageState extends State<ProfileDetailsPage> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
         children: [
+          Center(
+            child: ProfileAvatar(
+              displayName: profile.displayName,
+              imageUrl: profile.profilePictureUrl,
+              radius: 48,
+            ),
+          ),
+          const SizedBox(height: 16),
           const _SectionTitle(text: 'Basic information'),
           const SizedBox(height: 8),
           _StaticField(label: 'First name', value: _orDash(profile.firstName)),

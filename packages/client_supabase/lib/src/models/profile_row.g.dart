@@ -20,6 +20,8 @@ ProfileRow _$ProfileRowFromJson(Map<String, dynamic> json) => ProfileRow(
   dateCreated: json['date_created'] as String?,
   passwordHashed: json['password_hashed'] as bool?,
   profileExtensionId: json['profile_extension_id'] as String?,
+  profilePictureUrl: json['profile_picture_url'] as String?,
+  profilePictureUpdatedAt: json['profile_picture_updated_at'] as String?,
 );
 
 Map<String, dynamic> _$ProfileRowToJson(ProfileRow instance) =>
@@ -37,4 +39,6 @@ Map<String, dynamic> _$ProfileRowToJson(ProfileRow instance) =>
       'date_created': instance.dateCreated,
       'password_hashed': instance.passwordHashed,
       'profile_extension_id': instance.profileExtensionId,
+      'profile_picture_url': instance.profilePictureUrl,
+      'profile_picture_updated_at': instance.profilePictureUpdatedAt,
     };

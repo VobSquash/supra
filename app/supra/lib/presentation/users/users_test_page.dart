@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../engine/launch_service.dart';
 import '../../engine/route.dart';
+import '../widgets/profile_avatar.dart';
 import 'add_member_profile_page.dart';
 
 const _launch = LaunchService();
@@ -358,6 +359,13 @@ class _ActiveProfileTile extends StatelessWidget {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        ProfileAvatar(
+                          displayName: name,
+                          imageUrl: profile.profilePictureUrl,
+                          radius: 22,
+                          zoomOnTap: true,
+                        ),
+                        const SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             name,

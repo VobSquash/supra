@@ -3,6 +3,8 @@ import 'package:client_models/client_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../widgets/profile_avatar.dart';
+
 /// Stripe colours to tell teams apart at a glance (repeated if many teams).
 const _kTeamStripeColors = <Color>[
   Color(0xFF1565C0),
@@ -299,17 +301,21 @@ class _PlayerRow extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-        leading: CircleAvatar(
-          backgroundColor: scheme.primaryContainer,
-          foregroundColor: scheme.onPrimaryContainer,
-          child: Text(
-            '$rankWithinTeam',
-            style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 13),
-          ),
+        leading: ProfileAvatar(
+          displayName: titleText,
+          imageUrl: item.profile?.profilePictureUrl,
+          radius: 22,
+          zoomOnTap: true,
         ),
         title: Text(
           titleText,
           style: Theme.of(context).textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        subtitle: Text(
+          'Rank $rankWithinTeam',
+          style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                color: scheme.onSurface.withValues(alpha: 0.62),
+              ),
         ),
         trailing: item.canBeChallenged == true
             ? Tooltip(

@@ -50,5 +50,16 @@ abstract class IClientSupabaseProfiles {
     String? extensionId,
     required UpdateAdminProfileDto dto,
   });
+
+  /// PATCH avatar URL columns on the caller’s profile row (RLS: own row only).
+  ///
+  /// When [publicUrl] is null or empty, clears both URL and updated-at.
+  /// [updatedAt] defaults to now (UTC) when setting a URL.
+  Future<ProfileFull> patchOwnProfilePictureUrl({
+    required String profileRowId,
+    required String? vobGuid,
+    String? publicUrl,
+    DateTime? updatedAt,
+  });
 }
 

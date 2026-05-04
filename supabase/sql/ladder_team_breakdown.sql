@@ -181,7 +181,9 @@ select
   pe.can_show_email as can_show_email,
   pe.can_show_contact as can_show_contact,
   pe.can_show_birthday as can_show_birthday,
-  pe.is_coach as is_coach
+  pe.is_coach as is_coach,
+  p.profile_picture_url as profile_picture_url,
+  p.profile_picture_updated_at as profile_picture_updated_at
 from public.v_member_ladder_membership m
 left join public.profiles p
   on p.vob_guid = m.vob_guid

@@ -343,6 +343,62 @@ class ClientSupabaseProfiles implements IClientSupabaseProfiles {
   }
 
   @override
+  Future<ProfileFull> patchOwnProfilePictureUrl({
+    required String profileRowId,
+    required String? vobGuid,
+    String? publicUrl,
+    DateTime? updatedAt,
+  }) async {
+    final prefer = <String, dynamic>{'Prefer': 'return=minimal'};
+    final trimmedUrl = publicUrl?.trim();
+    final Map<String, dynamic> data;
+    if (trimmedUrl == null || trimmedUrl.isEmpty) {
+      data = <String, dynamic>{
+        'profile_picture_url': null,
+        'profile_picture_updated_at': null,
+      };
+    } else {
+      final ts = (updatedAt ?? DateTime.now()).toUtc();
+      data = <String, dynamic>{
+        'profile_picture_url': trimmedUrl,
+        'profile_picture_updated_at': ts.toIso8601String(),
+      };
+    }
+
+    final profilePatch = await _dio.patch<dynamic>(
+      '/profiles',
+      queryParameters: <String, dynamic>{'id': 'eq.${profileRowId.trim()}'},
+      data: data,
+      options: Options(headers: prefer),
+    );
+
+    final pStatus = profilePatch.statusCode ?? 0;
+    if (pStatus < 200 || pStatus >= 300) {
+      final msg = _httpFailDetail(profilePatch, 'Failed to update profile picture');
+      throw DioException(
+        requestOptions: profilePatch.requestOptions,
+        response: profilePatch,
+        type: DioExceptionType.badResponse,
+        error: msg,
+      );
+    }
+
+    final guid = vobGuid?.trim();
+    if (guid != null && guid.isNotEmpty) {
+      final reloaded = await getByVobGuid(guid);
+      if (reloaded != null) return reloaded;
+    }
+    final byId = await getByAuthUserId(profileRowId.trim());
+    if (byId != null) return byId;
+    throw DioException(
+      requestOptions: profilePatch.requestOptions,
+      response: profilePatch,
+      type: DioExceptionType.unknown,
+      error: 'Profile picture updated but could not reload row',
+    );
+  }
+
+  @override
   Future<ProfileFull> patchProfileAdminFields({
     required String profileRowId,
     required String? vobGuid,

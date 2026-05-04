@@ -42,6 +42,21 @@ class _SupraTestAppState extends State<SupraTestApp> {
           // loading → unauthenticated — sync route to login in both cases when appropriate.
           if (curr is AuthUnauthenticated &&
               (prev is AuthAuthenticated || prev is AuthLoading)) {
+            // Failed sign-in already happens on the login route; replacing the stack recreates
+            // [LoginPage] and clears the email field. Skip when login is already on top.
+            if (prev is AuthLoading) {
+              final nav = _navigatorKey.currentState;
+              if (nav != null) {
+                String? topRouteName;
+                nav.popUntil((route) {
+                  topRouteName = route.settings.name;
+                  return true;
+                });
+                if (topRouteName == RouteNames.login) {
+                  return false;
+                }
+              }
+            }
             return true;
           }
           return false;

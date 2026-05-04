@@ -2,7 +2,10 @@
   Supabase → Authentication → Email Templates → Reset password
   Subject (paste in dashboard): Vob Account Password Reset
 
-  Logo: light asset — layout uses a light header so contrast is preserved.
+  Logo: MUST NOT use *.supabase.co Storage URLs — Auth template sanitization (URI_NOVOWEL) strips img src.
+  Use GitHub raw, api.vobsquash.co.za, or another host with a “vowel-friendly” hostname. Same asset URL as general_mail.html.
+  OTP: {{ .Token }} must appear in the body for GoTrue to send a code (in-app reset in Supra).
+  Link: {{ .ConfirmationURL }} remains for users who reset via browser.
   Variables: https://supabase.com/docs/guides/auth/auth-email-templates
 -->
 <!DOCTYPE html>
@@ -13,7 +16,6 @@
   <title>Password reset</title>
 </head>
 <body style="margin:0;padding:0;background-color:#e8eaee;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;">
-  <!-- Brand navy (VOB Squash logo); cyan accent strip matches app secondary -->
   <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#e8eaee;padding:28px 12px;">
     <tr>
       <td align="center">
@@ -22,35 +24,58 @@
             <td style="height:3px;background:linear-gradient(90deg,#132743,#28D6F5);"></td>
           </tr>
           <tr>
-            <td style="padding:28px 24px 20px 24px;text-align:center;background-color:#ffffff;">
-              <img
-                src="https://gyqndbxplxbhxznzogcw.supabase.co/storage/v1/object/public/images/home_light_mode.png"
-                width="280"
-                alt="VOB Squash"
-                style="max-width:100%;width:280px;height:auto;display:block;margin:0 auto;border:0;outline:none;"
-              />
+            <td style="padding:28px 24px 16px 24px;text-align:center;background-color:#ffffff;border-bottom:1px solid #eef1f5;">
+              <!-- Single-line <img> avoids some dashboard editors dropping src; avoid supabase.co Storage URLs (stripped by Auth). -->
+              <a href="{{ .SiteURL }}" target="_blank" rel="noopener" style="text-decoration:none;display:inline-block;">
+                <img src="https://raw.githubusercontent.com/VobSquash/portal/refs/heads/main/assets/assets/images/home_light_mode.png" width="280" alt="VOB Squash" title="VOB Squash" style="max-width:100%;width:280px;height:auto;display:block;margin:0 auto;border:0;outline:none;" />
+              </a>
+              <p style="margin:12px 0 0 0;font-size:13px;font-weight:600;letter-spacing:0.04em;color:#132743;text-transform:uppercase;">
+                VOB Squash
+              </p>
             </td>
           </tr>
           <tr>
-            <td style="padding:0 28px 8px 28px;">
+            <td style="padding:20px 28px 8px 28px;">
               <h1 style="margin:0;font-size:22px;font-weight:700;color:#132743;line-height:1.3;">Reset your password</h1>
             </td>
           </tr>
           <tr>
-            <td style="padding:8px 28px 28px 28px;">
+            <td style="padding:8px 28px 16px 28px;">
               <p style="margin:0 0 16px 0;font-size:15px;line-height:1.55;color:#3d4a5c;">
                 We received a request to reset the password for <strong style="color:#132743;">{{ .Email }}</strong>.
-                Use the button below to choose a new password. If you didn’t ask for this, you can ignore this email.
+                Open the <strong>Supra</strong> app and enter the code below. If you didn’t ask for this, you can ignore this email.
               </p>
-              <table role="presentation" cellspacing="0" cellpadding="0" style="margin:22px 0;">
+              <p style="margin:0 0 8px 0;font-size:13px;font-weight:600;color:#132743;text-transform:uppercase;letter-spacing:0.06em;">
+                Your reset code
+              </p>
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin:0 0 20px 0;">
                 <tr>
-                  <td style="border-radius:8px;background-color:#132743;">
-                    <a href="{{ .ConfirmationURL }}" target="_blank" rel="noopener" style="display:inline-block;padding:14px 28px;font-size:15px;font-weight:600;color:#ffffff;text-decoration:none;">Reset password</a>
+                  <td align="center" style="padding:18px 16px;background-color:#f4f7fb;border-radius:10px;border:1px solid #dce3ec;">
+                    <span style="font-family:'SF Mono','Segoe UI Mono',Consolas,'Liberation Mono',Menlo,monospace;font-size:28px;font-weight:700;letter-spacing:0.35em;color:#132743;line-height:1.2;">
+                      {{ .Token }}
+                    </span>
                   </td>
                 </tr>
               </table>
-              <p style="margin:0;font-size:13px;line-height:1.5;color:#5c6670;">
-                Or copy this link into your browser:<br>
+              <p style="margin:0;font-size:14px;line-height:1.5;color:#5c6670;">
+                The code expires shortly. After entering it in the app, you’ll choose a new password.
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:0 28px 24px 28px;">
+              <p style="margin:0 0 12px 0;font-size:13px;line-height:1.5;color:#8a939c;text-align:center;">
+                Prefer to use the web instead?
+              </p>
+              <table role="presentation" cellspacing="0" cellpadding="0" align="center" style="margin:0 auto;">
+                <tr>
+                  <td style="border-radius:8px;background-color:#132743;">
+                    <a href="{{ .ConfirmationURL }}" target="_blank" rel="noopener" style="display:inline-block;padding:12px 22px;font-size:14px;font-weight:600;color:#ffffff;text-decoration:none;">Reset password (browser)</a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:14px 0 0 0;font-size:12px;line-height:1.5;color:#5c6670;text-align:center;">
+                Or paste this link:<br>
                 <a href="{{ .ConfirmationURL }}" style="color:#132743;word-break:break-all;">{{ .ConfirmationURL }}</a>
               </p>
             </td>

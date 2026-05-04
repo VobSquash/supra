@@ -29,4 +29,10 @@ abstract class IProfile {
 
   /// FK to `profile_extensions.id` when present.
   String? get profileExtensionId;
+
+  /// Public URL for avatar image (optional).
+  String? get profilePictureUrl;
+
+  /// ISO 8601 or DB timestamptz text; used with [profilePictureUrl] for cache busting.
+  String? get profilePictureUpdatedAt;
 }

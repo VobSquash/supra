@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:client_models/client_models.dart';
 
 /// Facade for user/profile read operations exposed by `middlewareSl`.
@@ -20,6 +22,12 @@ abstract class IUsersFacade {
 
   /// PATCH editable fields for the signed-in user. Requires RLS allowing self-service updates.
   Future<BasicProfileDTO> updateOwnProfile({required UpdateOwnProfileDto dto});
+
+  /// Picks image client-side; uploads to Storage and updates [profiles.profile_picture_url].
+  Future<BasicProfileDTO> uploadOwnProfilePicture({
+    required Uint8List bytes,
+    required String contentType,
+  });
 
   /// Administrator / elevated: update member profile (+ extension) fields. Session-checked in facade.
   Future<BasicProfileDTO> updateMemberProfileAsAdmin({

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:middleware/middleware_clients.dart';
@@ -42,6 +44,13 @@ class _FakeUsersFacade implements IUsersFacade {
 
   @override
   Future<BasicProfileDTO> updateOwnProfile({required UpdateOwnProfileDto dto}) async =>
+      BasicProfileDTO.empty();
+
+  @override
+  Future<BasicProfileDTO> uploadOwnProfilePicture({
+    required Uint8List bytes,
+    required String contentType,
+  }) async =>
       BasicProfileDTO.empty();
 
   @override

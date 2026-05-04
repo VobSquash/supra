@@ -28,6 +28,8 @@ Templates use Supabase [Go template variables](https://supabase.com/docs/guides/
 
 For magic links / signup, `{{ .Token }}` is available if you prefer a 6-digit OTP instead of a single click-through URL (helps with link prefetchers).
 
+**Reset password (`branded_recovery.html`):** The body includes **`{{ .Token }}`** so GoTrue sends a numeric code for in-app verification (`verifyOTP` with `OtpType.recovery`). The **`{{ .ConfirmationURL }}`** block remains optional for browser-based resets.
+
 ## Files
 
 | File | Dashboard template name | Subject line to paste |
@@ -37,6 +39,6 @@ For magic links / signup, `{{ .Token }}` is available if you prefer a 6-digit OT
 | `branded_confirm_signup.html` | Confirm signup | `VOB Squash — confirm your email` |
 | `branded_email_change.html` | Change email address | `VOB Squash — confirm your new email` |
 
-Logo URL used in templates: `https://gyqndbxplxbhxznzogcw.supabase.co/storage/v1/object/public/images/home_dark_mode.png`.
+Auth email templates: **do not** use Supabase Storage public URLs (`*.supabase.co/...`) for `<img src>` — validation/sanitization can remove `src` entirely ([dashboard URI checks / consonant-heavy hostnames](https://github.com/supabase/supabase/issues/36946)). Host the logo on **GitHub raw**, **`api.vobsquash.co.za`**, or similar; `branded_recovery.html` follows the same GitHub raw pattern as `app/supra/assets/html/general_mail.html`.
 
 Security notification emails (password changed, etc.) can be styled the same way under **Authentication** if you enable those notifications.

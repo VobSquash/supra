@@ -19,6 +19,7 @@ class MemberLadderMembershipWithProfileDTO with _$MemberLadderMembershipWithProf
     required String? profileContactNumber,
     required String? profileDateOfBirth,
     required bool? profileIsActive,
+    required String? profilePictureUrl,
     required String? profileExtensionId,
     required MembershipTypeEnum? membershipType,
     required String? emergencyContactNumber,

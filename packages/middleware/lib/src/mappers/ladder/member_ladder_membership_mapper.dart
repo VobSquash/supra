@@ -1,6 +1,8 @@
 import 'package:client_models/client_models.dart';
 import 'package:client_supabase/client_supabase.dart';
 
+import '../profiles/supabase_profile_mapper.dart';
+
 /// Maps [MemberLadderMembershipWithProfileRow] → [MemberLadderMembershipWithProfileDTO].
 MemberLadderMembershipWithProfileDTO mapMemberLadderMembershipWithProfileRow(
   MemberLadderMembershipWithProfileRow r,
@@ -18,6 +20,7 @@ MemberLadderMembershipWithProfileDTO mapMemberLadderMembershipWithProfileRow(
     profileContactNumber: r.profileContactNumber,
     profileDateOfBirth: r.profileDateOfBirth,
     profileIsActive: r.profileIsActive,
+    profilePictureUrl: SupabaseProfileMapper.pictureUrlForDisplay(r.profilePictureUrl, r.profilePictureUpdatedAt),
     profileExtensionId: r.profileExtensionId,
     membershipType: MembershipTypeEnum.get(r.membershipType),
     emergencyContactNumber: r.emergencyContactNumber,

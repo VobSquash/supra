@@ -29,6 +29,7 @@ mixin _$MemberLadderMembershipWithProfileDTO {
   String? get profileContactNumber => throw _privateConstructorUsedError;
   String? get profileDateOfBirth => throw _privateConstructorUsedError;
   bool? get profileIsActive => throw _privateConstructorUsedError;
+  String? get profilePictureUrl => throw _privateConstructorUsedError;
   String? get profileExtensionId => throw _privateConstructorUsedError;
   MembershipTypeEnum? get membershipType => throw _privateConstructorUsedError;
   String? get emergencyContactNumber => throw _privateConstructorUsedError;
@@ -70,6 +71,7 @@ abstract class $MemberLadderMembershipWithProfileDTOCopyWith<$Res> {
     String? profileContactNumber,
     String? profileDateOfBirth,
     bool? profileIsActive,
+    String? profilePictureUrl,
     String? profileExtensionId,
     MembershipTypeEnum? membershipType,
     String? emergencyContactNumber,
@@ -110,6 +112,7 @@ class _$MemberLadderMembershipWithProfileDTOCopyWithImpl<
     Object? profileContactNumber = freezed,
     Object? profileDateOfBirth = freezed,
     Object? profileIsActive = freezed,
+    Object? profilePictureUrl = freezed,
     Object? profileExtensionId = freezed,
     Object? membershipType = freezed,
     Object? emergencyContactNumber = freezed,
@@ -168,6 +171,10 @@ class _$MemberLadderMembershipWithProfileDTOCopyWithImpl<
                 ? _value.profileIsActive
                 : profileIsActive // ignore: cast_nullable_to_non_nullable
                       as bool?,
+            profilePictureUrl: freezed == profilePictureUrl
+                ? _value.profilePictureUrl
+                : profilePictureUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
             profileExtensionId: freezed == profileExtensionId
                 ? _value.profileExtensionId
                 : profileExtensionId // ignore: cast_nullable_to_non_nullable
@@ -224,6 +231,7 @@ abstract class _$$MemberLadderMembershipWithProfileDTOImplCopyWith<$Res>
     String? profileContactNumber,
     String? profileDateOfBirth,
     bool? profileIsActive,
+    String? profilePictureUrl,
     String? profileExtensionId,
     MembershipTypeEnum? membershipType,
     String? emergencyContactNumber,
@@ -264,6 +272,7 @@ class __$$MemberLadderMembershipWithProfileDTOImplCopyWithImpl<$Res>
     Object? profileContactNumber = freezed,
     Object? profileDateOfBirth = freezed,
     Object? profileIsActive = freezed,
+    Object? profilePictureUrl = freezed,
     Object? profileExtensionId = freezed,
     Object? membershipType = freezed,
     Object? emergencyContactNumber = freezed,
@@ -322,6 +331,10 @@ class __$$MemberLadderMembershipWithProfileDTOImplCopyWithImpl<$Res>
             ? _value.profileIsActive
             : profileIsActive // ignore: cast_nullable_to_non_nullable
                   as bool?,
+        profilePictureUrl: freezed == profilePictureUrl
+            ? _value.profilePictureUrl
+            : profilePictureUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
         profileExtensionId: freezed == profileExtensionId
             ? _value.profileExtensionId
             : profileExtensionId // ignore: cast_nullable_to_non_nullable
@@ -372,6 +385,7 @@ class _$MemberLadderMembershipWithProfileDTOImpl
     required this.profileContactNumber,
     required this.profileDateOfBirth,
     required this.profileIsActive,
+    required this.profilePictureUrl,
     required this.profileExtensionId,
     required this.membershipType,
     required this.emergencyContactNumber,
@@ -406,6 +420,8 @@ class _$MemberLadderMembershipWithProfileDTOImpl
   @override
   final bool? profileIsActive;
   @override
+  final String? profilePictureUrl;
+  @override
   final String? profileExtensionId;
   @override
   final MembershipTypeEnum? membershipType;
@@ -422,7 +438,7 @@ class _$MemberLadderMembershipWithProfileDTOImpl
 
   @override
   String toString() {
-    return 'MemberLadderMembershipWithProfileDTO(vobGuid: $vobGuid, ladderType: $ladderType, ladderRank: $ladderRank, leagueTeamNumber: $leagueTeamNumber, rankWithinTeam: $rankWithinTeam, profileId: $profileId, profileFirstName: $profileFirstName, profileLastName: $profileLastName, profileEmail: $profileEmail, profileContactNumber: $profileContactNumber, profileDateOfBirth: $profileDateOfBirth, profileIsActive: $profileIsActive, profileExtensionId: $profileExtensionId, membershipType: $membershipType, emergencyContactNumber: $emergencyContactNumber, canShowEmail: $canShowEmail, canShowContact: $canShowContact, canShowBirthday: $canShowBirthday, isCoach: $isCoach)';
+    return 'MemberLadderMembershipWithProfileDTO(vobGuid: $vobGuid, ladderType: $ladderType, ladderRank: $ladderRank, leagueTeamNumber: $leagueTeamNumber, rankWithinTeam: $rankWithinTeam, profileId: $profileId, profileFirstName: $profileFirstName, profileLastName: $profileLastName, profileEmail: $profileEmail, profileContactNumber: $profileContactNumber, profileDateOfBirth: $profileDateOfBirth, profileIsActive: $profileIsActive, profilePictureUrl: $profilePictureUrl, profileExtensionId: $profileExtensionId, membershipType: $membershipType, emergencyContactNumber: $emergencyContactNumber, canShowEmail: $canShowEmail, canShowContact: $canShowContact, canShowBirthday: $canShowBirthday, isCoach: $isCoach)';
   }
 
   @override
@@ -453,6 +469,8 @@ class _$MemberLadderMembershipWithProfileDTOImpl
                 other.profileDateOfBirth == profileDateOfBirth) &&
             (identical(other.profileIsActive, profileIsActive) ||
                 other.profileIsActive == profileIsActive) &&
+            (identical(other.profilePictureUrl, profilePictureUrl) ||
+                other.profilePictureUrl == profilePictureUrl) &&
             (identical(other.profileExtensionId, profileExtensionId) ||
                 other.profileExtensionId == profileExtensionId) &&
             (identical(other.membershipType, membershipType) ||
@@ -483,6 +501,7 @@ class _$MemberLadderMembershipWithProfileDTOImpl
     profileContactNumber,
     profileDateOfBirth,
     profileIsActive,
+    profilePictureUrl,
     profileExtensionId,
     membershipType,
     emergencyContactNumber,
@@ -521,6 +540,7 @@ abstract class _MemberLadderMembershipWithProfileDTO
     required final String? profileContactNumber,
     required final String? profileDateOfBirth,
     required final bool? profileIsActive,
+    required final String? profilePictureUrl,
     required final String? profileExtensionId,
     required final MembershipTypeEnum? membershipType,
     required final String? emergencyContactNumber,
@@ -554,6 +574,8 @@ abstract class _MemberLadderMembershipWithProfileDTO
   String? get profileDateOfBirth;
   @override
   bool? get profileIsActive;
+  @override
+  String? get profilePictureUrl;
   @override
   String? get profileExtensionId;
   @override

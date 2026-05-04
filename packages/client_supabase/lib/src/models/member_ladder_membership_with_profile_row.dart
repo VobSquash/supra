@@ -18,6 +18,8 @@ class MemberLadderMembershipWithProfileRow {
     this.profileContactNumber,
     this.profileDateOfBirth,
     this.profileIsActive,
+    this.profilePictureUrl,
+    this.profilePictureUpdatedAt,
     this.profileExtensionId,
     this.membershipType,
     this.emergencyContactNumber,
@@ -65,6 +67,12 @@ class MemberLadderMembershipWithProfileRow {
 
   @JsonKey(name: 'profile_is_active')
   final bool? profileIsActive;
+
+  @JsonKey(name: 'profile_picture_url')
+  final String? profilePictureUrl;
+
+  @JsonKey(name: 'profile_picture_updated_at')
+  final String? profilePictureUpdatedAt;
 
   @JsonKey(name: 'profile_extension_id')
   final String? profileExtensionId;

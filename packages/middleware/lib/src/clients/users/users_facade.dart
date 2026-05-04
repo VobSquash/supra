@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:client_models/client_models.dart';
 import 'package:client_supabase/client_supabase.dart';
 import 'package:injectable/injectable.dart';
@@ -12,6 +14,8 @@ import 'i_users_facade.dart';
 @LazySingleton(as: IUsersFacade)
 class UsersFacade implements IUsersFacade {
   UsersFacade(this._sessionStore);
+
+  static const _avatarsBucket = 'avatars';
 
   final SessionStore _sessionStore;
 
@@ -94,6 +98,46 @@ class UsersFacade implements IUsersFacade {
       vobGuid: full.profile.vobGuid,
       extensionId: full.extension?.id ?? full.profile.profileExtensionId,
       dto: dto,
+    );
+    return _toBasic(patched);
+  }
+
+  String _avatarExtensionForContentType(String contentType) {
+    final lower = contentType.toLowerCase();
+    if (lower.contains('png')) return 'png';
+    if (lower.contains('webp')) return 'webp';
+    return 'jpg';
+  }
+
+  @override
+  Future<BasicProfileDTO> uploadOwnProfilePicture({
+    required Uint8List bytes,
+    required String contentType,
+  }) async {
+    final full = await _profileFullForCurrentAuthUser();
+    if (full == null) {
+      throw StateError('Could not load your profile.');
+    }
+    final uid = Supabase.instance.client.auth.currentUser?.id.trim();
+    if (uid == null || uid.isEmpty) {
+      throw StateError('Not signed in.');
+    }
+    final ext = _avatarExtensionForContentType(contentType);
+    final path = '$uid/avatar.$ext';
+    await Supabase.instance.client.storage.from(_avatarsBucket).uploadBinary(
+          path,
+          bytes,
+          fileOptions: FileOptions(
+            contentType: contentType,
+            upsert: true,
+          ),
+        );
+    final publicUrl = Supabase.instance.client.storage.from(_avatarsBucket).getPublicUrl(path);
+    final patched = await _client.profiles.patchOwnProfilePictureUrl(
+      profileRowId: full.profile.id,
+      vobGuid: full.profile.vobGuid,
+      publicUrl: publicUrl,
+      updatedAt: DateTime.now().toUtc(),
     );
     return _toBasic(patched);
   }

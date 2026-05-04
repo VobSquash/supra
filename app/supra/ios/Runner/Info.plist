@@ -73,5 +73,7 @@
 		<string>neshan</string>
 		<string>airnavpro</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We need access to your photo library so you can choose a profile picture.</string>
 </dict>
 </plist>

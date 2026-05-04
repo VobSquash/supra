@@ -29,7 +29,7 @@ import 'supabase_profile_mapper.auto_mappr.dart';
         'emergencyContactNumber',
         custom: SupabaseProfileMapper.mapEmergencyContactNumber,
       ),
-      Field('profilePictureUrl', custom: null),
+      Field('profilePictureUrl', custom: SupabaseProfileMapper.mapProfilePictureDisplayUrl),
     ],
   ),
 ])
@@ -57,5 +57,19 @@ class SupabaseProfileMapper extends $SupabaseProfileMapper {
 
   static String? mapEmergencyContactNumber(ProfileFull input) =>
       input.extension?.emergencyContactNumber;
+
+  static String? mapProfilePictureDisplayUrl(ProfileFull input) => pictureUrlForDisplay(
+        input.profile.profilePictureUrl,
+        input.profile.profilePictureUpdatedAt,
+      );
+
+  static String? pictureUrlForDisplay(String? rawUrl, String? updatedAtIso) {
+    final raw = rawUrl?.trim();
+    if (raw == null || raw.isEmpty) return null;
+    final ts = updatedAtIso?.trim();
+    if (ts == null || ts.isEmpty) return raw;
+    final sep = raw.contains('?') ? '&' : '?';
+    return '$raw${sep}v=${Uri.encodeQueryComponent(ts)}';
+  }
 }
 
