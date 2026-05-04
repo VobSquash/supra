@@ -144,6 +144,7 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
     );
 
     return Scaffold(
+      extendBody: true,
       drawer: _HomeDrawer(onNavigate: _openRoute),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -177,6 +178,7 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
                       onOpenAdminBookings: () => Navigator.of(context).pushNamed(RouteNames.adminBookings),
                       onOpenMembers: () => Navigator.of(context).pushNamed(RouteNames.users),
                       onOpenLadders: () => Navigator.of(context).pushNamed(RouteNames.ladders),
+                      onOpenFridgeCalculator: () => Navigator.of(context).pushNamed(RouteNames.fridgeCalculator),
                     ),
                     BlocProvider<BookingsBloc>(
                       create: (_) => appBlocSl<BookingsBloc>(),
@@ -197,35 +199,174 @@ class _SupraHomePageState extends State<SupraHomePage> with SingleTickerProvider
           ),
         ],
       ),
-      bottomNavigationBar: SafeArea(
+      bottomNavigationBar: _SupraDockNav(scheme: scheme, selectedIndex: _selectedTab, onTabChange: _goToTab),
+    );
+  }
+}
+
+/// Full-width dock bar (no third-party nav): teal accent line, equal segments, animated selection.
+class _SupraDockNav extends StatelessWidget {
+  const _SupraDockNav({required this.scheme, required this.selectedIndex, required this.onTabChange});
+
+  final ColorScheme scheme;
+  final int selectedIndex;
+  final ValueChanged<int> onTabChange;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      elevation: 12,
+      shadowColor: Colors.black.withValues(alpha: 0.45),
+      color: scheme.surfaceContainerHigh.withValues(alpha: 0.98),
+      surfaceTintColor: scheme.surfaceTint,
+      child: SafeArea(
         top: false,
-        child: NavigationBar(
-          selectedIndex: _selectedTab,
-          onDestinationSelected: _goToTab,
-          labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-          indicatorColor: scheme.primary.withValues(alpha: 0.35),
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(Icons.home_outlined),
-              selectedIcon: Icon(Icons.home_rounded),
-              label: 'Home',
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: 3,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    SupraColors.secondary.withValues(alpha: 0.15),
+                    SupraColors.secondary,
+                    SupraColors.tertiary.withValues(alpha: 0.85),
+                  ],
+                ),
+              ),
             ),
-            NavigationDestination(
-              icon: Icon(Icons.calendar_month_outlined),
-              selectedIcon: Icon(Icons.calendar_month),
-              label: 'Bookings',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.emoji_events_outlined),
-              selectedIcon: Icon(Icons.emoji_events),
-              label: 'Fixtures',
-            ),
-            NavigationDestination(
-              icon: Icon(Icons.place_outlined),
-              selectedIcon: Icon(Icons.place_rounded),
-              label: 'Locations',
+            Padding(
+              padding: const EdgeInsets.fromLTRB(2, 2, 2, 4),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: _DockTab(
+                      selected: selectedIndex == 0,
+                      icon: Icons.home_outlined,
+                      selectedIcon: Icons.home_rounded,
+                      label: 'Home',
+                      scheme: scheme,
+                      onTap: () => onTabChange(0),
+                    ),
+                  ),
+                  Expanded(
+                    child: _DockTab(
+                      selected: selectedIndex == 1,
+                      icon: Icons.calendar_month_outlined,
+                      selectedIcon: Icons.calendar_month_rounded,
+                      label: 'Bookings',
+                      scheme: scheme,
+                      onTap: () => onTabChange(1),
+                    ),
+                  ),
+                  Expanded(
+                    child: _DockTab(
+                      selected: selectedIndex == 2,
+                      icon: Icons.emoji_events_outlined,
+                      selectedIcon: Icons.emoji_events_rounded,
+                      label: 'Fixtures',
+                      scheme: scheme,
+                      onTap: () => onTabChange(2),
+                    ),
+                  ),
+                  Expanded(
+                    child: _DockTab(
+                      selected: selectedIndex == 3,
+                      icon: Icons.place_outlined,
+                      selectedIcon: Icons.place_rounded,
+                      label: 'Locations',
+                      scheme: scheme,
+                      semanticLabel: 'Locations tab',
+                      onTap: () => onTabChange(3),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _DockTab extends StatelessWidget {
+  const _DockTab({
+    required this.selected,
+    required this.icon,
+    required this.selectedIcon,
+    required this.label,
+    required this.scheme,
+    required this.onTap,
+    this.semanticLabel,
+  });
+
+  final bool selected;
+  final IconData icon;
+  final IconData selectedIcon;
+  final String label;
+  final ColorScheme scheme;
+  final VoidCallback onTap;
+  final String? semanticLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = SupraColors.secondary;
+    final fg = selected ? accent : scheme.onSurfaceVariant;
+    final textScaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.25);
+    final labelStyle = Theme.of(context).textTheme.labelSmall?.copyWith(
+      color: fg,
+      fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+      letterSpacing: selected ? 0.15 : 0,
+    );
+
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: semanticLabel ?? label,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          splashColor: accent.withValues(alpha: 0.12),
+          highlightColor: accent.withValues(alpha: 0.06),
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 220),
+            curve: Curves.easeOutCubic,
+            margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 2),
+            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
+            constraints: const BoxConstraints(minHeight: 48),
+            decoration: BoxDecoration(
+              color: selected ? accent.withValues(alpha: 0.14) : Colors.transparent,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: selected ? accent.withValues(alpha: 0.35) : Colors.transparent, width: 1),
+            ),
+            child: MediaQuery(
+              data: MediaQuery.of(context).copyWith(textScaler: textScaler),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(selected ? selectedIcon : icon, size: 22, color: fg),
+                  const SizedBox(height: 2),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: Alignment.center,
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      overflow: TextOverflow.clip,
+                      textAlign: TextAlign.center,
+                      style: labelStyle,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -339,194 +480,314 @@ class _HomeOverview extends StatelessWidget {
     required this.onOpenAdminBookings,
     required this.onOpenMembers,
     required this.onOpenLadders,
+    required this.onOpenFridgeCalculator,
   });
 
   final VoidCallback onOpenBookings;
   final VoidCallback onOpenAdminBookings;
   final VoidCallback onOpenMembers;
   final VoidCallback onOpenLadders;
-
-  @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final wide = constraints.maxWidth >= 420;
-        return ListView(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
-          children: [
-            Text(
-              'Courts and bookings first. Members and ladders are a tap away. Welcome to the new age of VOB bookings',
-              style: textTheme.bodyLarge?.copyWith(color: SupraColors.textSecondary, height: 1.35),
-            ),
-            const SizedBox(height: 24),
-            _HeroBookingCard(onPressed: onOpenBookings),
-            const SizedBox(height: 12),
-            OutlinedButton.icon(
-              onPressed: onOpenAdminBookings,
-              icon: const Icon(Icons.admin_panel_settings_outlined),
-              label: const Text('Admin bookings (test)'),
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size.fromHeight(52),
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-              ),
-            ),
-            const SizedBox(height: 16),
-            if (wide)
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    child: _CompactActionCard(
-                      icon: Icons.groups_outlined,
-                      title: 'Members',
-                      subtitle: 'Active profiles',
-                      onTap: onOpenMembers,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: _CompactActionCard(
-                      icon: Icons.view_list_outlined,
-                      title: 'Ladders',
-                      subtitle: 'Lists & ladders',
-                      onTap: onOpenLadders,
-                    ),
-                  ),
-                ],
-              )
-            else ...[
-              _CompactActionCard(
-                icon: Icons.groups_outlined,
-                title: 'Members',
-                subtitle: 'Active profiles',
-                onTap: onOpenMembers,
-              ),
-              const SizedBox(height: 12),
-              _CompactActionCard(
-                icon: Icons.view_list_outlined,
-                title: 'Ladders',
-                subtitle: 'Lists & ladders',
-                onTap: onOpenLadders,
-              ),
-            ],
-            const SizedBox(height: 20),
-            Text(
-              'Tip: Bookings, Fixtures, and Locations are on the bottom bar.',
-              style: textTheme.bodyMedium?.copyWith(color: SupraColors.textSecondary, height: 1.35),
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class _HeroBookingCard extends StatelessWidget {
-  const _HeroBookingCard({required this.onPressed});
-
-  final VoidCallback onPressed;
+  final VoidCallback onOpenFridgeCalculator;
 
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
+    final bottomPad = MediaQuery.paddingOf(context).bottom + 88;
 
-    return Material(
-      color: scheme.surface.withValues(alpha: 0.88),
-      borderRadius: BorderRadius.circular(20),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onPressed,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: SupraColors.secondary.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    child: Icon(Icons.event_available_rounded, color: SupraColors.secondary, size: 28),
-                  ),
-                  const SizedBox(width: 14),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Bookings',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          'Court reservations by day — your main destination.',
-                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: SupraColors.textSecondary),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Icon(Icons.arrow_forward_ios_rounded, size: 18, color: SupraColors.textSecondary),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 18),
-              FilledButton(
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(52),
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                ),
-                onPressed: onPressed,
-                child: Text('Open bookings', style: Theme.of(context).textTheme.titleMedium),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [scheme.surfaceContainerLow.withValues(alpha: 0.35), SupraColors.scaffoldBackground],
+        ),
+      ),
+      child: ListView(
+        padding: EdgeInsets.fromLTRB(0, 8, 0, bottomPad),
+        children: [
+          _HomeSection(
+            title: 'Overview',
+            cardAccent: SupraColors.tertiary,
+            items: const [
+              _HomeSectionItem(
+                title: 'Courts first',
+                subtitle:
+                    'Reserve courts, follow fixtures, and browse locations from the bar below. '
+                    'Members and ladders are one tap away.',
+                icon: Icons.sports_tennis_rounded,
+                accentColor: SupraColors.tertiary,
+                showDivider: false,
               ),
             ],
           ),
-        ),
+          _HomeSection(
+            title: 'Quick actions',
+            cardAccent: SupraColors.secondary,
+            items: [
+              _HomeSectionItem(
+                title: 'Book a court',
+                subtitle: 'Day-by-day grid — pick a slot and confirm.',
+                icon: Icons.event_available_rounded,
+                accentColor: SupraColors.secondary,
+                onTap: onOpenBookings,
+                leadingEdgeAccent: true,
+              ),
+              _HomeSectionItem(
+                title: 'Members',
+                subtitle: 'Directory & profiles',
+                icon: Icons.groups_outlined,
+                accentColor: SupraColors.success,
+                leadingEdgeAccent: true,
+                onTap: onOpenMembers,
+              ),
+              _HomeSectionItem(
+                title: 'Ladders',
+                subtitle: 'Order & rankings',
+                icon: Icons.view_list_outlined,
+                accentColor: SupraColors.warning,
+                onTap: onOpenLadders,
+                leadingEdgeAccent: true,
+              ),
+              _HomeSectionItem(
+                title: 'Calculator',
+                subtitle: 'Fridge calculator',
+                icon: Icons.local_drink_outlined,
+                accentColor: SupraColors.calculator,
+                onTap: onOpenFridgeCalculator,
+                leadingEdgeAccent: true,
+                showDivider: false,
+              ),
+            ],
+          ),
+          _HomeSection(
+            title: 'Admin',
+            cardAccent: SupraColors.primary,
+            items: [
+              _HomeSectionItem(
+                title: 'Admin bookings (test)',
+                subtitle: 'Harness for group / fixture flows',
+                icon: Icons.admin_panel_settings_outlined,
+                accentColor: SupraColors.error,
+                onTap: onOpenAdminBookings,
+                trailing: Icon(Icons.open_in_new_rounded, size: 22, color: SupraColors.textSecondary),
+                showDivider: false,
+              ),
+            ],
+          ),
+          Padding(padding: const EdgeInsets.fromLTRB(20, 16, 20, 0), child: const _OverviewNavHint()),
+        ],
       ),
     );
   }
 }
 
-class _CompactActionCard extends StatelessWidget {
-  const _CompactActionCard({required this.icon, required this.title, required this.subtitle, required this.onTap});
+class _HomeSectionItem {
+  const _HomeSectionItem({
+    required this.title,
+    this.subtitle,
+    required this.icon,
+    this.accentColor = SupraColors.secondary,
+    this.onTap,
+    this.showDivider = true,
+    this.leadingEdgeAccent = false,
+    this.trailing,
+  });
 
-  final IconData icon;
   final String title;
-  final String subtitle;
-  final VoidCallback onTap;
+  final String? subtitle;
+  final IconData icon;
+  final Color accentColor;
+  final VoidCallback? onTap;
+  final bool showDivider;
+  final bool leadingEdgeAccent;
+  final Widget? trailing;
+}
+
+/// Section layout aligned with legacy `VobSection`: header + bordered card of tappable rows.
+class _HomeSection extends StatelessWidget {
+  const _HomeSection({required this.title, required this.items, this.cardAccent});
+
+  final String title;
+  final List<_HomeSectionItem> items;
+  final Color? cardAccent;
+
+  static const double _cardRadius = 16;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Theme.of(context).colorScheme.surface.withValues(alpha: 0.75),
-      borderRadius: BorderRadius.circular(16),
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Icon(icon, color: SupraColors.secondary, size: 28),
-              const SizedBox(height: 12),
-              Text(title, style: Theme.of(context).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
-              const SizedBox(height: 6),
-              Text(
-                subtitle,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: SupraColors.textSecondary, height: 1.35),
+    final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+
+    final titleStyle = textTheme.bodyLarge?.copyWith(
+      color: scheme.onSurface,
+      fontSize: 16,
+      fontWeight: FontWeight.w800,
+      letterSpacing: 0.5,
+    );
+
+    final baseCard = scheme.surfaceContainerHighest.withValues(alpha: 0.55);
+    final accent = cardAccent;
+    final cardColor = accent == null ? baseCard : Color.alphaBlend(accent.withValues(alpha: 0.1), baseCard);
+    final borderColor = accent == null
+        ? scheme.onSurface.withValues(alpha: 0.1)
+        : Color.alphaBlend(accent.withValues(alpha: 0.4), scheme.onSurface.withValues(alpha: 0.08));
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+            child: Text(title, style: titleStyle, maxLines: 2, overflow: TextOverflow.ellipsis),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Card(
+              elevation: 0,
+              margin: EdgeInsets.zero,
+              clipBehavior: Clip.antiAlias,
+              color: cardColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(_cardRadius),
+                side: BorderSide(color: borderColor),
               ),
-            ],
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  for (var i = 0; i < items.length; i++) ...[
+                    _HomeSectionItemTile(item: items[i], index: i, itemCount: items.length, cardRadius: _cardRadius),
+                    if (items[i].showDivider && i < items.length - 1)
+                      Divider(height: 1, color: scheme.onSurface.withValues(alpha: 0.1)),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _HomeSectionItemTile extends StatelessWidget {
+  const _HomeSectionItemTile({
+    required this.item,
+    required this.index,
+    required this.itemCount,
+    required this.cardRadius,
+  });
+
+  final _HomeSectionItem item;
+  final int index;
+  final int itemCount;
+  final double cardRadius;
+
+  static const double _kAccentWidth = 5;
+
+  static BorderRadius _splashRadiusForTile({required int index, required int count, required double r}) {
+    if (count <= 0) return BorderRadius.zero;
+    if (count == 1) return BorderRadius.circular(r);
+    if (index == 0) {
+      return BorderRadius.only(topLeft: Radius.circular(r), topRight: Radius.circular(r));
+    }
+    if (index == count - 1) {
+      return BorderRadius.only(bottomLeft: Radius.circular(r), bottomRight: Radius.circular(r));
+    }
+    return BorderRadius.zero;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final splashRadius = _splashRadiusForTile(index: index, count: itemCount, r: cardRadius);
+
+    final contentPadding = item.leadingEdgeAccent
+        ? const EdgeInsets.fromLTRB(13, 12, 20, 12)
+        : const EdgeInsets.symmetric(horizontal: 20, vertical: 12);
+
+    final inner = Padding(
+      padding: contentPadding,
+      child: Row(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: item.accentColor.withValues(alpha: 0.12),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(item.icon, size: 32, color: item.accentColor),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.title,
+                  style: textTheme.titleMedium?.copyWith(
+                    color: scheme.onSurface,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                if (item.subtitle != null) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    item.subtitle!,
+                    style: textTheme.bodyMedium?.copyWith(color: scheme.onSurface.withValues(alpha: 0.7), fontSize: 14),
+                  ),
+                ],
+              ],
+            ),
+          ),
+          if (item.trailing != null)
+            item.trailing!
+          else if (item.onTap != null)
+            Icon(Icons.chevron_right_rounded, color: scheme.onSurface.withValues(alpha: 0.6), size: 32),
+        ],
+      ),
+    );
+
+    // Same pattern as the original Book-a-court hero: accent is a left border on the tile, not a
+    // separate column (avoids visual bleed past the card's rounded clip).
+    Widget body = item.leadingEdgeAccent
+        ? DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(
+                left: BorderSide(width: _kAccentWidth, color: item.accentColor),
+              ),
+            ),
+            child: inner,
+          )
+        : inner;
+
+    if (item.onTap != null) {
+      body = InkWell(onTap: item.onTap, borderRadius: splashRadius, child: body);
+    }
+
+    return Material(color: Colors.transparent, child: body);
+  }
+}
+
+class _OverviewNavHint extends StatelessWidget {
+  const _OverviewNavHint();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Icon(Icons.touch_app_outlined, size: 20, color: SupraColors.textSecondary.withValues(alpha: 0.9)),
+        const SizedBox(width: 10),
+        Expanded(
+          child: Text(
+            'Bookings, Fixtures, and Locations live on the bottom bar — swipe between them anytime.',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(color: SupraColors.textSecondary, height: 1.45),
           ),
         ),
-      ),
+      ],
     );
   }
 }
