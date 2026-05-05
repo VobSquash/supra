@@ -7,6 +7,13 @@
       "type": "dart",
       "program": "lib/main.dart",
       "cwd": "app/supra"
+    },
+    {
+      "name": "Dupra (main.dart)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "cwd": "app/dupra"
     }
   ]
 }
