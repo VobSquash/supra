@@ -25,7 +25,7 @@ class UsersBloc extends BaseBloc<UsersEvent, UsersState> {
           initialState: state.copyWith(status: BaseLoading.initial()),
           onLoading: () => state.copyWith(status: BaseLoading.loading()),
           action: () => _usersFacade.loadBasicProfiles(),
-          onSuccess: (result) => UsersState(
+          onSuccess: (result) => state.copyWith(
             profiles: result ?? const [],
             status: BaseLoading.success(),
           ),
@@ -45,7 +45,7 @@ class UsersBloc extends BaseBloc<UsersEvent, UsersState> {
           initialState: state.copyWith(status: BaseLoading.initial()),
           onLoading: () => state.copyWith(status: BaseLoading.loading()),
           action: () => _usersFacade.loadActiveBasicProfiles(),
-          onSuccess: (result) => UsersState(
+          onSuccess: (result) => state.copyWith(
             profiles: result ?? const [],
             status: BaseLoading.success(),
           ),
@@ -62,23 +62,37 @@ class UsersBloc extends BaseBloc<UsersEvent, UsersState> {
       (event, emit) async {
         await handleLoadingState<BasicProfileDTO>(
           emit,
-          initialState: UsersState.initial(),
-          onLoading: () => UsersState(
+          initialState: state.copyWith(
+            profiles: const [],
+            status: BaseLoading.initial(),
+          ),
+          onLoading: () => state.copyWith(
             profiles: const [],
             status: BaseLoading.loading(),
           ),
           action: () => _usersFacade.loadProfileByVobGuid(event.vobGuid),
-          onSuccess: (result) => UsersState(
+          onSuccess: (result) => state.copyWith(
             profiles: result == null ? const [] : [result],
             status: BaseLoading.success(),
           ),
-          onError: (error) => UsersState(
+          onError: (error) => state.copyWith(
             profiles: const [],
             status: BaseLoading.error(
               error ?? 'Unknown error while loading profile',
             ),
           ),
         );
+      },
+    );
+
+    on<OnLoadCurrentUserProfile>(
+      (event, emit) async {
+        try {
+          final profile = await _usersFacade.loadCurrentUserProfile();
+          emit(state.copyWith(currentUserProfile: profile));
+        } catch (_) {
+          // Keep prior profile on failure so the shell does not flicker.
+        }
       },
     );
 

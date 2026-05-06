@@ -8,5 +8,8 @@ class UsersEvent with _$UsersEvent {
 
   const factory UsersEvent.onLoadByVobGuid(String vobGuid) = OnLoadByVobGuid;
 
+  /// Signed-in profile from [IUsersFacade.loadCurrentUserProfile] (RLS-backed row).
+  const factory UsersEvent.loadCurrentUserProfile() = OnLoadCurrentUserProfile;
+
   const factory UsersEvent.reset() = OnReset;
 }

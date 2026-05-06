@@ -3,7 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Maps Supabase Auth [Session] + [User] into [SessionSnapshot].
 ///
-/// Expects optional `user_metadata` keys: `vob_guid`, `display_name`, `profile_type_id`,
+/// Expects optional `user_metadata` keys: `vob_guid`, `display_name`, `avatar_url` / `picture` /
+/// `profile_picture_url`, `profile_type_id`,
 /// `membership_type_id`, `is_coach`, `is_active` — adjust when you sync auth.users.
 SessionSnapshot sessionSnapshotFromSupabase({
   required Session session,
@@ -13,10 +14,12 @@ SessionSnapshot sessionSnapshotFromSupabase({
   final appMeta = user.appMetadata;
   final identityMeta = _identityMetadata(user);
   final displayName = _resolveDisplayName(identityMeta, userMeta, appMeta);
+  final avatarUrl = _resolveAvatarUrl(identityMeta, userMeta, appMeta);
 
   return SessionSnapshot(
     email: user.email,
     displayName: displayName,
+    avatarUrl: avatarUrl,
     vobGuid: _stringFromSources(identityMeta, userMeta, appMeta, 'vob_guid', 'vobGuid'),
     profileTypeId: _intFromEither(
       identityMeta,
@@ -78,6 +81,32 @@ String? _resolveDisplayName(
       .where((v) => v.isNotEmpty)
       .join(' ');
   return full.isEmpty ? null : full;
+}
+
+String? _resolveAvatarUrl(
+  Map<String, dynamic> identityMeta,
+  Map<String, dynamic> userMeta,
+  Map<String, dynamic> appMeta,
+) {
+  final raw = _stringFromSources(
+    identityMeta,
+    userMeta,
+    appMeta,
+    'avatar_url',
+    'avatarUrl',
+    fallbackKeys: const [
+      'picture',
+      'photo_url',
+      'photoURL',
+      'profile_picture_url',
+      'profilePictureUrl',
+      'image_url',
+      'imageUrl',
+    ],
+  );
+  if (raw == null) return null;
+  final trimmed = raw.trim();
+  return trimmed.isEmpty ? null : trimmed;
 }
 
 Map<String, dynamic> _identityMetadata(User user) {

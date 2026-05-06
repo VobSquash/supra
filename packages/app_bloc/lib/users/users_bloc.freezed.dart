@@ -22,6 +22,7 @@ mixin _$UsersEvent {
     required TResult Function() onLoadBasicProfiles,
     required TResult Function() onLoadActiveProfiles,
     required TResult Function(String vobGuid) onLoadByVobGuid,
+    required TResult Function() loadCurrentUserProfile,
     required TResult Function() reset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,6 +30,7 @@ mixin _$UsersEvent {
     TResult? Function()? onLoadBasicProfiles,
     TResult? Function()? onLoadActiveProfiles,
     TResult? Function(String vobGuid)? onLoadByVobGuid,
+    TResult? Function()? loadCurrentUserProfile,
     TResult? Function()? reset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -36,6 +38,7 @@ mixin _$UsersEvent {
     TResult Function()? onLoadBasicProfiles,
     TResult Function()? onLoadActiveProfiles,
     TResult Function(String vobGuid)? onLoadByVobGuid,
+    TResult Function()? loadCurrentUserProfile,
     TResult Function()? reset,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -44,6 +47,8 @@ mixin _$UsersEvent {
     required TResult Function(OnLoadBasicProfiles value) onLoadBasicProfiles,
     required TResult Function(OnLoadActiveProfiles value) onLoadActiveProfiles,
     required TResult Function(OnLoadByVobGuid value) onLoadByVobGuid,
+    required TResult Function(OnLoadCurrentUserProfile value)
+    loadCurrentUserProfile,
     required TResult Function(OnReset value) reset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -51,6 +56,7 @@ mixin _$UsersEvent {
     TResult? Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult? Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult? Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult? Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult? Function(OnReset value)? reset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58,6 +64,7 @@ mixin _$UsersEvent {
     TResult Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult Function(OnReset value)? reset,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -132,6 +139,7 @@ class _$OnLoadBasicProfilesImpl implements OnLoadBasicProfiles {
     required TResult Function() onLoadBasicProfiles,
     required TResult Function() onLoadActiveProfiles,
     required TResult Function(String vobGuid) onLoadByVobGuid,
+    required TResult Function() loadCurrentUserProfile,
     required TResult Function() reset,
   }) {
     return onLoadBasicProfiles();
@@ -143,6 +151,7 @@ class _$OnLoadBasicProfilesImpl implements OnLoadBasicProfiles {
     TResult? Function()? onLoadBasicProfiles,
     TResult? Function()? onLoadActiveProfiles,
     TResult? Function(String vobGuid)? onLoadByVobGuid,
+    TResult? Function()? loadCurrentUserProfile,
     TResult? Function()? reset,
   }) {
     return onLoadBasicProfiles?.call();
@@ -154,6 +163,7 @@ class _$OnLoadBasicProfilesImpl implements OnLoadBasicProfiles {
     TResult Function()? onLoadBasicProfiles,
     TResult Function()? onLoadActiveProfiles,
     TResult Function(String vobGuid)? onLoadByVobGuid,
+    TResult Function()? loadCurrentUserProfile,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
@@ -169,6 +179,8 @@ class _$OnLoadBasicProfilesImpl implements OnLoadBasicProfiles {
     required TResult Function(OnLoadBasicProfiles value) onLoadBasicProfiles,
     required TResult Function(OnLoadActiveProfiles value) onLoadActiveProfiles,
     required TResult Function(OnLoadByVobGuid value) onLoadByVobGuid,
+    required TResult Function(OnLoadCurrentUserProfile value)
+    loadCurrentUserProfile,
     required TResult Function(OnReset value) reset,
   }) {
     return onLoadBasicProfiles(this);
@@ -180,6 +192,7 @@ class _$OnLoadBasicProfilesImpl implements OnLoadBasicProfiles {
     TResult? Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult? Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult? Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult? Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult? Function(OnReset value)? reset,
   }) {
     return onLoadBasicProfiles?.call(this);
@@ -191,6 +204,7 @@ class _$OnLoadBasicProfilesImpl implements OnLoadBasicProfiles {
     TResult Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult Function(OnReset value)? reset,
     required TResult orElse(),
   }) {
@@ -252,6 +266,7 @@ class _$OnLoadActiveProfilesImpl implements OnLoadActiveProfiles {
     required TResult Function() onLoadBasicProfiles,
     required TResult Function() onLoadActiveProfiles,
     required TResult Function(String vobGuid) onLoadByVobGuid,
+    required TResult Function() loadCurrentUserProfile,
     required TResult Function() reset,
   }) {
     return onLoadActiveProfiles();
@@ -263,6 +278,7 @@ class _$OnLoadActiveProfilesImpl implements OnLoadActiveProfiles {
     TResult? Function()? onLoadBasicProfiles,
     TResult? Function()? onLoadActiveProfiles,
     TResult? Function(String vobGuid)? onLoadByVobGuid,
+    TResult? Function()? loadCurrentUserProfile,
     TResult? Function()? reset,
   }) {
     return onLoadActiveProfiles?.call();
@@ -274,6 +290,7 @@ class _$OnLoadActiveProfilesImpl implements OnLoadActiveProfiles {
     TResult Function()? onLoadBasicProfiles,
     TResult Function()? onLoadActiveProfiles,
     TResult Function(String vobGuid)? onLoadByVobGuid,
+    TResult Function()? loadCurrentUserProfile,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
@@ -289,6 +306,8 @@ class _$OnLoadActiveProfilesImpl implements OnLoadActiveProfiles {
     required TResult Function(OnLoadBasicProfiles value) onLoadBasicProfiles,
     required TResult Function(OnLoadActiveProfiles value) onLoadActiveProfiles,
     required TResult Function(OnLoadByVobGuid value) onLoadByVobGuid,
+    required TResult Function(OnLoadCurrentUserProfile value)
+    loadCurrentUserProfile,
     required TResult Function(OnReset value) reset,
   }) {
     return onLoadActiveProfiles(this);
@@ -300,6 +319,7 @@ class _$OnLoadActiveProfilesImpl implements OnLoadActiveProfiles {
     TResult? Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult? Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult? Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult? Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult? Function(OnReset value)? reset,
   }) {
     return onLoadActiveProfiles?.call(this);
@@ -311,6 +331,7 @@ class _$OnLoadActiveProfilesImpl implements OnLoadActiveProfiles {
     TResult Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult Function(OnReset value)? reset,
     required TResult orElse(),
   }) {
@@ -401,6 +422,7 @@ class _$OnLoadByVobGuidImpl implements OnLoadByVobGuid {
     required TResult Function() onLoadBasicProfiles,
     required TResult Function() onLoadActiveProfiles,
     required TResult Function(String vobGuid) onLoadByVobGuid,
+    required TResult Function() loadCurrentUserProfile,
     required TResult Function() reset,
   }) {
     return onLoadByVobGuid(vobGuid);
@@ -412,6 +434,7 @@ class _$OnLoadByVobGuidImpl implements OnLoadByVobGuid {
     TResult? Function()? onLoadBasicProfiles,
     TResult? Function()? onLoadActiveProfiles,
     TResult? Function(String vobGuid)? onLoadByVobGuid,
+    TResult? Function()? loadCurrentUserProfile,
     TResult? Function()? reset,
   }) {
     return onLoadByVobGuid?.call(vobGuid);
@@ -423,6 +446,7 @@ class _$OnLoadByVobGuidImpl implements OnLoadByVobGuid {
     TResult Function()? onLoadBasicProfiles,
     TResult Function()? onLoadActiveProfiles,
     TResult Function(String vobGuid)? onLoadByVobGuid,
+    TResult Function()? loadCurrentUserProfile,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
@@ -438,6 +462,8 @@ class _$OnLoadByVobGuidImpl implements OnLoadByVobGuid {
     required TResult Function(OnLoadBasicProfiles value) onLoadBasicProfiles,
     required TResult Function(OnLoadActiveProfiles value) onLoadActiveProfiles,
     required TResult Function(OnLoadByVobGuid value) onLoadByVobGuid,
+    required TResult Function(OnLoadCurrentUserProfile value)
+    loadCurrentUserProfile,
     required TResult Function(OnReset value) reset,
   }) {
     return onLoadByVobGuid(this);
@@ -449,6 +475,7 @@ class _$OnLoadByVobGuidImpl implements OnLoadByVobGuid {
     TResult? Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult? Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult? Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult? Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult? Function(OnReset value)? reset,
   }) {
     return onLoadByVobGuid?.call(this);
@@ -460,6 +487,7 @@ class _$OnLoadByVobGuidImpl implements OnLoadByVobGuid {
     TResult Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult Function(OnReset value)? reset,
     required TResult orElse(),
   }) {
@@ -480,6 +508,133 @@ abstract class OnLoadByVobGuid implements UsersEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$OnLoadByVobGuidImplCopyWith<_$OnLoadByVobGuidImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$OnLoadCurrentUserProfileImplCopyWith<$Res> {
+  factory _$$OnLoadCurrentUserProfileImplCopyWith(
+    _$OnLoadCurrentUserProfileImpl value,
+    $Res Function(_$OnLoadCurrentUserProfileImpl) then,
+  ) = __$$OnLoadCurrentUserProfileImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$OnLoadCurrentUserProfileImplCopyWithImpl<$Res>
+    extends _$UsersEventCopyWithImpl<$Res, _$OnLoadCurrentUserProfileImpl>
+    implements _$$OnLoadCurrentUserProfileImplCopyWith<$Res> {
+  __$$OnLoadCurrentUserProfileImplCopyWithImpl(
+    _$OnLoadCurrentUserProfileImpl _value,
+    $Res Function(_$OnLoadCurrentUserProfileImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of UsersEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$OnLoadCurrentUserProfileImpl implements OnLoadCurrentUserProfile {
+  const _$OnLoadCurrentUserProfileImpl();
+
+  @override
+  String toString() {
+    return 'UsersEvent.loadCurrentUserProfile()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OnLoadCurrentUserProfileImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onLoadBasicProfiles,
+    required TResult Function() onLoadActiveProfiles,
+    required TResult Function(String vobGuid) onLoadByVobGuid,
+    required TResult Function() loadCurrentUserProfile,
+    required TResult Function() reset,
+  }) {
+    return loadCurrentUserProfile();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? onLoadBasicProfiles,
+    TResult? Function()? onLoadActiveProfiles,
+    TResult? Function(String vobGuid)? onLoadByVobGuid,
+    TResult? Function()? loadCurrentUserProfile,
+    TResult? Function()? reset,
+  }) {
+    return loadCurrentUserProfile?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onLoadBasicProfiles,
+    TResult Function()? onLoadActiveProfiles,
+    TResult Function(String vobGuid)? onLoadByVobGuid,
+    TResult Function()? loadCurrentUserProfile,
+    TResult Function()? reset,
+    required TResult orElse(),
+  }) {
+    if (loadCurrentUserProfile != null) {
+      return loadCurrentUserProfile();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnLoadBasicProfiles value) onLoadBasicProfiles,
+    required TResult Function(OnLoadActiveProfiles value) onLoadActiveProfiles,
+    required TResult Function(OnLoadByVobGuid value) onLoadByVobGuid,
+    required TResult Function(OnLoadCurrentUserProfile value)
+    loadCurrentUserProfile,
+    required TResult Function(OnReset value) reset,
+  }) {
+    return loadCurrentUserProfile(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
+    TResult? Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
+    TResult? Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult? Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
+    TResult? Function(OnReset value)? reset,
+  }) {
+    return loadCurrentUserProfile?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
+    TResult Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
+    TResult Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
+    TResult Function(OnReset value)? reset,
+    required TResult orElse(),
+  }) {
+    if (loadCurrentUserProfile != null) {
+      return loadCurrentUserProfile(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnLoadCurrentUserProfile implements UsersEvent {
+  const factory OnLoadCurrentUserProfile() = _$OnLoadCurrentUserProfileImpl;
 }
 
 /// @nodoc
@@ -528,6 +683,7 @@ class _$OnResetImpl implements OnReset {
     required TResult Function() onLoadBasicProfiles,
     required TResult Function() onLoadActiveProfiles,
     required TResult Function(String vobGuid) onLoadByVobGuid,
+    required TResult Function() loadCurrentUserProfile,
     required TResult Function() reset,
   }) {
     return reset();
@@ -539,6 +695,7 @@ class _$OnResetImpl implements OnReset {
     TResult? Function()? onLoadBasicProfiles,
     TResult? Function()? onLoadActiveProfiles,
     TResult? Function(String vobGuid)? onLoadByVobGuid,
+    TResult? Function()? loadCurrentUserProfile,
     TResult? Function()? reset,
   }) {
     return reset?.call();
@@ -550,6 +707,7 @@ class _$OnResetImpl implements OnReset {
     TResult Function()? onLoadBasicProfiles,
     TResult Function()? onLoadActiveProfiles,
     TResult Function(String vobGuid)? onLoadByVobGuid,
+    TResult Function()? loadCurrentUserProfile,
     TResult Function()? reset,
     required TResult orElse(),
   }) {
@@ -565,6 +723,8 @@ class _$OnResetImpl implements OnReset {
     required TResult Function(OnLoadBasicProfiles value) onLoadBasicProfiles,
     required TResult Function(OnLoadActiveProfiles value) onLoadActiveProfiles,
     required TResult Function(OnLoadByVobGuid value) onLoadByVobGuid,
+    required TResult Function(OnLoadCurrentUserProfile value)
+    loadCurrentUserProfile,
     required TResult Function(OnReset value) reset,
   }) {
     return reset(this);
@@ -576,6 +736,7 @@ class _$OnResetImpl implements OnReset {
     TResult? Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult? Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult? Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult? Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult? Function(OnReset value)? reset,
   }) {
     return reset?.call(this);
@@ -587,6 +748,7 @@ class _$OnResetImpl implements OnReset {
     TResult Function(OnLoadBasicProfiles value)? onLoadBasicProfiles,
     TResult Function(OnLoadActiveProfiles value)? onLoadActiveProfiles,
     TResult Function(OnLoadByVobGuid value)? onLoadByVobGuid,
+    TResult Function(OnLoadCurrentUserProfile value)? loadCurrentUserProfile,
     TResult Function(OnReset value)? reset,
     required TResult orElse(),
   }) {
@@ -606,6 +768,9 @@ mixin _$UsersState {
   List<BasicProfileDTO> get profiles => throw _privateConstructorUsedError;
   BaseLoading get status => throw _privateConstructorUsedError;
 
+  /// Loaded via [UsersEvent.loadCurrentUserProfile]; used for chrome / avatar.
+  BasicProfileDTO? get currentUserProfile => throw _privateConstructorUsedError;
+
   /// Create a copy of UsersState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -620,9 +785,14 @@ abstract class $UsersStateCopyWith<$Res> {
     $Res Function(UsersState) then,
   ) = _$UsersStateCopyWithImpl<$Res, UsersState>;
   @useResult
-  $Res call({List<BasicProfileDTO> profiles, BaseLoading status});
+  $Res call({
+    List<BasicProfileDTO> profiles,
+    BaseLoading status,
+    BasicProfileDTO? currentUserProfile,
+  });
 
   $BaseLoadingCopyWith<$Res> get status;
+  $BasicProfileDTOCopyWith<$Res>? get currentUserProfile;
 }
 
 /// @nodoc
@@ -639,7 +809,11 @@ class _$UsersStateCopyWithImpl<$Res, $Val extends UsersState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? profiles = null, Object? status = null}) {
+  $Res call({
+    Object? profiles = null,
+    Object? status = null,
+    Object? currentUserProfile = freezed,
+  }) {
     return _then(
       _value.copyWith(
             profiles: null == profiles
@@ -650,6 +824,10 @@ class _$UsersStateCopyWithImpl<$Res, $Val extends UsersState>
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as BaseLoading,
+            currentUserProfile: freezed == currentUserProfile
+                ? _value.currentUserProfile
+                : currentUserProfile // ignore: cast_nullable_to_non_nullable
+                      as BasicProfileDTO?,
           )
           as $Val,
     );
@@ -664,6 +842,20 @@ class _$UsersStateCopyWithImpl<$Res, $Val extends UsersState>
       return _then(_value.copyWith(status: value) as $Val);
     });
   }
+
+  /// Create a copy of UsersState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $BasicProfileDTOCopyWith<$Res>? get currentUserProfile {
+    if (_value.currentUserProfile == null) {
+      return null;
+    }
+
+    return $BasicProfileDTOCopyWith<$Res>(_value.currentUserProfile!, (value) {
+      return _then(_value.copyWith(currentUserProfile: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -675,10 +867,16 @@ abstract class _$$UsersStateImplCopyWith<$Res>
   ) = __$$UsersStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<BasicProfileDTO> profiles, BaseLoading status});
+  $Res call({
+    List<BasicProfileDTO> profiles,
+    BaseLoading status,
+    BasicProfileDTO? currentUserProfile,
+  });
 
   @override
   $BaseLoadingCopyWith<$Res> get status;
+  @override
+  $BasicProfileDTOCopyWith<$Res>? get currentUserProfile;
 }
 
 /// @nodoc
@@ -694,7 +892,11 @@ class __$$UsersStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? profiles = null, Object? status = null}) {
+  $Res call({
+    Object? profiles = null,
+    Object? status = null,
+    Object? currentUserProfile = freezed,
+  }) {
     return _then(
       _$UsersStateImpl(
         profiles: null == profiles
@@ -705,6 +907,10 @@ class __$$UsersStateImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as BaseLoading,
+        currentUserProfile: freezed == currentUserProfile
+            ? _value.currentUserProfile
+            : currentUserProfile // ignore: cast_nullable_to_non_nullable
+                  as BasicProfileDTO?,
       ),
     );
   }
@@ -716,6 +922,7 @@ class _$UsersStateImpl implements _UsersState {
   const _$UsersStateImpl({
     required final List<BasicProfileDTO> profiles,
     required this.status,
+    this.currentUserProfile,
   }) : _profiles = profiles;
 
   final List<BasicProfileDTO> _profiles;
@@ -729,9 +936,13 @@ class _$UsersStateImpl implements _UsersState {
   @override
   final BaseLoading status;
 
+  /// Loaded via [UsersEvent.loadCurrentUserProfile]; used for chrome / avatar.
+  @override
+  final BasicProfileDTO? currentUserProfile;
+
   @override
   String toString() {
-    return 'UsersState(profiles: $profiles, status: $status)';
+    return 'UsersState(profiles: $profiles, status: $status, currentUserProfile: $currentUserProfile)';
   }
 
   @override
@@ -740,7 +951,9 @@ class _$UsersStateImpl implements _UsersState {
         (other.runtimeType == runtimeType &&
             other is _$UsersStateImpl &&
             const DeepCollectionEquality().equals(other._profiles, _profiles) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.currentUserProfile, currentUserProfile) ||
+                other.currentUserProfile == currentUserProfile));
   }
 
   @override
@@ -748,6 +961,7 @@ class _$UsersStateImpl implements _UsersState {
     runtimeType,
     const DeepCollectionEquality().hash(_profiles),
     status,
+    currentUserProfile,
   );
 
   /// Create a copy of UsersState
@@ -763,12 +977,17 @@ abstract class _UsersState implements UsersState {
   const factory _UsersState({
     required final List<BasicProfileDTO> profiles,
     required final BaseLoading status,
+    final BasicProfileDTO? currentUserProfile,
   }) = _$UsersStateImpl;
 
   @override
   List<BasicProfileDTO> get profiles;
   @override
   BaseLoading get status;
+
+  /// Loaded via [UsersEvent.loadCurrentUserProfile]; used for chrome / avatar.
+  @override
+  BasicProfileDTO? get currentUserProfile;
 
   /// Create a copy of UsersState
   /// with the given fields replaced by the non-null parameter values.

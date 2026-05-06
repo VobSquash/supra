@@ -12,6 +12,7 @@ class SessionSnapshot {
   const SessionSnapshot({
     this.email,
     this.displayName,
+    this.avatarUrl,
     this.vobGuid,
     this.profileTypeId,
     this.membershipTypeId,
@@ -24,6 +25,9 @@ class SessionSnapshot {
 
   final String? email;
   final String? displayName;
+
+  /// Profile / avatar image URL (e.g. OAuth `picture`, or synced `profile_picture_url`).
+  final String? avatarUrl;
 
   /// Canonical member id (e.g. profiles.vob_guid).
   final String? vobGuid;
@@ -52,6 +56,7 @@ class SessionSnapshot {
   bool get isEmpty =>
       email == null &&
       displayName == null &&
+      avatarUrl == null &&
       vobGuid == null &&
       profileTypeId == null &&
       membershipTypeId == null &&
@@ -64,6 +69,7 @@ class SessionSnapshot {
   SessionSnapshot copyWith({
     String? email,
     String? displayName,
+    String? avatarUrl,
     String? vobGuid,
     int? profileTypeId,
     int? membershipTypeId,
@@ -78,6 +84,7 @@ class SessionSnapshot {
     return SessionSnapshot(
       email: email ?? this.email,
       displayName: displayName ?? this.displayName,
+      avatarUrl: avatarUrl ?? this.avatarUrl,
       vobGuid: vobGuid ?? this.vobGuid,
       profileTypeId: profileTypeId ?? this.profileTypeId,
       membershipTypeId: membershipTypeId ?? this.membershipTypeId,
@@ -96,6 +103,7 @@ class SessionSnapshot {
   Map<String, Object?> toJson() => {
         'email': email,
         'displayName': displayName,
+        'avatarUrl': avatarUrl,
         'vobGuid': vobGuid,
         'profileTypeId': profileTypeId,
         'membershipTypeId': membershipTypeId,
@@ -110,6 +118,7 @@ class SessionSnapshot {
     return SessionSnapshot(
       email: json['email'] as String?,
       displayName: json['displayName'] as String?,
+      avatarUrl: json['avatarUrl'] as String?,
       vobGuid: json['vobGuid'] as String?,
       profileTypeId: (json['profileTypeId'] as num?)?.toInt(),
       membershipTypeId: (json['membershipTypeId'] as num?)?.toInt(),

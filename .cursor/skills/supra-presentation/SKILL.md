@@ -26,6 +26,12 @@ When rebuilding Supra in a **new** Flutter project, follow this skill **and** [p
 - With `part of`, prefer private widget classes where possible.
 - Provide blocs with `BlocProvider` at the root of the feature page unless there is a strong reason to provide higher in the tree.
 
+## Auth bootstrap (apps using `app_bloc`)
+
+- **`bootstrap()`** — Before `runApp`: load `app_config.json`, `Supabase.initialize`, `registerMiddleware(appConfig)`, attach `SupabaseAuthDioInterceptor` if needed, then **`registerAppBlocDependencies()`** (order is required; see `packages/app_bloc`).
+- **Splash + `go_router`** — Initial route shows a short splash; first frame dispatches **`AuthEvent.checkRequested`**. Use **`refreshListenable`** wired to `AuthBloc.stream` (e.g. a small `ChangeNotifier` that listens to the stream) so **`redirect`** runs when the bloc reaches `authenticated` vs `unauthenticated`.
+- **Redirects** — Keep protected routes (shell, profile) behind **`AuthState.authenticated`**; send **`AuthInitial` / `AuthLoading`** to splash (except stay on `/login` during sign-in **loading**).
+
 ## Layout and composition
 
 - Prefer a new widget class over a method that returns `Widget` (subtree gets its own `BuildContext`).

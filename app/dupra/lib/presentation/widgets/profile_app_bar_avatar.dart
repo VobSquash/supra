@@ -1,17 +1,21 @@
+import 'package:dupra/presentation/widgets/dupra_avatar.dart';
 import 'package:flutter/material.dart';
 
-/// App-bar profile control: outer circular pad ([Material]) frames the inner avatar.
+/// App-bar profile control: outer circular pad ([Material]) frames [DupraAvatar].
 class ProfileAppBarAvatar extends StatelessWidget {
   const ProfileAppBarAvatar({
     required this.displayName,
     super.key,
     this.imageUrl,
+    this.cacheKey,
     this.loading = false,
     this.onPressed,
   });
 
+  /// Used for initials when [imageUrl] is absent or fails to load.
   final String displayName;
   final String? imageUrl;
+  final String? cacheKey;
   final bool loading;
   final VoidCallback? onPressed;
 
@@ -20,28 +24,6 @@ class ProfileAppBarAvatar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
-
-    final Widget inner;
-    if (loading) {
-      inner = SizedBox(
-        width: 22,
-        height: 22,
-        child: CircularProgressIndicator(strokeWidth: 2, color: scheme.primary),
-      );
-    } else if (imageUrl != null && imageUrl!.trim().isNotEmpty) {
-      inner = CircleAvatar(
-        radius: 17,
-        backgroundImage: NetworkImage(imageUrl!),
-      );
-    } else {
-      inner = CircleAvatar(
-        radius: 17,
-        child: Text(
-          displayName.isNotEmpty ? displayName[0].toUpperCase() : '?',
-          style: const TextStyle(fontWeight: FontWeight.w600),
-        ),
-      );
-    }
 
     return Material(
       color: scheme.primary.withValues(alpha: 0.2),
@@ -53,7 +35,15 @@ class ProfileAppBarAvatar extends StatelessWidget {
         child: SizedBox(
           width: _outerSize,
           height: _outerSize,
-          child: Center(child: inner),
+          child: Center(
+            child: DupraAvatar(
+              displayName: displayName,
+              imageUrl: imageUrl,
+              cacheKey: cacheKey,
+              radius: 17,
+              loading: loading,
+            ),
+          ),
         ),
       ),
     );

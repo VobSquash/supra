@@ -15,6 +15,7 @@ SessionSnapshot mapVobDataToSessionSnapshot(
   return SessionSnapshot(
     email: _string(map, 'Email', 'email'),
     displayName: _string(map, 'DisplayName', 'displayName'),
+    avatarUrl: _string(map, 'ProfilePictureUrl', 'profilePictureUrl') ?? _string(map, 'AvatarUrl', 'avatarUrl'),
     vobGuid: _readProfileId(map),
     profileTypeId: _int(map, 'ProfileType', 'profileType'),
     membershipTypeId: _int(map, 'MembershipType', 'membershipType'),

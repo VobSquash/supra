@@ -124,9 +124,8 @@ class _DockTab extends StatelessWidget {
   Widget build(BuildContext context) {
     const accent = DupraColors.secondary;
     final fg = selected ? accent : scheme.onSurfaceVariant;
-    final labelStyle = Theme.of(
-      context,
-    ).textTheme.labelSmall?.copyWith(color: fg, fontWeight: FontWeight.w500);
+    final labelStyle = Theme.of(context).textTheme.labelSmall?.copyWith(color: fg, fontWeight: FontWeight.w500);
+    final showLabel = context.appAccessibilityVisibility;
 
     return Semantics(
       button: true,
@@ -147,29 +146,30 @@ class _DockTab extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(selected ? selectedIcon : icon, size: 22, color: fg),
-                  const SizedBox(height: 2),
-                  IntrinsicWidth(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
+                  if (showLabel) ...[
+                    const SizedBox(height: 2),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
                           label,
                           maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
+                          softWrap: false,
+                          overflow: TextOverflow.fade,
                           textAlign: TextAlign.center,
                           style: labelStyle,
                         ),
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 220),
-                          height: 2,
-                          margin: const EdgeInsets.only(top: 2),
-                          decoration: BoxDecoration(
-                            color: selected ? accent : Colors.transparent,
-                            borderRadius: BorderRadius.circular(1),
-                          ),
-                        ),
-                      ],
+                      ),
+                    ),
+                  ],
+                  AnimatedContainer(
+                    duration: const Duration(milliseconds: 220),
+                    height: 2,
+                    margin: EdgeInsets.only(top: showLabel ? 2 : 4),
+                    decoration: BoxDecoration(
+                      color: selected ? accent : Colors.transparent,
+                      borderRadius: BorderRadius.circular(1),
                     ),
                   ),
                 ],

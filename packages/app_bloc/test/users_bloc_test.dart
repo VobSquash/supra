@@ -6,9 +6,11 @@ import 'package:middleware/middleware_clients.dart';
 import 'package:test/test.dart';
 
 class _FakeUsersFacade implements IUsersFacade {
-  _FakeUsersFacade(this._profiles);
+  _FakeUsersFacade(this._profiles, {this.nextCurrentProfile});
 
   final List<BasicProfileDTO> _profiles;
+
+  BasicProfileDTO? nextCurrentProfile;
 
   @override
   Future<List<BasicProfileDTO>> loadActiveBasicProfiles() async =>
@@ -40,7 +42,7 @@ class _FakeUsersFacade implements IUsersFacade {
   }
 
   @override
-  Future<BasicProfileDTO?> loadCurrentUserProfile() async => null;
+  Future<BasicProfileDTO?> loadCurrentUserProfile() async => nextCurrentProfile;
 
   @override
   Future<BasicProfileDTO> updateOwnProfile({required UpdateOwnProfileDto dto}) async =>
@@ -116,4 +118,20 @@ void main() {
     expect(bloc.state.profiles, isEmpty);
     await bloc.close();
   });
+
+  test('loadCurrentUserProfile stores currentUserProfile', () async {
+    final profile = BasicProfileDTO.empty().copyWith(
+      firstName: 'Zed',
+      lastName: 'User',
+      profilePictureUrl: 'https://cdn.example/z.png',
+    );
+    final facade = _FakeUsersFacade([], nextCurrentProfile: profile);
+    final bloc = UsersBloc(facade);
+
+    bloc.add(const UsersEvent.loadCurrentUserProfile());
+    await bloc.stream.firstWhere((s) => s.currentUserProfile == profile);
+
+    await bloc.close();
+  });
 }
+
