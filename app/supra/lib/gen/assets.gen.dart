@@ -194,6 +194,9 @@ class $AssetsPdfsGen {
 class $AssetsImagesLocationsGen {
   const $AssetsImagesLocationsGen();
 
+  /// File path: assets/images/locations/.gitkeep
+  String get aGitkeep => 'assets/images/locations/.gitkeep';
+
   /// File path: assets/images/locations/avalon.jpg
   AssetGenImage get avalon => const AssetGenImage('assets/images/locations/avalon.jpg');
 
@@ -273,7 +276,8 @@ class $AssetsImagesLocationsGen {
   AssetGenImage get wynbergob => const AssetGenImage('assets/images/locations/wynbergob.jpg');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
+  List<dynamic> get values => [
+    aGitkeep,
     avalon,
     bergvliet,
     campsbay,

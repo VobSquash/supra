@@ -29,6 +29,9 @@ mixin _$BasicProfileDTO {
   ExtendedProfileDTO? get extendedProfile => throw _privateConstructorUsedError;
   String? get profilePictureUrl => throw _privateConstructorUsedError;
 
+  /// DB `profile_type` / role string; use [ProfileTypeEnum] to interpret.
+  String? get profileType => throw _privateConstructorUsedError;
+
   /// Create a copy of BasicProfileDTO
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -55,6 +58,7 @@ abstract class $BasicProfileDTOCopyWith<$Res> {
     bool? isActive,
     ExtendedProfileDTO? extendedProfile,
     String? profilePictureUrl,
+    String? profileType,
   });
 
   $ExtendedProfileDTOCopyWith<$Res>? get extendedProfile;
@@ -86,6 +90,7 @@ class _$BasicProfileDTOCopyWithImpl<$Res, $Val extends BasicProfileDTO>
     Object? isActive = freezed,
     Object? extendedProfile = freezed,
     Object? profilePictureUrl = freezed,
+    Object? profileType = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -133,6 +138,10 @@ class _$BasicProfileDTOCopyWithImpl<$Res, $Val extends BasicProfileDTO>
                 ? _value.profilePictureUrl
                 : profilePictureUrl // ignore: cast_nullable_to_non_nullable
                       as String?,
+            profileType: freezed == profileType
+                ? _value.profileType
+                : profileType // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -174,6 +183,7 @@ abstract class _$$BasicProfileDTOImplCopyWith<$Res>
     bool? isActive,
     ExtendedProfileDTO? extendedProfile,
     String? profilePictureUrl,
+    String? profileType,
   });
 
   @override
@@ -205,6 +215,7 @@ class __$$BasicProfileDTOImplCopyWithImpl<$Res>
     Object? isActive = freezed,
     Object? extendedProfile = freezed,
     Object? profilePictureUrl = freezed,
+    Object? profileType = freezed,
   }) {
     return _then(
       _$BasicProfileDTOImpl(
@@ -252,6 +263,10 @@ class __$$BasicProfileDTOImplCopyWithImpl<$Res>
             ? _value.profilePictureUrl
             : profilePictureUrl // ignore: cast_nullable_to_non_nullable
                   as String?,
+        profileType: freezed == profileType
+            ? _value.profileType
+            : profileType // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -272,6 +287,7 @@ class _$BasicProfileDTOImpl extends _BasicProfileDTO {
     required this.isActive,
     required this.extendedProfile,
     this.profilePictureUrl,
+    this.profileType,
   }) : super._();
 
   @override
@@ -297,9 +313,13 @@ class _$BasicProfileDTOImpl extends _BasicProfileDTO {
   @override
   final String? profilePictureUrl;
 
+  /// DB `profile_type` / role string; use [ProfileTypeEnum] to interpret.
+  @override
+  final String? profileType;
+
   @override
   String toString() {
-    return 'BasicProfileDTO(objectId: $objectId, vobGuid: $vobGuid, firstName: $firstName, lastName: $lastName, email: $email, contactNumber: $contactNumber, dateOfBirth: $dateOfBirth, emergencyContactNumber: $emergencyContactNumber, isActive: $isActive, extendedProfile: $extendedProfile, profilePictureUrl: $profilePictureUrl)';
+    return 'BasicProfileDTO(objectId: $objectId, vobGuid: $vobGuid, firstName: $firstName, lastName: $lastName, email: $email, contactNumber: $contactNumber, dateOfBirth: $dateOfBirth, emergencyContactNumber: $emergencyContactNumber, isActive: $isActive, extendedProfile: $extendedProfile, profilePictureUrl: $profilePictureUrl, profileType: $profileType)';
   }
 
   @override
@@ -326,7 +346,9 @@ class _$BasicProfileDTOImpl extends _BasicProfileDTO {
             (identical(other.extendedProfile, extendedProfile) ||
                 other.extendedProfile == extendedProfile) &&
             (identical(other.profilePictureUrl, profilePictureUrl) ||
-                other.profilePictureUrl == profilePictureUrl));
+                other.profilePictureUrl == profilePictureUrl) &&
+            (identical(other.profileType, profileType) ||
+                other.profileType == profileType));
   }
 
   @override
@@ -343,6 +365,7 @@ class _$BasicProfileDTOImpl extends _BasicProfileDTO {
     isActive,
     extendedProfile,
     profilePictureUrl,
+    profileType,
   );
 
   /// Create a copy of BasicProfileDTO
@@ -370,6 +393,7 @@ abstract class _BasicProfileDTO extends BasicProfileDTO {
     required final bool? isActive,
     required final ExtendedProfileDTO? extendedProfile,
     final String? profilePictureUrl,
+    final String? profileType,
   }) = _$BasicProfileDTOImpl;
   const _BasicProfileDTO._() : super._();
 
@@ -395,6 +419,10 @@ abstract class _BasicProfileDTO extends BasicProfileDTO {
   ExtendedProfileDTO? get extendedProfile;
   @override
   String? get profilePictureUrl;
+
+  /// DB `profile_type` / role string; use [ProfileTypeEnum] to interpret.
+  @override
+  String? get profileType;
 
   /// Create a copy of BasicProfileDTO
   /// with the given fields replaced by the non-null parameter values.

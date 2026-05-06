@@ -18,6 +18,8 @@ class BasicProfileDTO with _$BasicProfileDTO {
     required bool? isActive,
     required ExtendedProfileDTO? extendedProfile,
     String? profilePictureUrl,
+    /// DB `profile_type` / role string; use [ProfileTypeEnum] to interpret.
+    String? profileType,
   }) = _BasicProfileDTO;
 
   String get displayName => '$firstName $lastName';
@@ -33,5 +35,6 @@ class BasicProfileDTO with _$BasicProfileDTO {
         isActive: false,
         extendedProfile: null,
         profilePictureUrl: null,
+        profileType: null,
       );
 }

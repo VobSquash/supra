@@ -30,6 +30,7 @@ import 'supabase_profile_mapper.auto_mappr.dart';
         custom: SupabaseProfileMapper.mapEmergencyContactNumber,
       ),
       Field('profilePictureUrl', custom: SupabaseProfileMapper.mapProfilePictureDisplayUrl),
+      Field('profileType', custom: SupabaseProfileMapper.mapProfileType),
     ],
   ),
 ])
@@ -48,6 +49,8 @@ class SupabaseProfileMapper extends $SupabaseProfileMapper {
   static String? mapContactNumber(ProfileFull input) => input.profile.contactNumber;
   static String? mapDateOfBirth(ProfileFull input) => input.profile.dateOfBirth;
   static bool? mapIsActive(ProfileFull input) => input.profile.isActive;
+
+  static String? mapProfileType(ProfileFull input) => input.profile.profileType;
 
   static ExtendedProfileDTO? mapExtendedProfile(ProfileFull input) {
     final ext = input.extension;

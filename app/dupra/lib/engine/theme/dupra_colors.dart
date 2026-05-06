@@ -12,4 +12,5 @@ abstract final class DupraColors {
   static const Color textSecondary = Color(0xffb0c9c2);
   static const Color error = Color.fromARGB(253, 176, 98, 9);
   static const Color warning = Color(0xFFff8c41);
+  static const Color calculator = Color.fromARGB(255, 203, 95, 165);
 }

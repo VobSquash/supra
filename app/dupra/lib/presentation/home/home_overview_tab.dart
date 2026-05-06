@@ -1,6 +1,7 @@
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/home/data/home_section_item.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 part 'widgets/home_section.dart';
 
@@ -31,6 +32,7 @@ class HomeOverviewTab extends StatelessWidget {
               icon: Icons.sports_tennis_rounded,
               subtitle: 'Home / away blocks — equal height in production',
               leadingEdgeAccent: true,
+              accentColor: DupraColors.success,
             ),
           ],
           onItemTap: (i) {
@@ -51,8 +53,30 @@ class HomeOverviewTab extends StatelessWidget {
               subtitle: 'Carry forward legacy layout',
               leadingEdgeAccent: true,
             ),
+            HomeSectionItem(
+              title: 'Users',
+              icon: Icons.people_rounded,
+              subtitle: 'List of users',
+              leadingEdgeAccent: true,
+              accentColor: DupraColors.error,
+            ),
+            HomeSectionItem(
+              title: 'Calculator',
+              icon: Icons.calculate_rounded,
+              subtitle: 'Pay for your refreshments',
+              leadingEdgeAccent: true,
+              accentColor: DupraColors.calculator,
+            ),
           ],
-          onItemTap: (_) => onOpenTab(3),
+          onItemTap: (itemIndex) {
+            if (itemIndex == 0) {
+              onOpenTab(3);
+            } else if (itemIndex == 2) {
+              context.pushNamed('calculator');
+            } else if (itemIndex == 1) {
+              context.pushNamed('users');
+            }
+          },
         ),
       ],
     );

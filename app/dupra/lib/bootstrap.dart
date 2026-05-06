@@ -4,6 +4,7 @@ import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:client_supabase/client_supabase.dart';
 import 'package:client_supabase/client_supabase_auth.dart';
+import 'package:dupra/gen/assets.gen.dart';
 import 'package:flutter/services.dart';
 import 'package:middleware/middleware.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -33,7 +34,7 @@ void _attachSupabaseAuthDioInterceptor() {
 }
 
 Future<AppConfig> _loadAppConfigFromAsset() async {
-  final raw = await rootBundle.loadString('app_config.json');
+  final raw = await rootBundle.loadString(Assets.appConfig);
   final json = jsonDecode(raw) as Map<String, dynamic>;
   return AppConfig.fromJson(json);
 }

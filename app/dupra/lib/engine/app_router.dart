@@ -1,19 +1,18 @@
 import 'package:app_bloc/app_bloc.dart';
 import 'package:dupra/engine/go_router_refresh_stream.dart';
 import 'package:dupra/presentation/auth/login_page.dart';
+import 'package:dupra/presentation/calculator/fridge_calculator_page.dart';
 import 'package:dupra/presentation/profile/profile_stub_page.dart';
 import 'package:dupra/presentation/shell/main_shell_page.dart';
 import 'package:dupra/presentation/splash/splash_page.dart';
+import 'package:dupra/presentation/users/users_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 abstract final class AppRouter {
   /// Auth-aware router; [refresh] must be disposed with [GoRouter.dispose].
-  static GoRouter create({
-    required AuthBloc authBloc,
-    required GoRouterRefreshStream refresh,
-  }) {
+  static GoRouter create({required AuthBloc authBloc, required GoRouterRefreshStream refresh}) {
     return GoRouter(
       initialLocation: '/splash',
       refreshListenable: refresh,
@@ -58,11 +57,32 @@ abstract final class AppRouter {
             transitionDuration: const Duration(milliseconds: 280),
           ),
         ),
+        GoRoute(path: '/profile-stub', name: 'profile-stub', builder: (context, state) => const ProfileStubPage()),
         GoRoute(
-          path: '/profile-stub',
-          name: 'profile-stub',
-          builder: (context, state) => const ProfileStubPage(),
+          path: '/users',
+          name: 'users',
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const UsersPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+            transitionDuration: const Duration(milliseconds: 480),
+          ),
         ),
+        GoRoute(
+          path: '/calculator',
+          name: 'calculator',
+          pageBuilder: (context, state) => CustomTransitionPage<void>(
+            key: state.pageKey,
+            child: const FridgeCalculatorPage(),
+            transitionsBuilder: (context, animation, secondaryAnimation, child) {
+              return FadeTransition(opacity: animation, child: child);
+            },
+            transitionDuration: const Duration(milliseconds: 480),
+          ),
+        ),
+        //builder: (context, state) => const UsersPage(),),
       ],
     );
   }

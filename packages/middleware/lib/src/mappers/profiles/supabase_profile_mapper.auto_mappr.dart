@@ -321,6 +321,7 @@ class $SupabaseProfileMapper implements _i1.AutoMapprInterface {
       profilePictureUrl: _i6.SupabaseProfileMapper.mapProfilePictureDisplayUrl(
         model,
       ),
+      profileType: _i6.SupabaseProfileMapper.mapProfileType(model),
     );
   }
 }
