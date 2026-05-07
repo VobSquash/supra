@@ -1,9 +1,13 @@
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
+import 'package:dupra/engine/shell_locations.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/gen/assets.gen.dart';
-import 'package:dupra/presentation/admin/admin_hub_page.dart';
+import 'package:dupra/presentation/admin/admin_bookings_placeholder_page.dart';
+import 'package:dupra/presentation/admin/admin_home_placeholder_page.dart';
+import 'package:dupra/presentation/admin/admin_ladders_placeholder_page.dart';
+import 'package:dupra/presentation/admin/admin_users_placeholder_page.dart';
 import 'package:dupra/presentation/bookings/bookings_page.dart';
 import 'package:dupra/presentation/fixtures/fixtures_page.dart';
 import 'package:dupra/presentation/home/home_overview_tab.dart';
@@ -12,6 +16,7 @@ import 'package:dupra/presentation/profile/profile_stub_page.dart';
 import 'package:dupra/presentation/widgets/dupra_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:session_storage/session_storage.dart';
 
 part 'dupra_dock_nav.dart';
@@ -58,21 +63,32 @@ String _avatarLabel(SessionSnapshot s) {
   return 'Member';
 }
 
-/// Admin / elevated tooling tab: prefer [BasicProfileDTO.profileType] when loaded,
-/// otherwise fall back to [SessionSnapshot.profileTypeId] (e.g. before profile fetch).
-bool _shouldShowAdminTab(BasicProfileDTO? profile, SessionSnapshot? session) {
+bool _sessionAllowsAdminShell(SessionSnapshot? snapshot) {
+  final id = snapshot?.profileTypeId;
+  if (id == null) return false;
+  return ProfileTypeEnum.get(id).isAdminOrElevated;
+}
+
+bool _hasAdminShellAccess(BasicProfileDTO? profile, SessionSnapshot? session) {
   final typeStr = profile?.profileType?.trim();
   if (typeStr != null && typeStr.isNotEmpty) {
     return ProfileTypeEnum.get(typeStr).isAdminOrElevated;
   }
-  final id = session?.profileTypeId;
-  if (id != null) {
-    return ProfileTypeEnum.get(id).isAdminOrElevated;
-  }
-  return false;
+  return _sessionAllowsAdminShell(session);
 }
 
-/// Root chrome: swipeable [PageView] synced with [_DupraDockNav].
+/// Resolves shell suite (`m` / `a`) and tab index from [GoRouterState].
+({String suite, int tabIndex, bool adminShell}) _shellPlacement(GoRouterState routerState) {
+  final suite = routerState.pathParameters['suite'] ?? 'm';
+  final tab = routerState.pathParameters['tab'] ?? 'home';
+  if (!ShellLocations.isValidSuite(suite) || !ShellLocations.isValidTab(suite, tab)) {
+    return (suite: 'm', tabIndex: 0, adminShell: false);
+  }
+  final idx = ShellLocations.tabIndexFor(suite: suite, tab: tab) ?? 0;
+  return (suite: suite, tabIndex: idx, adminShell: suite == 'a');
+}
+
+/// Root chrome: swipeable [PageView] synced with [_DupraDockNav] and [ShellLocations].
 class MainShellPage extends StatefulWidget {
   const MainShellPage({super.key});
 
@@ -82,7 +98,8 @@ class MainShellPage extends StatefulWidget {
 
 class _MainShellPageState extends State<MainShellPage> {
   late final PageController _pageController;
-  var _tabIndex = 0;
+
+  static const int _tabCount = 5;
 
   @override
   void initState() {
@@ -96,32 +113,55 @@ class _MainShellPageState extends State<MainShellPage> {
     super.dispose();
   }
 
-  void _goToTab(int index, int tabCount) {
-    if (index < 0 || index >= tabCount) {
-      return;
-    }
-    setState(() => _tabIndex = index);
-    _pageController.animateToPage(index, duration: const Duration(milliseconds: 320), curve: Curves.easeOutCubic);
-  }
-
-  void _onPageChanged(int index) {
-    setState(() => _tabIndex = index);
-  }
-
-  void _ensureTabIndexInRange(int tabCount) {
-    if (_tabIndex < tabCount) {
-      return;
-    }
-    final next = tabCount - 1;
+  void _syncPageControllerToIndex(int tabIndex) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) {
         return;
       }
-      if (_tabIndex >= tabCount) {
-        setState(() => _tabIndex = next);
-        if (_pageController.hasClients) {
-          _pageController.jumpToPage(next);
-        }
+      if (!_pageController.hasClients) {
+        return;
+      }
+      final current = _pageController.page?.round() ?? 0;
+      if (current != tabIndex) {
+        _pageController.jumpToPage(tabIndex);
+      }
+    });
+  }
+
+  void _goToTab(BuildContext context, int index) {
+    if (index < 0 || index >= _tabCount) {
+      return;
+    }
+    final routerState = GoRouterState.of(context);
+    final suite = routerState.pathParameters['suite'] ?? 'm';
+    final admin = suite == 'a';
+    context.go(ShellLocations.path(suite, ShellLocations.tabSlugForIndex(admin: admin, index: index)));
+  }
+
+  void _onPageChanged(BuildContext context, int index) {
+    final routerState = GoRouterState.of(context);
+    final suite = routerState.pathParameters['suite'] ?? 'm';
+    final admin = suite == 'a';
+    final next = ShellLocations.path(suite, ShellLocations.tabSlugForIndex(admin: admin, index: index));
+    if (routerState.matchedLocation != next) {
+      context.go(next);
+    }
+  }
+
+  void _toggleAdminShell(BuildContext context) {
+    final routerState = GoRouterState.of(context);
+    final suite = routerState.pathParameters['suite'] ?? 'm';
+    final goingAdmin = suite != 'a';
+    context.go(ShellLocations.path(goingAdmin ? 'a' : 'm', 'home'));
+  }
+
+  void _dropAdminShellIfUnauthorized(BuildContext context, {required bool adminEligible, required bool adminShell}) {
+    if (adminEligible || !adminShell) {
+      return;
+    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (context.mounted) {
+        context.go(ShellLocations.defaultMember);
       }
     });
   }
@@ -147,18 +187,19 @@ class _MainShellPageState extends State<MainShellPage> {
           buildWhen: (prev, curr) => prev.currentUserProfile != curr.currentUserProfile,
           builder: (context, usersState) {
             final profile = usersState.currentUserProfile;
-            final showAdminTab = _shouldShowAdminTab(profile, snapshot);
-            final contentTabCount = 4 + (showAdminTab ? 1 : 0);
-            final profileTabIndex = contentTabCount;
-            final tabCount = contentTabCount + 1;
-            _ensureTabIndexInRange(tabCount);
-            // final appBarTitle = _tabIndex == profileTabIndex ? 'Profile' : 'Welcome  ${_shellTitle(snapshot, profile)}';
+            final adminEligible = _hasAdminShellAccess(profile, snapshot);
+
+            final routerState = GoRouterState.of(context);
+            final placement = _shellPlacement(routerState);
+            _dropAdminShellIfUnauthorized(context, adminEligible: adminEligible, adminShell: placement.adminShell);
+            _syncPageControllerToIndex(placement.tabIndex);
+
+            const profileTabIndex = _tabCount - 1;
             final avatarLabel = _shellAvatarLabel(snapshot, profile);
             final avatarUrl = _shellAvatarPhoto(snapshot, profile);
 
             return Scaffold(
               extendBody: true,
-              //appBar: AppBar(title: Text(appBarTitle)),
               appBar: AppBar(
                 title: Align(
                   child: Semantics(
@@ -169,27 +210,42 @@ class _MainShellPageState extends State<MainShellPage> {
                     ),
                   ),
                 ),
+                actions: [
+                  if (adminEligible)
+                    IconButton(
+                      tooltip: placement.adminShell ? 'Exit admin mode' : 'Admin mode',
+                      onPressed: () => _toggleAdminShell(context),
+                      icon: Icon(placement.adminShell ? Icons.close_rounded : Icons.admin_panel_settings_outlined),
+                    ),
+                ],
               ),
               body: PageView(
                 controller: _pageController,
-                onPageChanged: _onPageChanged,
-                children: [
-                  HomeOverviewTab(onOpenTab: (i) => _goToTab(i, tabCount)),
-                  const BookingsPage(),
-                  const FixturesPage(),
-                  const LaddersPage(),
-                  if (showAdminTab) const AdminHubPage(),
-                  const ProfileStubPage(embedInShell: true),
-                ],
+                onPageChanged: (i) => _onPageChanged(context, i),
+                children: placement.adminShell
+                    ? [
+                        const AdminHomePlaceholderPage(),
+                        const AdminBookingsPlaceholderPage(),
+                        const AdminUsersPlaceholderPage(),
+                        const AdminLaddersPlaceholderPage(),
+                        const ProfileStubPage(embedInShell: true),
+                      ]
+                    : [
+                        HomeOverviewTab(onOpenTab: (i) => _goToTab(context, i)),
+                        const BookingsPage(),
+                        const FixturesPage(),
+                        const LaddersPage(),
+                        const ProfileStubPage(embedInShell: true),
+                      ],
               ),
               bottomNavigationBar: _DupraDockNav(
                 scheme: scheme,
-                selectedIndex: _tabIndex,
-                showAdminTab: showAdminTab,
+                mode: placement.adminShell ? _ShellDockMode.admin : _ShellDockMode.member,
+                selectedIndex: placement.tabIndex,
                 profileTabIndex: profileTabIndex,
                 avatarDisplayName: avatarLabel,
                 avatarImageUrl: avatarUrl,
-                onTabChange: (i) => _goToTab(i, tabCount),
+                onTabChange: (i) => _goToTab(context, i),
               ),
             );
           },

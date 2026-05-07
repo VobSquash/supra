@@ -1,10 +1,12 @@
 part of 'main_shell_page.dart';
 
+enum _ShellDockMode { member, admin }
+
 class _DupraDockNav extends StatelessWidget {
   const _DupraDockNav({
     required this.scheme,
+    required this.mode,
     required this.selectedIndex,
-    required this.showAdminTab,
     required this.profileTabIndex,
     required this.avatarDisplayName,
     required this.avatarImageUrl,
@@ -12,8 +14,8 @@ class _DupraDockNav extends StatelessWidget {
   });
 
   final ColorScheme scheme;
+  final _ShellDockMode mode;
   final int selectedIndex;
-  final bool showAdminTab;
   final int profileTabIndex;
   final String avatarDisplayName;
   final String? avatarImageUrl;
@@ -21,10 +23,30 @@ class _DupraDockNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isAdmin = mode == _ShellDockMode.admin;
+    final dockAccent = isAdmin ? DupraColors.warning : DupraColors.secondary;
+    final barColor = Color.lerp(
+      scheme.surfaceContainerHigh,
+      DupraColors.warning,
+      isAdmin ? 0.14 : 0,
+    )!.withValues(alpha: 0.98);
+
+    final gradientColors = isAdmin
+        ? [
+            DupraColors.warning.withValues(alpha: 0.22),
+            DupraColors.warning,
+            Color.lerp(DupraColors.warning, DupraColors.error, 0.32)!,
+          ]
+        : [
+            DupraColors.secondary.withValues(alpha: 0.15),
+            DupraColors.secondary,
+            DupraColors.tertiary.withValues(alpha: 0.85),
+          ];
+
     return Material(
       elevation: 12,
       shadowColor: Colors.black.withValues(alpha: 0.45),
-      color: scheme.surfaceContainerHigh.withValues(alpha: 0.98),
+      color: barColor,
       surfaceTintColor: scheme.surfaceTint,
       child: SafeArea(
         top: false,
@@ -35,13 +57,7 @@ class _DupraDockNav extends StatelessWidget {
               height: 3,
               width: double.infinity,
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    DupraColors.secondary.withValues(alpha: 0.15),
-                    DupraColors.secondary,
-                    DupraColors.tertiary.withValues(alpha: 0.85),
-                  ],
-                ),
+                gradient: LinearGradient(colors: gradientColors),
               ),
             ),
             Padding(
@@ -55,6 +71,7 @@ class _DupraDockNav extends StatelessWidget {
                       selectedIcon: Icons.home_rounded,
                       label: 'Home',
                       scheme: scheme,
+                      accent: dockAccent,
                       onTap: () => onTabChange(0),
                     ),
                   ),
@@ -65,46 +82,49 @@ class _DupraDockNav extends StatelessWidget {
                       selectedIcon: Icons.calendar_month_rounded,
                       label: 'Bookings',
                       scheme: scheme,
+                      accent: dockAccent,
                       onTap: () => onTabChange(1),
                     ),
                   ),
                   Expanded(
-                    child: _DockTab(
-                      selected: selectedIndex == 2,
-                      icon: Icons.sports_tennis_outlined,
-                      selectedIcon: Icons.sports_tennis_rounded,
-                      label: 'Fixtures',
-                      scheme: scheme,
-                      onTap: () => onTabChange(2),
-                    ),
+                    child: isAdmin
+                        ? _DockTab(
+                            selected: selectedIndex == 2,
+                            icon: Icons.people_outline_rounded,
+                            selectedIcon: Icons.people_rounded,
+                            label: 'Users',
+                            scheme: scheme,
+                            accent: dockAccent,
+                            onTap: () => onTabChange(2),
+                          )
+                        : _DockTab(
+                            selected: selectedIndex == 2,
+                            icon: Icons.sports_tennis_outlined,
+                            selectedIcon: Icons.sports_tennis_rounded,
+                            label: 'Fixtures',
+                            scheme: scheme,
+                            accent: dockAccent,
+                            onTap: () => onTabChange(2),
+                          ),
                   ),
                   Expanded(
                     child: _DockTab(
                       selected: selectedIndex == 3,
                       icon: Icons.emoji_events_outlined,
                       selectedIcon: Icons.emoji_events_rounded,
-                      label: 'Ladders',
+                      label: isAdmin ? 'Ladder' : 'Ladders',
                       scheme: scheme,
+                      accent: dockAccent,
                       onTap: () => onTabChange(3),
                     ),
                   ),
-                  if (showAdminTab)
-                    Expanded(
-                      child: _DockTab(
-                        selected: selectedIndex == 4,
-                        icon: Icons.admin_panel_settings_outlined,
-                        selectedIcon: Icons.admin_panel_settings_rounded,
-                        label: 'Admin',
-                        scheme: scheme,
-                        onTap: () => onTabChange(4),
-                      ),
-                    ),
                   Expanded(
                     child: _DockProfileTab(
                       selected: selectedIndex == profileTabIndex,
                       displayName: avatarDisplayName,
                       imageUrl: avatarImageUrl,
                       scheme: scheme,
+                      accent: dockAccent,
                       onTap: () => onTabChange(profileTabIndex),
                     ),
                   ),
@@ -125,6 +145,7 @@ class _DockTab extends StatelessWidget {
     required this.selectedIcon,
     required this.label,
     required this.scheme,
+    required this.accent,
     required this.onTap,
   });
 
@@ -133,11 +154,11 @@ class _DockTab extends StatelessWidget {
   final IconData selectedIcon;
   final String label;
   final ColorScheme scheme;
+  final Color accent;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    const accent = DupraColors.secondary;
     final fg = selected ? accent : scheme.onSurfaceVariant;
     final labelStyle = Theme.of(
       context,
@@ -205,6 +226,7 @@ class _DockProfileTab extends StatelessWidget {
     required this.displayName,
     required this.imageUrl,
     required this.scheme,
+    required this.accent,
     required this.onTap,
   });
 
@@ -212,14 +234,13 @@ class _DockProfileTab extends StatelessWidget {
   final String displayName;
   final String? imageUrl;
   final ColorScheme scheme;
+  final Color accent;
   final VoidCallback onTap;
 
   static const double _avatarRadius = 14;
 
   @override
   Widget build(BuildContext context) {
-    const accent = DupraColors.secondary;
-
     return Semantics(
       button: true,
       selected: selected,
