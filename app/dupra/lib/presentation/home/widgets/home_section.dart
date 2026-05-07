@@ -1,17 +1,11 @@
 part of '../home_overview_tab.dart';
 
 class HomeSection extends StatelessWidget {
-  const HomeSection({
-    required this.title,
-    required this.items,
-    required this.onItemTap,
-    this.cardAccent,
-    super.key,
-  });
+  const HomeSection({required this.title, required this.items, required this.onNavigate, this.cardAccent, super.key});
 
   final String title;
   final List<HomeSectionItem> items;
-  final void Function(int index) onItemTap;
+  final HomeOverviewNavigate onNavigate;
   final Color? cardAccent;
 
   static const double _cardRadius = 16;
@@ -64,10 +58,9 @@ class HomeSection extends StatelessWidget {
                       index: i,
                       itemCount: items.length,
                       cardRadius: _cardRadius,
-                      onTap: () => onItemTap(i),
+                      onTap: () => onNavigate(context, items[i].destination),
                     ),
-                    if (i < items.length - 1)
-                      Divider(height: 1, color: scheme.onSurface.withValues(alpha: 0.1)),
+                    if (i < items.length - 1) Divider(height: 1, color: scheme.onSurface.withValues(alpha: 0.1)),
                   ],
                 ],
               ),
@@ -148,10 +141,7 @@ class _HomeSectionItemTile extends StatelessWidget {
                   const SizedBox(height: 4),
                   Text(
                     item.subtitle!,
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: scheme.onSurface.withValues(alpha: 0.7),
-                      fontSize: 14,
-                    ),
+                    style: textTheme.bodyMedium?.copyWith(color: scheme.onSurface.withValues(alpha: 0.7), fontSize: 14),
                   ),
                 ],
               ],
@@ -165,7 +155,9 @@ class _HomeSectionItemTile extends StatelessWidget {
     final Widget tile = item.leadingEdgeAccent
         ? DecoratedBox(
             decoration: BoxDecoration(
-              border: Border(left: BorderSide(width: _kAccentWidth, color: item.accentColor)),
+              border: Border(
+                left: BorderSide(width: _kAccentWidth, color: item.accentColor),
+              ),
             ),
             child: inner,
           )

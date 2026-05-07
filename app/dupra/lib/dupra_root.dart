@@ -37,8 +37,7 @@ class _DupraRootState extends State<DupraRoot> {
       ],
       child: BlocListener<AuthBloc, AuthState>(
         listenWhen: (prev, curr) {
-          bool authed(AuthState s) =>
-              s.maybeWhen(authenticated: (_) => true, orElse: () => false);
+          bool authed(AuthState s) => s.maybeWhen(authenticated: (_) => true, orElse: () => false);
           return authed(curr) != authed(prev);
         },
         listener: (context, state) {
@@ -54,6 +53,7 @@ class _DupraRootState extends State<DupraRoot> {
         },
         child: MaterialApp.router(
           title: 'Dupra',
+          debugShowCheckedModeBanner: false,
           theme: DupraTheme.dark,
           routerConfig: _router,
           builder: (context, child) {

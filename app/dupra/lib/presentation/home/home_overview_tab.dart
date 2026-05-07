@@ -1,15 +1,18 @@
+import 'package:dupra/engine/member_shell_tab.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
+import 'package:dupra/presentation/home/data/home_overview_destination.dart';
 import 'package:dupra/presentation/home/data/home_section_item.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 part 'widgets/home_section.dart';
 
+typedef HomeOverviewNavigate = void Function(BuildContext context, HomeOverviewDestination destination);
+
 /// First [PageView] tab: section tiles with optional [HomeSectionItem.leadingEdgeAccent].
 class HomeOverviewTab extends StatelessWidget {
-  const HomeOverviewTab({required this.onOpenTab, super.key});
+  const HomeOverviewTab({required this.onNavigate, super.key});
 
-  final ValueChanged<int> onOpenTab;
+  final HomeOverviewNavigate onNavigate;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,7 @@ class HomeOverviewTab extends StatelessWidget {
               icon: Icons.calendar_month_rounded,
               subtitle: 'Grid and list layouts (placeholder)',
               leadingEdgeAccent: true,
+              destination: HomeShellTabDestination(MemberShellTab.bookings),
             ),
             HomeSectionItem(
               title: 'Fixtures',
@@ -33,15 +37,10 @@ class HomeOverviewTab extends StatelessWidget {
               subtitle: 'Home / away blocks — equal height in production',
               leadingEdgeAccent: true,
               accentColor: DupraColors.success,
+              destination: HomeShellTabDestination(MemberShellTab.fixtures),
             ),
           ],
-          onItemTap: (i) {
-            if (i == 0) {
-              onOpenTab(1);
-            } else {
-              onOpenTab(2);
-            }
-          },
+          onNavigate: onNavigate,
         ),
         HomeSection(
           title: 'Club',
@@ -52,6 +51,7 @@ class HomeOverviewTab extends StatelessWidget {
               icon: Icons.emoji_events_rounded,
               subtitle: 'Carry forward legacy layout',
               leadingEdgeAccent: true,
+              destination: HomeShellTabDestination(MemberShellTab.ladders),
             ),
             HomeSectionItem(
               title: 'Users',
@@ -59,6 +59,7 @@ class HomeOverviewTab extends StatelessWidget {
               subtitle: 'List of users',
               leadingEdgeAccent: true,
               accentColor: DupraColors.error,
+              destination: HomePushRouteDestination(HomePushRoute.users),
             ),
             HomeSectionItem(
               title: 'Calculator',
@@ -66,17 +67,10 @@ class HomeOverviewTab extends StatelessWidget {
               subtitle: 'Pay for your refreshments',
               leadingEdgeAccent: true,
               accentColor: DupraColors.calculator,
+              destination: HomePushRouteDestination(HomePushRoute.calculator),
             ),
           ],
-          onItemTap: (itemIndex) {
-            if (itemIndex == 0) {
-              onOpenTab(3);
-            } else if (itemIndex == 2) {
-              context.pushNamed('calculator');
-            } else if (itemIndex == 1) {
-              context.pushNamed('users');
-            }
-          },
+          onNavigate: onNavigate,
         ),
       ],
     );

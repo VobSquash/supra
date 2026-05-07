@@ -10,6 +10,7 @@ import 'package:dupra/presentation/admin/admin_ladders_placeholder_page.dart';
 import 'package:dupra/presentation/admin/admin_users_placeholder_page.dart';
 import 'package:dupra/presentation/bookings/bookings_page.dart';
 import 'package:dupra/presentation/fixtures/fixtures_page.dart';
+import 'package:dupra/presentation/home/data/home_overview_destination.dart';
 import 'package:dupra/presentation/home/home_overview_tab.dart';
 import 'package:dupra/presentation/ladders/ladders_page.dart';
 import 'package:dupra/presentation/profile/profile_stub_page.dart';
@@ -107,8 +108,7 @@ class _MainShellPageState extends State<MainShellPage> {
     _pageController = PageController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      final authed =
-          context.read<AuthBloc>().state.maybeWhen(authenticated: (_) => true, orElse: () => false);
+      final authed = context.read<AuthBloc>().state.maybeWhen(authenticated: (_) => true, orElse: () => false);
       if (!authed) return;
       if (context.read<UsersBloc>().state.currentUserProfile != null) return;
       context.read<UsersBloc>().add(const UsersEvent.loadCurrentUserProfile());
@@ -144,6 +144,19 @@ class _MainShellPageState extends State<MainShellPage> {
     final suite = routerState.pathParameters['suite'] ?? 'm';
     final admin = suite == 'a';
     context.go(ShellLocations.path(suite, ShellLocations.tabSlugForIndex(admin: admin, index: index)));
+  }
+
+  void _handleHomeOverviewDestination(BuildContext context, HomeOverviewDestination destination) {
+    switch (destination) {
+      case HomeShellTabDestination(:final tab):
+        final idx = ShellLocations.tabIndexFor(suite: 'm', tab: tab.slug);
+        if (idx == null) {
+          return;
+        }
+        _goToTab(context, idx);
+      case HomePushRouteDestination(:final route):
+        context.pushNamed(route.namedRoute);
+    }
   }
 
   void _onPageChanged(BuildContext context, int index) {
@@ -211,7 +224,7 @@ class _MainShellPageState extends State<MainShellPage> {
               appBar: AppBar(
                 title: Align(
                   child: Semantics(
-                    label: 'Supra',
+                    label: 'Dupra',
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(maxHeight: 60, maxWidth: 220),
                       child: Assets.images.homeDarkMode.image(fit: BoxFit.cover, alignment: Alignment.centerLeft),
@@ -239,7 +252,7 @@ class _MainShellPageState extends State<MainShellPage> {
                         const ProfileStubPage(embedInShell: true),
                       ]
                     : [
-                        HomeOverviewTab(onOpenTab: (i) => _goToTab(context, i)),
+                        HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
                         const BookingsPage(),
                         const FixturesPage(),
                         const LaddersPage(),
