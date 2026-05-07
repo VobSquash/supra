@@ -36,6 +36,11 @@ When rebuilding Supra in a **new** Flutter project, follow this skill **and** [p
 
 - Prefer a new widget class over a method that returns `Widget` (subtree gets its own `BuildContext`).
 - Reusable, multi-purpose widgets belong in the shared `lib/presentation/widgets/` folder (or existing shared widgets location).
+- **Cross-screen section chrome** — Prefer one shared section widget (e.g. Dupra’s **`DupraSection`**) for titled blocks with a card body on both the home overview and other screens (profile account, settings-style lists). Extend that widget when new cases appear instead of copying title + card layout:
+  - **`titleAction`** — Optional trailing widget in the title row (e.g. `DupraLinkButton` for *Edit*, or *Save/Cancel*).
+  - **`HomeSectionItem.destination`** — Nullable: non-navigating rows omit a chevron and are not wrapped in a touch target for navigation.
+  - **`onNavigate`** — Nullable when using only **`cardChild`**, display-only **`items`**, or rows whose destinations are always null.
+  - **`cardChild`** — When the default **`items`** list is not enough (e.g. profile fields with **`TextFormField`** in edit mode), supply a custom card body instead of duplicating section chrome in the feature folder.
 - Prefer `const` constructors whenever possible.
 - For lists, prefer `.builder` constructors (e.g. `ListView.builder`).
 - Except for logout flows, prefer bottom sheets over dialogs/modals.

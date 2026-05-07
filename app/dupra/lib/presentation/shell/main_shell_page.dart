@@ -249,14 +249,14 @@ class _MainShellPageState extends State<MainShellPage> {
                         const AdminBookingsPlaceholderPage(),
                         const AdminUsersPlaceholderPage(),
                         const AdminLaddersPlaceholderPage(),
-                        const ProfileStubPage(embedInShell: true),
+                        const ProfileStubPage(),
                       ]
                     : [
                         HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
                         const BookingsPage(),
                         const FixturesPage(),
                         const LaddersPage(),
-                        const ProfileStubPage(embedInShell: true),
+                        const ProfileStubPage(),
                       ],
               ),
               bottomNavigationBar: _DupraDockNav(

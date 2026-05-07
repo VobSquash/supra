@@ -7,7 +7,7 @@ class HomeSectionItem {
   const HomeSectionItem({
     required this.title,
     required this.icon,
-    required this.destination,
+    this.destination,
     this.subtitle,
     this.accentColor = DupraColors.secondary,
     this.leadingEdgeAccent = false,
@@ -16,7 +16,8 @@ class HomeSectionItem {
   final String title;
   final String? subtitle;
   final IconData icon;
-  final HomeOverviewDestination destination;
+  /// When null, the row is non-navigating (e.g. placeholder or custom handling later).
+  final HomeOverviewDestination? destination;
   final Color accentColor;
   final bool leadingEdgeAccent;
 }
