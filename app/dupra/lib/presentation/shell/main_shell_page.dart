@@ -105,6 +105,14 @@ class _MainShellPageState extends State<MainShellPage> {
   void initState() {
     super.initState();
     _pageController = PageController();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final authed =
+          context.read<AuthBloc>().state.maybeWhen(authenticated: (_) => true, orElse: () => false);
+      if (!authed) return;
+      if (context.read<UsersBloc>().state.currentUserProfile != null) return;
+      context.read<UsersBloc>().add(const UsersEvent.loadCurrentUserProfile());
+    });
   }
 
   @override

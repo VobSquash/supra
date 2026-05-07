@@ -142,9 +142,13 @@ class AppAuthService implements AuthService {
         .join(' ')
         .trim();
 
+    final picture = full.profile.profilePictureUrl?.trim();
+    final avatarFromProfile = picture != null && picture.isNotEmpty ? picture : null;
+
     return base.copyWith(
       email: full.profile.email ?? base.email,
       displayName: nameFromProfile.isNotEmpty ? nameFromProfile : base.displayName,
+      avatarUrl: avatarFromProfile ?? base.avatarUrl,
       vobGuid: full.profile.vobGuid ?? base.vobGuid,
       profileTypeId: _profileTypeToId(full.profile.profileType) ?? base.profileTypeId,
       membershipTypeId:
