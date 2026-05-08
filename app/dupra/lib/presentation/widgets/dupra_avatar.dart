@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:flutter/material.dart';
 
 /// Circular user avatar: caches [imageUrl] via [CachedNetworkImage], otherwise initials.
@@ -98,7 +99,7 @@ class DupraAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: bg,
+      backgroundColor: DupraColors.scaffoldBackground.withValues(alpha: 0.75),
       child: Text(initials, style: initialsStyle, textAlign: TextAlign.center),
     );
   }

@@ -102,10 +102,25 @@ class _MainShellPageState extends State<MainShellPage> {
 
   static const int _tabCount = 5;
 
+  /// Last rounded page passed to [_LazyShellTab]; avoids [setState] on every scroll tick.
+  int _shellLazyRoundedTabCache = -999999;
+
+  /// Triggers rebuilds while [PageView] settles so lazy tabs can materialize during a swipe.
+  void _onShellPageControllerTick() {
+    if (!mounted || !_pageController.hasClients) return;
+    final page = _pageController.page;
+    if (page == null) return;
+    final rounded = page.round();
+    if (rounded == _shellLazyRoundedTabCache) return;
+    _shellLazyRoundedTabCache = rounded;
+    setState(() {});
+  }
+
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    _pageController.addListener(_onShellPageControllerTick);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final authed = context.read<AuthBloc>().state.maybeWhen(authenticated: (_) => true, orElse: () => false);
@@ -117,8 +132,18 @@ class _MainShellPageState extends State<MainShellPage> {
 
   @override
   void dispose() {
-    _pageController.dispose();
+    _pageController
+      ..removeListener(_onShellPageControllerTick)
+      ..dispose();
     super.dispose();
+  }
+
+  /// Page currently under the viewport (or [fallback] before [PageController] attaches).
+  int _effectiveShellTabIndex(int fallback) {
+    if (!_pageController.hasClients) return fallback;
+    final page = _pageController.page;
+    if (page == null) return fallback;
+    return page.round();
   }
 
   void _syncPageControllerToIndex(int tabIndex) {
@@ -244,20 +269,34 @@ class _MainShellPageState extends State<MainShellPage> {
                 controller: _pageController,
                 onPageChanged: (i) => _onPageChanged(context, i),
                 children: placement.adminShell
-                    ? [
-                        const AdminHomePlaceholderPage(),
-                        const AdminBookingsPlaceholderPage(),
-                        const AdminUsersPlaceholderPage(),
-                        const AdminLaddersPlaceholderPage(),
-                        const ProfileStubPage(),
-                      ]
-                    : [
-                        HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
-                        const BookingsPage(),
-                        const FixturesPage(),
-                        const LaddersPage(),
-                        const ProfileStubPage(),
-                      ],
+                    ? List.generate(
+                        _tabCount,
+                        (i) => _LazyShellTab(
+                          tabIndex: i,
+                          effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
+                          builder: () => switch (i) {
+                            0 => const AdminHomePlaceholderPage(),
+                            1 => const AdminBookingsPlaceholderPage(),
+                            2 => const AdminUsersPlaceholderPage(),
+                            3 => const AdminLaddersPlaceholderPage(),
+                            _ => const ProfileStubPage(),
+                          },
+                        ),
+                      )
+                    : List.generate(
+                        _tabCount,
+                        (i) => _LazyShellTab(
+                          tabIndex: i,
+                          effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
+                          builder: () => switch (i) {
+                            0 => HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
+                            1 => const BookingsPage(),
+                            2 => const FixturesPage(),
+                            3 => const LaddersPage(),
+                            _ => const ProfileStubPage(),
+                          },
+                        ),
+                      ),
               ),
               bottomNavigationBar: _DupraDockNav(
                 scheme: scheme,
@@ -273,5 +312,35 @@ class _MainShellPageState extends State<MainShellPage> {
         );
       },
     );
+  }
+}
+
+/// Builds a shell tab only once it becomes visible, then keeps the subtree alive.
+class _LazyShellTab extends StatefulWidget {
+  const _LazyShellTab({
+    required this.tabIndex,
+    required this.effectiveTabIndex,
+    required this.builder,
+  });
+
+  final int tabIndex;
+  final int effectiveTabIndex;
+  final Widget Function() builder;
+
+  @override
+  State<_LazyShellTab> createState() => _LazyShellTabState();
+}
+
+class _LazyShellTabState extends State<_LazyShellTab> {
+  Widget? _child;
+
+  @override
+  Widget build(BuildContext context) {
+    final materialize = widget.tabIndex == widget.effectiveTabIndex || _child != null;
+    if (!materialize) {
+      return const SizedBox.expand();
+    }
+    _child ??= widget.builder();
+    return _child!;
   }
 }

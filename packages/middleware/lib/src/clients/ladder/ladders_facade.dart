@@ -3,10 +3,12 @@ import 'package:client_supabase/client_supabase.dart';
 import 'package:injectable/injectable.dart';
 import 'package:middleware/src/clients/settings/i_settings_facade.dart';
 import 'package:middleware/src/injection.dart';
+import 'package:middleware/src/mappers/ladder/ladder_challenge_targets_applier.dart';
 import 'package:middleware/src/mappers/ladder/ladder_entry_with_profile.dart';
 import 'package:middleware/src/mappers/ladder/ladder_team_breakdown_applier.dart';
 import 'package:middleware/src/mappers/ladder/supabase_ladder_item_mapper.dart';
 import 'package:middleware/src/mappers/profiles/supabase_profile_mapper.dart';
+import 'package:session_storage/session_storage.dart';
 import 'i_ladders_facade.dart';
 
 @LazySingleton(as: ILaddersFacade)
@@ -31,6 +33,9 @@ class LaddersFacade implements ILaddersFacade {
     final show = settings.systemSettings.showLadderBreakdown;
     final breakdown = settings.ladderBreakdown;
 
+    final session = await middlewareSl<SessionStore>().read();
+    final viewerVobGuid = session?.vobGuid?.trim();
+
     const itemMapper = SupabaseLadderItemMapper();
     const profileMapper = SupabaseProfileMapper();
 
@@ -44,17 +49,26 @@ class LaddersFacade implements ILaddersFacade {
     }
 
     return LaddersListDTO(
-      ladies: applyLadderTeamBreakdown(
-        items: ladiesRows.map(mapRow).toList(growable: false),
-        teams: breakdown.ladiesTeams,
+      ladies: applyViewerChallengeTargets(
+        items: applyLadderTeamBreakdown(
+          items: ladiesRows.map(mapRow).toList(growable: false),
+          teams: breakdown.ladiesTeams,
+        ),
+        viewerVobGuid: viewerVobGuid,
       ),
-      men: applyLadderTeamBreakdown(
-        items: mensRows.map(mapRow).toList(growable: false),
-        teams: breakdown.mensteams,
+      men: applyViewerChallengeTargets(
+        items: applyLadderTeamBreakdown(
+          items: mensRows.map(mapRow).toList(growable: false),
+          teams: breakdown.mensteams,
+        ),
+        viewerVobGuid: viewerVobGuid,
       ),
-      masters: applyLadderTeamBreakdown(
-        items: mastersRows.map(mapRow).toList(growable: false),
-        teams: breakdown.mastersTeams,
+      masters: applyViewerChallengeTargets(
+        items: applyLadderTeamBreakdown(
+          items: mastersRows.map(mapRow).toList(growable: false),
+          teams: breakdown.mastersTeams,
+        ),
+        viewerVobGuid: viewerVobGuid,
       ),
       showLadderBreakdown: show,
     );
