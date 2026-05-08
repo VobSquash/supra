@@ -9,6 +9,7 @@ import 'package:middleware/src/mappers/ladder/ladder_team_breakdown_applier.dart
 import 'package:middleware/src/mappers/ladder/supabase_ladder_item_mapper.dart';
 import 'package:middleware/src/mappers/profiles/supabase_profile_mapper.dart';
 import 'package:session_storage/session_storage.dart';
+
 import 'i_ladders_facade.dart';
 
 @LazySingleton(as: ILaddersFacade)
@@ -20,16 +21,16 @@ class LaddersFacade implements ILaddersFacade {
 
   @override
   Future<LaddersListDTO> loadLadders() async {
-    final ladderLists = await Future.wait([
+    final apiData = await Future.wait([
       _client.ladders.getLadderMens(),
       _client.ladders.getLadderLadies(),
       _client.ladders.getLadderMasters(),
+      _settings.loadSettings(),
     ]);
-    final mensRows = ladderLists[0];
-    final ladiesRows = ladderLists[1];
-    final mastersRows = ladderLists[2];
-
-    final settings = await _settings.loadSettings();
+    final mensRows = apiData[0] as List<LadderEntryWithProfileRow>;
+    final ladiesRows = apiData[1] as List<LadderEntryWithProfileRow>;
+    final mastersRows = apiData[2] as List<LadderEntryWithProfileRow>;
+    final settings = apiData[3] as SettingsDTO;
     final show = settings.systemSettings.showLadderBreakdown;
     final breakdown = settings.ladderBreakdown;
 
@@ -40,9 +41,7 @@ class LaddersFacade implements ILaddersFacade {
     const profileMapper = SupabaseProfileMapper();
 
     LadderItemDTO mapRow(LadderEntryWithProfileRow row) {
-      final prof = row.profile != null
-          ? profileMapper.convert<ProfileFull, BasicProfileDTO>(row.profile!)
-          : null;
+      final prof = row.profile != null ? profileMapper.convert<ProfileFull, BasicProfileDTO>(row.profile!) : null;
       return itemMapper.convert<LadderEntryWithProfile, LadderItemDTO>(
         LadderEntryWithProfile(entry: row.entry, profile: prof),
       );
@@ -54,6 +53,7 @@ class LaddersFacade implements ILaddersFacade {
           items: ladiesRows.map(mapRow).toList(growable: false),
           teams: breakdown.ladiesTeams,
         ),
+        showLadderBreakdown: show,
         viewerVobGuid: viewerVobGuid,
       ),
       men: applyViewerChallengeTargets(
@@ -61,6 +61,7 @@ class LaddersFacade implements ILaddersFacade {
           items: mensRows.map(mapRow).toList(growable: false),
           teams: breakdown.mensteams,
         ),
+        showLadderBreakdown: show,
         viewerVobGuid: viewerVobGuid,
       ),
       masters: applyViewerChallengeTargets(
@@ -68,6 +69,7 @@ class LaddersFacade implements ILaddersFacade {
           items: mastersRows.map(mapRow).toList(growable: false),
           teams: breakdown.mastersTeams,
         ),
+        showLadderBreakdown: show,
         viewerVobGuid: viewerVobGuid,
       ),
       showLadderBreakdown: show,
@@ -75,10 +77,7 @@ class LaddersFacade implements ILaddersFacade {
   }
 
   @override
-  Future<void> saveLadderDivision({
-    required LadderDivision division,
-    required List<LadderItemDTO> items,
-  }) async {
+  Future<void> saveLadderDivision({required LadderDivision division, required List<LadderItemDTO> items}) async {
     final rows = <LadderEntryUpsert>[];
     for (var i = 0; i < items.length; i++) {
       final guid = items[i].vobGuid?.trim() ?? '';
@@ -93,11 +92,7 @@ class LaddersFacade implements ILaddersFacade {
       );
     }
     final year = DateTime.now().year;
-    await _client.ladders.replaceLadderDivisionForYear(
-      table: _tableForDivision(division),
-      year: year,
-      rows: rows,
-    );
+    await _client.ladders.replaceLadderDivisionForYear(table: _tableForDivision(division), year: year, rows: rows);
   }
 
   @override
@@ -115,25 +110,14 @@ class LaddersFacade implements ILaddersFacade {
     await _client.ladders.upsertLadderDivisionRows(
       table: _tableForDivision(division),
       rows: <LadderEntryUpsert>[
-        LadderEntryUpsert(
-          vobGuid: guid,
-          sortOrder: sortOrder,
-          team: team,
-          canBeChallenged: canBeChallenged,
-        ),
+        LadderEntryUpsert(vobGuid: guid, sortOrder: sortOrder, team: team, canBeChallenged: canBeChallenged),
       ],
     );
   }
 
   @override
-  Future<void> removeMemberFromDivision({
-    required LadderDivision division,
-    required String vobGuid,
-  }) {
-    return _client.ladders.deleteLadderDivisionMember(
-      table: _tableForDivision(division),
-      vobGuid: vobGuid,
-    );
+  Future<void> removeMemberFromDivision({required LadderDivision division, required String vobGuid}) {
+    return _client.ladders.deleteLadderDivisionMember(table: _tableForDivision(division), vobGuid: vobGuid);
   }
 
   String _tableForDivision(LadderDivision division) {

@@ -1,11 +1,7 @@
 part of '../ladders_page.dart';
 
 class _LadderTabBody extends StatelessWidget {
-  const _LadderTabBody({
-    required this.items,
-    required this.emptyLabel,
-    required this.showLadderBreakdown,
-  });
+  const _LadderTabBody({required this.items, required this.emptyLabel, required this.showLadderBreakdown});
 
   final List<LadderItemDTO>? items;
   final String emptyLabel;
@@ -21,9 +17,9 @@ class _LadderTabBody extends StatelessWidget {
           child: Text(
             emptyLabel,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge?.copyWith(color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7)),
           ),
         ),
       );
@@ -33,11 +29,11 @@ class _LadderTabBody extends StatelessWidget {
       final flat = List<LadderItemDTO>.of(list)..sort((a, b) => (a.order ?? 0).compareTo(b.order ?? 0));
       return ListView.builder(
         padding: const EdgeInsets.only(top: 12, bottom: 8),
-        itemCount: flat.length,
+        itemCount: 1,
         itemBuilder: (context, index) {
-          return _LadderPlayerRow(
-            item: flat[index],
-            rankWithinTeam: index + 1,
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: _LadderTeamBlock(team: 0, items: flat),
           );
         },
       );

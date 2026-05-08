@@ -10,16 +10,17 @@ import 'package:client_models/client_models.dart';
 List<LadderItemDTO> applyViewerChallengeTargets({
   required List<LadderItemDTO> items,
   required String? viewerVobGuid,
+  required bool showLadderBreakdown,
 }) {
   if (items.isEmpty) return items;
 
   final trimmedViewer = viewerVobGuid?.trim();
-  final viewerNorm =
-      trimmedViewer != null && trimmedViewer.isNotEmpty ? trimmedViewer.toLowerCase() : null;
+  final viewerNorm = trimmedViewer != null && trimmedViewer.isNotEmpty ? trimmedViewer.toLowerCase() : null;
 
   if (viewerNorm == null) {
     return [
-      for (final e in items) e.copyWith(canBeChallenged: false),
+      for (final e in items)
+        (showLadderBreakdown ? e.copyWith(canBeChallenged: false) : e.copyWith(canBeChallenged: true)),
     ];
   }
 
@@ -42,8 +43,10 @@ List<LadderItemDTO> applyViewerChallengeTargets({
   final myIndex = sorted.indexWhere(matchesViewer);
   if (myIndex < 0) {
     return [
-      for (final e in items) e.copyWith(canBeChallenged: false),
+      for (final e in items)
+        (showLadderBreakdown ? e.copyWith(canBeChallenged: false) : e.copyWith(canBeChallenged: true)),
     ];
+    //return [for (final e in items) e.copyWith(canBeChallenged: false)];
   }
 
   final targetNorm = <String>{};
@@ -60,7 +63,10 @@ List<LadderItemDTO> applyViewerChallengeTargets({
       .map((e) {
         var k = e.vobGuid?.trim().toLowerCase();
         if (k == null || k.isEmpty) k = e.profile?.vobGuid?.trim().toLowerCase();
-        final flagged = k != null && k.isNotEmpty && targetNorm.contains(k);
+        var flagged = k != null && k.isNotEmpty && targetNorm.contains(k);
+        if (!showLadderBreakdown) {
+          flagged = true;
+        }
         return e.copyWith(canBeChallenged: flagged);
       })
       .toList(growable: false);

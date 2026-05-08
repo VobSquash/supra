@@ -42,6 +42,6 @@ String _ordinalEnglish(int n) {
 }
 
 String _leagueTitle(int team) {
-  if (team <= 0) return 'Unassigned league';
+  if (team <= 0) return 'Open Ladder';
   return '${_ordinalEnglish(team)} League';
 }
