@@ -56,9 +56,10 @@ class _ProfileScrollContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final canShowEmail = profile.extendedProfile?.canShowEmail ?? false;
-    final canShowPhone = profile.extendedProfile?.canShowContactNumber ?? false;
-    final canShowDob = profile.extendedProfile?.canShowDateOfBirth ?? false;
+    // Read-only labels use saved profile values (defaults match profile_stub_page _applyProfile).
+    final savedShowEmail = profile.extendedProfile?.canShowEmail ?? true;
+    final savedShowPhone = profile.extendedProfile?.canShowContactNumber ?? true;
+    final savedShowDob = profile.extendedProfile?.canShowDateOfBirth ?? false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
 
@@ -178,11 +179,11 @@ class _ProfileScrollContent extends StatelessWidget {
                   value: canShowDob,
                 ),
               ] else ...[
-                _PrivacyReadRow(label: 'Email visible', enabled: canShowEmail),
+                _PrivacyReadRow(label: 'Email visible', enabled: savedShowEmail),
                 Divider(height: 1, color: scheme.onSurface.withValues(alpha: 0.1)),
-                _PrivacyReadRow(label: 'Phone visible', enabled: canShowPhone),
+                _PrivacyReadRow(label: 'Phone visible', enabled: savedShowPhone),
                 Divider(height: 1, color: scheme.onSurface.withValues(alpha: 0.1)),
-                _PrivacyReadRow(label: 'Date of birth visible', enabled: canShowDob),
+                _PrivacyReadRow(label: 'Date of birth visible', enabled: savedShowDob),
               ],
             ],
           ),
