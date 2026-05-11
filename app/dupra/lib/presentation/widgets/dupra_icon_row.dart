@@ -1,3 +1,4 @@
+import 'package:dupra/presentation/widgets/dupra_avatar.dart';
 import 'package:flutter/material.dart';
 
 /// Leading icon in a tinted rounded square (home / section pattern) + expanded [child] + optional [trailing].
@@ -13,6 +14,7 @@ class DupraIconRow extends StatelessWidget {
     this.showIconBackground = true,
     this.contentPadding,
     this.onTap,
+    this.useAvatarIcon,
     super.key,
   });
 
@@ -31,6 +33,7 @@ class DupraIconRow extends StatelessWidget {
 
   /// When set, overrides default padding from [leadingEdgeAccent].
   final EdgeInsets? contentPadding;
+  final (String displayName, String? imageUrl, double radius)? useAvatarIcon;
 
   static const double _accentBarWidth = 5;
 
@@ -52,7 +55,9 @@ class DupraIconRow extends StatelessWidget {
             decoration: showIconBackground
                 ? BoxDecoration(color: iconAccentColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12))
                 : null,
-            child: Icon(icon, size: iconSize, color: iconAccentColor),
+            child: useAvatarIcon != null
+                ? DupraAvatar(displayName: useAvatarIcon!.$1, imageUrl: useAvatarIcon!.$2, radius: useAvatarIcon!.$3)
+                : Icon(icon, size: iconSize, color: iconAccentColor),
           ),
           SizedBox(width: gapAfterIcon),
           Expanded(child: child),

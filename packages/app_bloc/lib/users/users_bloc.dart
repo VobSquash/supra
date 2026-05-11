@@ -87,12 +87,21 @@ class UsersBloc extends BaseBloc<UsersEvent, UsersState> {
 
     on<OnLoadCurrentUserProfile>(
       (event, emit) async {
-        try {
-          final profile = await _usersFacade.loadCurrentUserProfile();
-          emit(state.copyWith(currentUserProfile: profile));
-        } catch (_) {
-          // Keep prior profile on failure so the shell does not flicker.
+        BasicProfileDTO? profile;
+        const delaysMs = [0, 120, 280];
+        for (var i = 0; i < delaysMs.length; i++) {
+          if (delaysMs[i] > 0) {
+            await Future<void>.delayed(Duration(milliseconds: delaysMs[i]));
+          }
+          try {
+            profile = await _usersFacade.loadCurrentUserProfile();
+            emit(state.copyWith(currentUserProfile: profile));
+            return;
+          } catch (_) {
+            // Retry briefly — cold start can race Supabase session wiring / network blips.
+          }
         }
+        // Keep prior profile on persistent failure so the shell does not flicker.
       },
     );
 

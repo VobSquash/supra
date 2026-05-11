@@ -7,6 +7,7 @@ import 'package:dupra/presentation/calculator/fridge_calculator_page.dart';
 import 'package:dupra/presentation/profile/profile_stub_page.dart';
 import 'package:dupra/presentation/shell/main_shell_page.dart';
 import 'package:dupra/presentation/splash/splash_page.dart';
+import 'package:dupra/presentation/users/member_profile_detail_page.dart';
 import 'package:dupra/presentation/users/users_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -107,6 +108,24 @@ abstract final class AppRouter {
             child: const UsersPage(),
             duration: const Duration(milliseconds: 480),
           ),
+        ),
+        GoRoute(
+          path: '/user-profile',
+          name: 'user-profile',
+          pageBuilder: (context, state) {
+            final extra = state.extra;
+            final child = extra is BasicProfileDTO
+                ? MemberProfileDetailPage(profile: extra)
+                : Scaffold(
+                    appBar: AppBar(title: const Text('Profile')),
+                    body: const Center(child: Text('Unable to load this profile.')),
+                  );
+            return _fadePage(
+              key: state.pageKey,
+              child: child,
+              duration: const Duration(milliseconds: 320),
+            );
+          },
         ),
         GoRoute(
           path: '/calculator',

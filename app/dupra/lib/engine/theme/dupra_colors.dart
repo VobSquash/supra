@@ -13,4 +13,28 @@ abstract final class DupraColors {
   static const Color error = Color.fromARGB(253, 176, 98, 9);
   static const Color warning = Color(0xFFff8c41);
   static const Color calculator = Color.fromARGB(255, 203, 95, 165);
+
+  /// Accent for list rows keyed by first letter of [displayName] (A→…→Z cycling hues).
+  /// Non-letter starts use a deterministic bucket via `codeUnit % 26`.
+  static Color accentForUserDirectoryRow(String displayName) {
+    final trimmed = displayName.trim();
+    if (trimmed.isEmpty) {
+      return secondary;
+    }
+    final firstLetter = trimmed.characters.first.toUpperCase();
+    if (firstLetter.isEmpty) {
+      return secondary;
+    }
+    final cu = firstLetter.codeUnits.first;
+
+    final int bucket;
+    if (cu >= 65 && cu <= 90) {
+      bucket = cu - 65;
+    } else {
+      bucket = cu % 26;
+    }
+
+    final hue = bucket * (360 / 26) % 360;
+    return HSLColor.fromAHSL(1, hue, 0.55, 0.56).toColor();
+  }
 }

@@ -37,8 +37,13 @@ class _DupraRootState extends State<DupraRoot> {
       ],
       child: BlocListener<AuthBloc, AuthState>(
         listenWhen: (prev, curr) {
-          bool authed(AuthState s) => s.maybeWhen(authenticated: (_) => true, orElse: () => false);
-          return authed(curr) != authed(prev);
+          if (curr.maybeWhen(unauthenticated: (_) => true, orElse: () => false)) {
+            return true;
+          }
+          // Reload profile on every authenticated emission (including refreshed SessionSnapshot),
+          // not only when crossing the logged-out → logged-in boundary — cold start / token refresh
+          // can otherwise leave chrome stale if the first profile fetch failed quietly.
+          return curr.maybeWhen(authenticated: (_) => true, orElse: () => false);
         },
         listener: (context, state) {
           state.maybeWhen(
