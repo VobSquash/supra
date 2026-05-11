@@ -20,45 +20,14 @@ class _ProfileSliverAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
-      stretch: true,
+    return DupraProfileHeroSliver(
       expandedHeight: expandedHeight,
-      toolbarHeight: 0,
-      collapsedHeight: 0,
-      automaticallyImplyLeading: false,
-      elevation: 0,
-      scrolledUnderElevation: 0,
-      backgroundColor: Colors.transparent,
-      flexibleSpace: FlexibleSpaceBar(
-        stretchModes: const [StretchMode.zoomBackground, StretchMode.blurBackground],
-        background: Stack(
-          fit: StackFit.expand,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: Colors.white, width: 2),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(24),
-                child: Assets.images.vobHeader.image(fit: BoxFit.cover),
-              ),
-            ),
-
-            SafeArea(
-              bottom: false,
-              child: Center(
-                child: _AvatarBlock(
-                  radius: avatarRadius,
-                  uploading: uploadingPhoto,
-                  profile: profile,
-                  snapshot: snapshot,
-                  onTap: onAvatarTap,
-                ),
-              ),
-            ),
-          ],
-        ),
+      avatar: _AvatarBlock(
+        radius: avatarRadius,
+        uploading: uploadingPhoto,
+        profile: profile,
+        snapshot: snapshot,
+        onTap: onAvatarTap,
       ),
     );
   }

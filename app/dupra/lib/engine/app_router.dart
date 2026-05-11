@@ -7,7 +7,7 @@ import 'package:dupra/presentation/calculator/fridge_calculator_page.dart';
 import 'package:dupra/presentation/profile/profile_stub_page.dart';
 import 'package:dupra/presentation/shell/main_shell_page.dart';
 import 'package:dupra/presentation/splash/splash_page.dart';
-import 'package:dupra/presentation/users/member_profile_detail_page.dart';
+import 'package:dupra/presentation/user-profile/member_profile_detail_page.dart';
 import 'package:dupra/presentation/users/users_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

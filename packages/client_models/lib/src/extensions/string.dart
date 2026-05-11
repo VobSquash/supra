@@ -38,7 +38,7 @@ extension StringExtensions on String {
   }
 
   String toDMMMMY() {
-    List<String> parts = split('/');
+    List<String> parts = split('-');
 
     // Parse each part into an integer
     int year = int.parse(parts[0]);

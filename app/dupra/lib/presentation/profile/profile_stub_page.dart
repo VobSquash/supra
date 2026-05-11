@@ -1,12 +1,12 @@
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
-import 'package:dupra/gen/assets.gen.dart';
 import 'package:dupra/presentation/profile/profile_photo_pick_upload.dart';
 import 'package:dupra/presentation/widgets/dupra_avatar.dart';
 import 'package:dupra/presentation/widgets/dupra_icon_row.dart';
 import 'package:dupra/presentation/widgets/dupra_link_button.dart';
 import 'package:dupra/presentation/widgets/dupra_modal.dart';
+import 'package:dupra/presentation/widgets/dupra_profile_hero_sliver.dart';
 import 'package:dupra/presentation/widgets/dupra_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
