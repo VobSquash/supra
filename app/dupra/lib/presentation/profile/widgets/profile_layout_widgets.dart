@@ -130,14 +130,18 @@ class _PrivacyReadRow extends StatelessWidget {
       leadingEdgeAccent: true,
       showIconBackground: false,
       contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-      trailing: Text(
-        enabled ? 'Yes' : 'No',
-        style: textTheme.labelLarge?.copyWith(
-          color: enabled ? DupraColors.success : scheme.onSurfaceVariant,
-          fontWeight: FontWeight.w700,
+      trailing: FittedBox(
+        child: Text(
+          enabled ? 'Yes' : 'No',
+          style: textTheme.labelLarge?.copyWith(
+            color: enabled ? DupraColors.success : scheme.onSurfaceVariant,
+            fontWeight: FontWeight.w700,
+          ),
         ),
       ),
-      child: Text(label, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+      child: FittedBox(
+        child: Text(label, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+      ),
     );
   }
 }

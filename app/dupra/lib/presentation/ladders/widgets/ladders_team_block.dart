@@ -32,22 +32,28 @@ class _LadderTeamBlock extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
-                  Icon(Icons.groups_2_outlined, color: scheme.onSurface.withValues(alpha: 0.65), size: 22),
+                  FittedBox(
+                    child: Icon(Icons.groups_2_outlined, color: scheme.onSurface.withValues(alpha: 0.65), size: 22),
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Text(
-                      title,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                        color: scheme.onSurface.withValues(alpha: 0.65),
+                    child: FittedBox(
+                      child: Text(
+                        title,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: scheme.onSurface.withValues(alpha: 0.65),
+                        ),
                       ),
                     ),
                   ),
-                  Text(
-                    '${items.length} ${items.length == 1 ? 'player' : 'players'}',
-                    style: Theme.of(
-                      context,
-                    ).textTheme.labelLarge?.copyWith(color: scheme.onSurface.withValues(alpha: 0.65)),
+                  FittedBox(
+                    child: Text(
+                      '${items.length} ${items.length == 1 ? 'player' : 'players'}',
+                      style: Theme.of(
+                        context,
+                      ).textTheme.labelLarge?.copyWith(color: scheme.onSurface.withValues(alpha: 0.65)),
+                    ),
                   ),
                 ],
               ),

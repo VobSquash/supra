@@ -44,14 +44,16 @@ class DupraAccentSectionCard extends StatelessWidget {
                   Icon(headerIcon, color: scheme.onSurface.withValues(alpha: 0.65), size: 22),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: Text(
-                      headerTitle,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w700,
-                            color: scheme.onSurface.withValues(alpha: 0.65),
-                          ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
+                    child: FittedBox(
+                      child: Text(
+                        headerTitle,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: scheme.onSurface.withValues(alpha: 0.65),
+                        ),
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                   if (headerTrailing != null) Flexible(child: headerTrailing!),

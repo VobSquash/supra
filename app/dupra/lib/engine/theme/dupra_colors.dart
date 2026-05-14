@@ -37,4 +37,19 @@ abstract final class DupraColors {
     final hue = bucket * (360 / 26) % 360;
     return HSLColor.fromAHSL(1, hue, 0.55, 0.56).toColor();
   }
+
+  /// Solid fill for booked court cells (pair with light / white foreground), aligned with Supra bookings.
+  static Color courtBookedFill(int courtNo) {
+    final courtColors = [
+      Colors.blue.shade800,
+      Colors.green.shade800,
+      Colors.orange.shade800,
+    ];
+    return switch (courtNo) {
+      1 => courtColors[0],
+      2 => courtColors[1],
+      3 => courtColors[2],
+      _ => tertiary,
+    };
+  }
 }

@@ -36,6 +36,7 @@ dependencies:
   client_supabase:
     path: ../../packages/client_supabase
   cupertino_icons: ^1.0.8
+  dio: ^5.9.2
   flutter:
     sdk: flutter
   flutter_bloc: ^9.0.0

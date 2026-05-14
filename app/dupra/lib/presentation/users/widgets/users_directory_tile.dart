@@ -38,10 +38,14 @@ class _UsersDirectoryTile extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(name, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, fontSize: 21)),
-              Text(
-                membershipSubtitle,
-                style: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant, fontSize: 18),
+              FittedBox(
+                child: Text(name, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, fontSize: 21)),
+              ),
+              FittedBox(
+                child: Text(
+                  membershipSubtitle,
+                  style: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant, fontSize: 18),
+                ),
               ),
             ],
           ),

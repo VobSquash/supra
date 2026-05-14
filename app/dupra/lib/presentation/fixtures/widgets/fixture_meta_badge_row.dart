@@ -56,9 +56,11 @@ class _FixtureHomeAwayBadge extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(
-          isHome ? 'Home' : 'Away',
-          style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800, letterSpacing: 0.5),
+        child: FittedBox(
+          child: Text(
+            isHome ? 'Home' : 'Away',
+            style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800, letterSpacing: 0.5),
+          ),
         ),
       ),
     );
@@ -94,12 +96,14 @@ class _FixtureCateringTag extends StatelessWidget {
           children: [
             Icon(icon, size: 16, color: color),
             const SizedBox(width: 6),
-            Text(
-              text,
-              style: textTheme.titleSmall?.copyWith(
-                fontWeight: FontWeight.w800,
-                letterSpacing: 0.5,
-                color: scheme.onSurface,
+            FittedBox(
+              child: Text(
+                text,
+                style: textTheme.titleSmall?.copyWith(
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0.5,
+                  color: scheme.onSurface,
+                ),
               ),
             ),
           ],

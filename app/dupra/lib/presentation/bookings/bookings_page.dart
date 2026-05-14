@@ -1,37 +1,18 @@
-import 'package:dupra/engine/theme/dupra_colors.dart';
-import 'package:dupra/presentation/bookings/data/sample_booking.dart';
-import 'package:dupra/presentation/bookings/data/sample_bookings.dart';
+import 'package:app_bloc/app_bloc.dart';
+import 'package:dupra/presentation/bookings/bookings_tab_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-part 'booking_formatting.dart';
-part 'bookings_scroll_view.dart';
-part 'widgets/booking_grid_card.dart';
-part 'widgets/booking_list_row.dart';
-part 'widgets/booking_status_chip.dart';
-
-enum BookingsLayout { grid, list }
-
-/// Bookings tab: layout toggle + grid or list of rows (sample data until API).
-class BookingsPage extends StatefulWidget {
+/// Member bookings tab — wraps [BookingsTabView] with [BookingsBloc] (same API contract as Supra `BookingsTestPage`).
+class BookingsPage extends StatelessWidget {
   const BookingsPage({super.key});
 
   @override
-  State<BookingsPage> createState() => _BookingsPageState();
-}
-
-class _BookingsPageState extends State<BookingsPage> {
-  BookingsLayout _layout = BookingsLayout.grid;
-
-  @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
-    final bottomPad = 24.0 + bottomInset + 72;
-
-    return _BookingsScrollView(
-      layout: _layout,
-      onLayoutChanged: (v) => setState(() => _layout = v),
-      bookings: kSampleBookings,
-      bottomPad: bottomPad,
+    final today = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    return BlocProvider(
+      create: (_) => appBlocSl<BookingsBloc>()..add(BookingsEvent.onLoadBookings(forDate: today)),
+      child: const BookingsTabView(),
     );
   }
 }
