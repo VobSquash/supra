@@ -1,3 +1,4 @@
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:flutter/material.dart';
 
 class CounterButton extends StatelessWidget {
@@ -19,8 +20,12 @@ class CounterButton extends StatelessWidget {
         onTap: onPressed,
         borderRadius: BorderRadius.circular(999),
         child: Padding(
-          padding: const EdgeInsets.all(7),
-          child: Icon(isAddIcon ? Icons.add_rounded : Icons.remove_rounded, size: 20, color: fg),
+          padding: EdgeInsets.all(context.dupraScaled(7)),
+          child: Icon(
+            isAddIcon ? Icons.add_rounded : Icons.remove_rounded,
+            size: context.dupraScaledIconSize(20),
+            color: fg,
+          ),
         ),
       ),
     );

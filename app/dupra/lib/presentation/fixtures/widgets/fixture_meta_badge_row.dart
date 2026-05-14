@@ -1,41 +1,36 @@
 import 'package:client_models/client_models.dart';
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/fixtures/data/fixture_display_helpers.dart';
 import 'package:flutter/material.dart';
 
-/// Home/Away and catering chips with fixed height so both blocks align visually.
+/// Home/Away and catering chips; height follows text scale.
 class FixtureMetaBadgeRow extends StatelessWidget {
   const FixtureMetaBadgeRow({required this.fixture, super.key});
 
   final LeagueFixtureDto fixture;
-
-  static const double rowHeight = 44;
 
   @override
   Widget build(BuildContext context) {
     final isHome = isVobHomeFixture(fixture);
     final catering = fixture.clubCaptain?.isCatering ?? false;
 
-    return SizedBox(
-      height: rowHeight,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: _FixtureHomeAwayBadge(isHome: isHome),
-            ),
+    return Row(
+      children: [
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerLeft,
+            child: _FixtureHomeAwayBadge(isHome: isHome),
           ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerRight,
-              child: _FixtureCateringTag(isCatering: catering),
-            ),
+        ),
+        SizedBox(width: context.dupraScaled(8)),
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: _FixtureCateringTag(isCatering: catering),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -55,12 +50,10 @@ class _FixtureHomeAwayBadge extends StatelessWidget {
         border: Border.all(color: isHome ? DupraColors.secondary : DupraColors.tertiary),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: FittedBox(
-          child: Text(
-            isHome ? 'Home' : 'Away',
-            style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800, letterSpacing: 0.5),
-          ),
+        padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 12, vertical: 8),
+        child: Text(
+          isHome ? 'Home' : 'Away',
+          style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w800, letterSpacing: 0.5),
         ),
       ),
     );
@@ -90,15 +83,18 @@ class _FixtureCateringTag extends StatelessWidget {
         border: Border.all(color: color),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 12, vertical: 8),
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Icon(icon, size: 16, color: color),
-            const SizedBox(width: 6),
-            FittedBox(
+            Icon(icon, size: context.dupraScaledIconSize(16), color: color),
+            SizedBox(width: context.dupraScaled(6)),
+            Flexible(
               child: Text(
                 text,
+                textAlign: TextAlign.end,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: textTheme.titleSmall?.copyWith(
                   fontWeight: FontWeight.w800,
                   letterSpacing: 0.5,

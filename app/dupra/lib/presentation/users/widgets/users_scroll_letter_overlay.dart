@@ -30,13 +30,13 @@ class _UsersScrollLetterOverlay extends StatelessWidget {
               ],
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 28),
+              padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 36, vertical: 28),
               child: Text(
                 letter,
                 textAlign: TextAlign.center,
                 style: textTheme.displaySmall?.copyWith(
                   fontWeight: FontWeight.w800,
-                  fontSize: 64,
+                  fontSize: context.dupraTextScaler.scale(64),
                   height: 1,
                   letterSpacing: -1,
                   color: scheme.onSurface.withValues(alpha: 0.9),

@@ -29,30 +29,32 @@ class _LadderTeamBlock extends StatelessWidget {
               color: accent.withValues(alpha: 0.75),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
-                  FittedBox(
-                    child: Icon(Icons.groups_2_outlined, color: scheme.onSurface.withValues(alpha: 0.65), size: 22),
+                  Icon(
+                    Icons.groups_2_outlined,
+                    color: scheme.onSurface.withValues(alpha: 0.65),
+                    size: context.dupraScaledIconSize(22),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: context.dupraScaled(10)),
                   Expanded(
-                    child: FittedBox(
-                      child: Text(
-                        title,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: scheme.onSurface.withValues(alpha: 0.65),
-                        ),
+                    child: Text(
+                      title,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: scheme.onSurface.withValues(alpha: 0.65),
                       ),
                     ),
                   ),
-                  FittedBox(
-                    child: Text(
-                      '${items.length} ${items.length == 1 ? 'player' : 'players'}',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.labelLarge?.copyWith(color: scheme.onSurface.withValues(alpha: 0.65)),
+                  Text(
+                    '${items.length} ${items.length == 1 ? 'player' : 'players'}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: scheme.onSurface.withValues(alpha: 0.65),
                     ),
                   ),
                 ],

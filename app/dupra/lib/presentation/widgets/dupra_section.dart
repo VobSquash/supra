@@ -1,3 +1,4 @@
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:dupra/presentation/home/data/home_overview_destination.dart';
 import 'package:dupra/presentation/home/data/home_section_item.dart';
 import 'package:dupra/presentation/widgets/dupra_icon_row.dart';
@@ -45,9 +46,8 @@ class DupraSection extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
-    final titleStyle = textTheme.bodyLarge?.copyWith(
+    final titleStyle = textTheme.titleMedium?.copyWith(
       color: scheme.onSurface,
-      fontSize: 16,
       fontWeight: FontWeight.w800,
       letterSpacing: 0.5,
     );
@@ -82,13 +82,15 @@ class DupraSection extends StatelessWidget {
             ],
           );
 
+    final vPad = context.dupraScaled(12);
+    final hPad = context.dupraScaled(16);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: EdgeInsets.symmetric(vertical: vPad),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+            padding: EdgeInsets.only(left: hPad, right: hPad, bottom: vPad),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -100,7 +102,7 @@ class DupraSection extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: hPad),
             child: Card(
               elevation: 0,
               margin: EdgeInsets.zero,
@@ -154,25 +156,26 @@ class _DupraSectionItemTile extends StatelessWidget {
     final splashRadius = _splashRadius(index: index, count: itemCount, r: cardRadius);
     final navigable = item.destination != null;
 
+    final chevronSize = context.dupraScaledIconSize(32);
     final row = DupraIconRow(
       icon: item.icon,
       iconAccentColor: item.accentColor,
       leadingEdgeAccent: item.leadingEdgeAccent,
       trailing: navigable
-          ? Icon(Icons.chevron_right_rounded, color: scheme.onSurface.withValues(alpha: 0.6), size: 32)
+          ? Icon(Icons.chevron_right_rounded, color: scheme.onSurface.withValues(alpha: 0.6), size: chevronSize)
           : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             item.title,
-            style: textTheme.titleMedium?.copyWith(color: scheme.onSurface, fontSize: 16, fontWeight: FontWeight.w600),
+            style: textTheme.bodyLarge?.copyWith(color: scheme.onSurface, fontWeight: FontWeight.w600),
           ),
           if (item.subtitle != null) ...[
-            const SizedBox(height: 4),
+            SizedBox(height: context.dupraScaled(4)),
             Text(
               item.subtitle!,
-              style: textTheme.bodyMedium?.copyWith(color: scheme.onSurface.withValues(alpha: 0.7), fontSize: 14),
+              style: textTheme.bodyMedium?.copyWith(color: scheme.onSurface.withValues(alpha: 0.7)),
             ),
           ],
         ],

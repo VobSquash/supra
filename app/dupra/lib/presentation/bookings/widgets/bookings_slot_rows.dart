@@ -1,7 +1,6 @@
 part of '../bookings_tab_view.dart';
 
-/// Same height for open and booked cells so each row lines up cleanly (compact grid only).
-const double _kCourtCellHeight = 118;
+double _courtCellHeight(BuildContext context) => context.dupraScaled(118);
 
 class _SlotRowCompact extends StatelessWidget {
   const _SlotRowCompact({
@@ -31,15 +30,15 @@ class _SlotRowCompact extends StatelessWidget {
         border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.5)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: EdgeInsets.all(context.dupraScaled(8)),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              width: 86,
-              height: _kCourtCellHeight,
+              width: context.dupraScaled(86),
+              height: _courtCellHeight(context),
               child: Padding(
-                padding: const EdgeInsets.only(left: 4),
+                padding: EdgeInsets.only(left: context.dupraScaled(4)),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -60,7 +59,7 @@ class _SlotRowCompact extends StatelessWidget {
                   for (var court = 1; court <= CourtSchedule.courtCount; court++)
                     Expanded(
                       child: Padding(
-                        padding: EdgeInsets.only(left: court == 1 ? 0 : 6),
+                        padding: EdgeInsets.only(left: court == 1 ? 0 : context.dupraScaled(6)),
                         child: Builder(
                           builder: (context) {
                             final b = lookup[(slotStartMinutes, court)];
@@ -124,7 +123,7 @@ class _SlotRowStacked extends StatelessWidget {
         border: Border.all(color: scheme.outlineVariant.withValues(alpha: 0.5)),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(context.dupraScaled(12)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -135,14 +134,14 @@ class _SlotRowStacked extends StatelessWidget {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            const SizedBox(height: 10),
+            SizedBox(height: context.dupraScaled(10)),
             for (var court = 1; court <= CourtSchedule.courtCount; court++) ...[
-              if (court > 1) const SizedBox(height: 8),
+              if (court > 1) SizedBox(height: context.dupraScaled(8)),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    width: 88,
+                    width: context.dupraScaled(88),
                     child: Text(
                       '$court',
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
@@ -213,8 +212,12 @@ class _CourtCell extends StatelessWidget {
     if (!booked) {
       final openContent = Row(
         children: [
-          Icon(Icons.circle_outlined, size: compact ? 14 : 18, color: DupraColors.success.withValues(alpha: 0.9)),
-          const SizedBox(width: 4),
+          Icon(
+            Icons.circle_outlined,
+            size: context.dupraScaledIconSize(compact ? 14 : 18),
+            color: DupraColors.success.withValues(alpha: 0.9),
+          ),
+          SizedBox(width: context.dupraScaled(4)),
           Text(
             'Open',
             style: Theme.of(
@@ -228,20 +231,20 @@ class _CourtCell extends StatelessWidget {
         final openCard = Material(
           color: scheme.surface.withValues(alpha: 0.65),
           borderRadius: BorderRadius.circular(10),
-          child: Padding(padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10), child: openContent),
+          child: Padding(padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 8, vertical: 10), child: openContent),
         );
         if (onOpenTap == null) return openCard;
         return InkWell(borderRadius: BorderRadius.circular(10), onTap: onOpenTap, child: openCard);
       }
 
       final openCard = SizedBox(
-        height: _kCourtCellHeight,
+        height: _courtCellHeight(context),
         width: double.infinity,
         child: Material(
           color: scheme.surface.withValues(alpha: 0.65),
           borderRadius: BorderRadius.circular(10),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+            padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 8, vertical: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -250,7 +253,7 @@ class _CourtCell extends StatelessWidget {
                     'Court $courtNo',
                     style: Theme.of(context).textTheme.labelSmall?.copyWith(color: scheme.onSurfaceVariant),
                   ),
-                if (showCourtLabel) const SizedBox(height: 4),
+                if (showCourtLabel) SizedBox(height: context.dupraScaled(4)),
                 openContent,
                 const Spacer(),
               ],
@@ -279,7 +282,7 @@ class _CourtCell extends StatelessWidget {
 
     final radius = BorderRadius.circular(12);
     final inner = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 8, vertical: 10),
       child: compact
           ? _BookedCompactBody(
               courtNo: courtNo,
@@ -294,7 +297,7 @@ class _CourtCell extends StatelessWidget {
 
     final card = Container(
       decoration: BoxDecoration(borderRadius: radius, border: border),
-      child: compact ? SizedBox(height: _kCourtCellHeight, width: double.infinity, child: inner) : inner,
+      child: compact ? SizedBox(height: _courtCellHeight(context), width: double.infinity, child: inner) : inner,
     );
 
     final bookedBody = onBookedTap != null
@@ -318,8 +321,8 @@ class _CourtCell extends StatelessWidget {
               children: [
                 bookedBody,
                 Positioned(
-                  top: 6,
-                  right: 6,
+                  top: context.dupraScaled(6),
+                  right: context.dupraScaled(6),
                   child: _MineBookingDeleteButton(compact: compact, onPressed: onDeleteMine!),
                 ),
               ],
@@ -336,8 +339,8 @@ class _MineBookingDeleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final diameter = compact ? 40.0 : 44.0;
-    final iconSize = compact ? 20.0 : 22.0;
+    final diameter = context.dupraScaled(compact ? 40.0 : 44.0);
+    final iconSize = context.dupraScaledIconSize(compact ? 20.0 : 22.0);
     return Semantics(
       button: true,
       label: 'Remove booking',
@@ -411,12 +414,12 @@ class _BookedCompactBody extends StatelessWidget {
               ),
             ],
           ),
-        if (showCourtLabel) const SizedBox(height: 4),
+        if (showCourtLabel) SizedBox(height: context.dupraScaled(4)),
         Row(
           children: [
             if (showAvatar) ...[
-              DupraAvatar(displayName: name, imageUrl: imageUrl, radius: 14),
-              const SizedBox(width: 8),
+              DupraAvatar(displayName: name, imageUrl: imageUrl, radius: context.dupraScaledIconSize(14)),
+              SizedBox(width: context.dupraScaled(8)),
             ],
             Expanded(
               child: Text(
@@ -459,10 +462,12 @@ class _BookedStackedBody extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DupraAvatar(displayName: name, imageUrl: imageUrl, radius: 18),
-        const SizedBox(width: 10),
+        DupraAvatar(displayName: name, imageUrl: imageUrl, radius: context.dupraScaledIconSize(18)),
+        SizedBox(width: context.dupraScaled(10)),
         Expanded(child: Text(name, style: textStyle)),
-        if (mine) ...[const SizedBox(width: 8, height: 34)],
+        if (mine) ...[
+          SizedBox(width: context.dupraScaled(8), height: context.dupraScaled(34)),
+        ],
       ],
     );
   }

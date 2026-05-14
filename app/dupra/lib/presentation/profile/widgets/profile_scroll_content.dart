@@ -194,15 +194,32 @@ class _ProfileScrollContent extends StatelessWidget {
             children: [
               DupraIconRow(
                 onTap: onPasswordSheet,
-                contentPadding: const EdgeInsets.only(left: 15, right: 5, top: 12, bottom: 12),
+                crossAxisAlignment: CrossAxisAlignment.center,
+                gapAfterIcon: 12,
+                iconSize: 26,
+                contentPadding: const EdgeInsets.only(left: 15, right: 4, top: 14, bottom: 14),
                 icon: Icons.lock_outline_rounded,
                 iconAccentColor: DupraColors.warning,
                 leadingEdgeAccent: true,
                 trailing: IconButton(
+                  visualDensity: VisualDensity.compact,
+                  padding: EdgeInsets.all(context.dupraScaled(8)),
+                  constraints: BoxConstraints(
+                    minWidth: context.dupraScaled(44),
+                    minHeight: context.dupraScaled(44),
+                  ),
                   onPressed: onPasswordSheet,
-                  icon: Icon(Icons.chevron_right_rounded, color: scheme.onSurfaceVariant),
+                  icon: Icon(
+                    Icons.chevron_right_rounded,
+                    color: scheme.onSurfaceVariant,
+                    size: context.dupraScaledIconSize(24),
+                  ),
                 ),
-                child: Text('Password', style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+                child: Text(
+                  'Password',
+                  style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, height: 1.2),
+                  softWrap: true,
+                ),
               ),
             ],
           ),

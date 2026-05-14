@@ -1,4 +1,5 @@
 import 'package:app_bloc/app_bloc.dart';
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,9 +58,13 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    const SizedBox(height: 48),
-                    const Icon(Icons.sports_tennis_rounded, size: 64, color: DupraColors.secondary),
-                    const SizedBox(height: 16),
+                    SizedBox(height: context.dupraScaled(48)),
+                    Icon(
+                      Icons.sports_tennis_rounded,
+                      size: context.dupraScaledIconSize(64),
+                      color: DupraColors.secondary,
+                    ),
+                    SizedBox(height: context.dupraScaled(16)),
                     GestureDetector(
                       onTap: () => {
                         setState(() {
@@ -75,13 +80,13 @@ class _LoginPageState extends State<LoginPage> {
                         ).textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800, color: scheme.onSurface),
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: context.dupraScaled(8)),
                     Text(
                       'Sign in to continue',
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: scheme.onSurfaceVariant),
                     ),
-                    const SizedBox(height: 36),
+                    SizedBox(height: context.dupraScaled(36)),
                     TextFormField(
                       controller: _email,
                       decoration: const InputDecoration(labelText: 'Email'),
@@ -92,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: context.dupraScaled(16)),
                     TextFormField(
                       controller: _password,
                       obscureText: true,
@@ -103,13 +108,13 @@ class _LoginPageState extends State<LoginPage> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 28),
+                    SizedBox(height: context.dupraScaled(28)),
                     FilledButton(
                       onPressed: loading ? null : _submit,
                       child: loading
                           ? SizedBox(
-                              height: 20,
-                              width: 20,
+                              height: context.dupraScaled(20),
+                              width: context.dupraScaled(20),
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
                                 color: Theme.of(context).colorScheme.onPrimary,

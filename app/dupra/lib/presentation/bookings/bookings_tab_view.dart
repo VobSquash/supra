@@ -1,5 +1,6 @@
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/bookings/data/booking_schedule.dart';
 import 'package:dupra/presentation/bookings/data/bookings_error_messages.dart';
@@ -314,9 +315,16 @@ class _BookingBandSegmentLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return FittedBox(
       fit: BoxFit.scaleDown,
-      child: Text(text, maxLines: 1, softWrap: false, textAlign: TextAlign.center),
+      child: Text(
+        text,
+        maxLines: 1,
+        softWrap: false,
+        textAlign: TextAlign.center,
+        style: textTheme.labelLarge,
+      ),
     );
   }
 }

@@ -15,13 +15,13 @@ class _LadderPlayerRow extends StatelessWidget {
     final name = item.profile?.displayName.trim();
     final titleText = (name != null && name.isNotEmpty) ? name : '(No name)';
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 8, vertical: 4),
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+        contentPadding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 8),
         leading: DupraAvatar(
           displayName: titleText,
           imageUrl: item.profile?.profilePictureUrl,
-          radius: 22,
+          radius: context.dupraScaledIconSize(22),
         ),
         title: Text(
           titleText,
@@ -36,7 +36,11 @@ class _LadderPlayerRow extends StatelessWidget {
         trailing: (item.canBeChallenged ?? false)
             ? Tooltip(
                 message: 'Can be challenged',
-                child: Icon(Icons.sports_tennis, color: scheme.primary, size: 22),
+                child: Icon(
+                  Icons.sports_tennis,
+                  color: scheme.primary,
+                  size: context.dupraScaledIconSize(22),
+                ),
               )
             : null,
       ),

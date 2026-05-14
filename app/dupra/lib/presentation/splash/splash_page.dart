@@ -1,4 +1,5 @@
 import 'package:app_bloc/app_bloc.dart';
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,8 +31,12 @@ class _SplashPageState extends State<SplashPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.sports_tennis_rounded, size: 56, color: DupraColors.secondary),
-            const SizedBox(height: 16),
+            Icon(
+              Icons.sports_tennis_rounded,
+              size: context.dupraScaledIconSize(56),
+              color: DupraColors.secondary,
+            ),
+            SizedBox(height: context.dupraScaled(16)),
             Text(
               'Dupra',
               style: textTheme.headlineMedium?.copyWith(
@@ -39,11 +44,11 @@ class _SplashPageState extends State<SplashPage> {
                 color: DupraColors.textPrimary,
               ),
             ),
-            const SizedBox(height: 32),
-            const SizedBox(
-              width: 28,
-              height: 28,
-              child: CircularProgressIndicator(strokeWidth: 2.5),
+            SizedBox(height: context.dupraScaled(32)),
+            SizedBox(
+              width: context.dupraScaled(28),
+              height: context.dupraScaled(28),
+              child: const CircularProgressIndicator(strokeWidth: 2.5),
             ),
           ],
         ),

@@ -1,4 +1,5 @@
 import 'package:client_models/client_models.dart';
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -65,7 +66,7 @@ class _BookingsDatePickerSheetBodyState extends State<_BookingsDatePickerSheetBo
             colorScheme: scheme.copyWith(primary: DupraColors.secondary),
           ),
           child: SizedBox(
-            height: 360,
+            height: context.dupraScaled(360),
             child: CalendarDatePicker(
               initialDate: widget.initialDate,
               firstDate: first,
@@ -127,11 +128,15 @@ class BookingsDateSelectorTile extends StatelessWidget {
           onTap: onTap,
           borderRadius: BorderRadius.circular(12),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 16, vertical: 12),
             child: Row(
               children: [
-                const Icon(Icons.calendar_month_rounded, color: DupraColors.secondary, size: 28),
-                const SizedBox(width: 12),
+                Icon(
+                  Icons.calendar_month_rounded,
+                  color: DupraColors.secondary,
+                  size: context.dupraScaledIconSize(28),
+                ),
+                SizedBox(width: context.dupraScaled(12)),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +147,7 @@ class BookingsDateSelectorTile extends StatelessWidget {
                               color: scheme.onSurfaceVariant,
                             ),
                       ),
-                      const SizedBox(height: 2),
+                      SizedBox(height: context.dupraScaled(2)),
                       Text(
                         dateLine,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -152,7 +157,7 @@ class BookingsDateSelectorTile extends StatelessWidget {
                     ],
                   ),
                 ),
-                Icon(Icons.expand_more_rounded, color: scheme.onSurfaceVariant),
+                Icon(Icons.expand_more_rounded, size: context.dupraScaledIconSize(24), color: scheme.onSurfaceVariant),
               ],
             ),
           ),

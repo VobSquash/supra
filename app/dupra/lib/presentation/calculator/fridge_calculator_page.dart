@@ -1,4 +1,5 @@
 import 'package:app_bloc/app_bloc.dart';
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:dupra/presentation/calculator/models/fridge_item.dart';
 import 'package:dupra/presentation/calculator/models/item_category.dart';
 import 'package:dupra/presentation/calculator/services/fridge_data_service.dart';
@@ -242,7 +243,7 @@ class _FridgeCalculatorPageState extends State<FridgeCalculatorPage> with Single
           IconButton(
             tooltip: 'Credit',
             onPressed: _showCreditDialog,
-            icon: const Text('⭐', style: TextStyle(fontSize: 22)),
+            icon: Text('⭐', style: TextStyle(fontSize: context.dupraScaledIconSize(22))),
           ),
         ],
       ),

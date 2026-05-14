@@ -178,16 +178,16 @@ class _DockTab extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 1, vertical: 2),
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 48),
+              constraints: BoxConstraints(minHeight: context.dupraScaled(48)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(selected ? selectedIcon : icon, size: 22, color: fg),
+                  Icon(selected ? selectedIcon : icon, size: context.dupraScaledIconSize(22), color: fg),
                   if (showLabel) ...[
-                    const SizedBox(height: 2),
+                    SizedBox(height: context.dupraScaled(2)),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 2),
+                      padding: EdgeInsets.symmetric(horizontal: context.dupraScaled(2)),
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
@@ -237,7 +237,10 @@ class _DockProfileTab extends StatelessWidget {
   final Color accent;
   final VoidCallback onTap;
 
-  static const double _avatarRadius = 14;
+  static double _avatarRadiusFor(BuildContext context) =>
+      context.dupraScaledIconSize(_avatarRadiusBase, max: 22);
+
+  static const double _avatarRadiusBase = 14;
 
   @override
   Widget build(BuildContext context) {
@@ -254,7 +257,7 @@ class _DockProfileTab extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 1, vertical: 2),
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: ConstrainedBox(
-              constraints: const BoxConstraints(minHeight: 48),
+              constraints: BoxConstraints(minHeight: context.dupraScaled(48)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -271,7 +274,7 @@ class _DockProfileTab extends StatelessWidget {
                     child: DupraAvatar(
                       displayName: displayName,
                       imageUrl: imageUrl,
-                      radius: _avatarRadius,
+                      radius: _DockProfileTab._avatarRadiusFor(context),
                     ),
                   ),
                   AnimatedContainer(

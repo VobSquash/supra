@@ -1,4 +1,5 @@
 import 'package:client_models/client_models.dart';
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:dupra/engine/launch_service.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/widgets/dupra_avatar.dart';
@@ -46,7 +47,7 @@ class _BookingDetailsContent extends StatelessWidget {
     final titleLine = (display != null && display.isNotEmpty) ? display : 'Booking';
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+      padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 16).copyWith(bottom: context.dupraScaled(24)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -59,21 +60,21 @@ class _BookingDetailsContent extends StatelessWidget {
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.close),
+                icon: Icon(Icons.close, size: context.dupraScaledIconSize(24)),
                 onPressed: () => Navigator.of(context).pop(),
                 color: scheme.onSurface,
               ),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: context.dupraScaled(8)),
           Center(
             child: DupraAvatar(
               displayName: titleLine,
               imageUrl: booking.profilePictureUrl ?? profile?.profilePictureUrl,
-              radius: 36,
+              radius: context.dupraScaledIconSize(36),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: context.dupraScaled(12)),
           Text(
             titleLine,
             style: Theme.of(context).textTheme.headlineSmall?.copyWith(
@@ -81,7 +82,7 @@ class _BookingDetailsContent extends StatelessWidget {
                   color: scheme.onSurface,
                 ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: context.dupraScaled(24)),
           Text(
             'Booking details',
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -89,19 +90,19 @@ class _BookingDetailsContent extends StatelessWidget {
                   color: scheme.onSurface,
                 ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: context.dupraScaled(12)),
           _InfoRow(
             icon: Icons.sports_tennis,
             label: 'Court',
             value: booking.courtNo != null ? 'Court ${booking.courtNo}' : '—',
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: context.dupraScaled(8)),
           _InfoRow(
             icon: Icons.calendar_today_outlined,
             label: 'Date',
             value: u != null ? DateTime(u.year, u.month, u.day).formateDateForUi() : '—',
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: context.dupraScaled(8)),
           _InfoRow(
             icon: Icons.schedule,
             label: 'Time',
@@ -110,11 +111,11 @@ class _BookingDetailsContent extends StatelessWidget {
                 : '—',
           ),
           if (booking.isMine) ...[
-            const SizedBox(height: 12),
+            SizedBox(height: context.dupraScaled(12)),
             Align(
               alignment: Alignment.centerLeft,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
                   color: DupraColors.secondary.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(999),
@@ -130,7 +131,7 @@ class _BookingDetailsContent extends StatelessWidget {
             ),
           ],
           if (hasContact && profile != null) ...[
-            const Divider(height: 32),
+            Divider(height: context.dupraScaled(32)),
             Text(
               'Contact',
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -138,7 +139,7 @@ class _BookingDetailsContent extends StatelessWidget {
                     color: scheme.onSurface,
                   ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: context.dupraScaled(12)),
             if (showEmail)
               _InfoRow(
                 icon: Icons.email_outlined,
@@ -146,7 +147,7 @@ class _BookingDetailsContent extends StatelessWidget {
                 value: profile.email!.trim(),
                 onTap: () => _launchEmail(profile.email),
               ),
-            if (showEmail && showPhone) const SizedBox(height: 8),
+            if (showEmail && showPhone) SizedBox(height: context.dupraScaled(8)),
             if (showPhone)
               _InfoRow(
                 icon: Icons.phone_outlined,
@@ -198,18 +199,22 @@ class _InfoRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 12, vertical: 8),
           child: Row(
             children: [
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(context.dupraScaled(10)),
                 decoration: BoxDecoration(
                   color: scheme.onSurface.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(6),
                 ),
-                child: Icon(icon, size: 22, color: scheme.onSurface.withValues(alpha: 0.75)),
+                child: Icon(
+                  icon,
+                  size: context.dupraScaledIconSize(22),
+                  color: scheme.onSurface.withValues(alpha: 0.75),
+                ),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: context.dupraScaled(12)),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -221,7 +226,7 @@ class _InfoRow extends StatelessWidget {
                             color: scheme.onSurface,
                           ),
                     ),
-                    const SizedBox(height: 2),
+                    SizedBox(height: context.dupraScaled(2)),
                     Text(
                       value,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: muted),
@@ -229,7 +234,8 @@ class _InfoRow extends StatelessWidget {
                   ],
                 ),
               ),
-              if (onTap != null) Icon(Icons.chevron_right, size: 20, color: muted),
+              if (onTap != null)
+                Icon(Icons.chevron_right, size: context.dupraScaledIconSize(20), color: muted),
             ],
           ),
         ),

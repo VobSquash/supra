@@ -70,8 +70,12 @@ class _AvatarBlock extends StatelessWidget {
                   ],
                 ),
                 child: Padding(
-                  padding: const EdgeInsets.all(7),
-                  child: Icon(Icons.camera_alt_rounded, size: 20, color: scheme.onPrimaryContainer),
+                  padding: EdgeInsets.all(context.dupraScaled(7)),
+                  child: Icon(
+                    Icons.camera_alt_rounded,
+                    size: context.dupraScaledIconSize(20),
+                    color: scheme.onPrimaryContainer,
+                  ),
                 ),
               ),
             ),
@@ -104,7 +108,7 @@ class _ReadOnlyLine extends StatelessWidget {
             height: 1.25,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: context.dupraScaled(4)),
         Text(
           value,
           style: textTheme.titleSmall?.copyWith(color: scheme.onSurfaceVariant, fontWeight: FontWeight.w500),
@@ -124,23 +128,39 @@ class _PrivacyReadRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    return DupraIconRow(
-      icon: enabled ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-      iconAccentColor: enabled ? DupraColors.success : scheme.onSurfaceVariant,
-      leadingEdgeAccent: true,
-      showIconBackground: false,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-      trailing: FittedBox(
-        child: Text(
-          enabled ? 'Yes' : 'No',
-          style: textTheme.labelLarge?.copyWith(
-            color: enabled ? DupraColors.success : scheme.onSurfaceVariant,
-            fontWeight: FontWeight.w700,
-          ),
+    final status = enabled ? 'Yes' : 'No';
+    return Semantics(
+      label: '$label, $status',
+      child: DupraIconRow(
+        icon: enabled ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+        iconAccentColor: enabled ? DupraColors.success : scheme.onSurfaceVariant,
+        leadingEdgeAccent: true,
+        showIconBackground: false,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 14),
+        gapAfterIcon: 12,
+        iconSize: 26,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              label,
+              style: textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600, height: 1.25),
+              softWrap: true,
+            ),
+            SizedBox(height: context.dupraScaled(6)),
+            Align(
+              alignment: AlignmentDirectional.centerEnd,
+              child: Text(
+                status,
+                style: textTheme.labelLarge?.copyWith(
+                  color: enabled ? DupraColors.success : scheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ),
+          ],
         ),
-      ),
-      child: FittedBox(
-        child: Text(label, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
       ),
     );
   }
@@ -159,7 +179,7 @@ class _PrivacyEditRow extends StatelessWidget {
     final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
     return SwitchListTile.adaptive(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+      contentPadding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 10, vertical: 8),
       title: Text(title),
       subtitle: Text(subtitle, style: textTheme.bodySmall?.copyWith(color: scheme.onSurfaceVariant)),
       value: value,

@@ -1,3 +1,4 @@
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:dupra/presentation/widgets/dupra_avatar.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class DupraIconRow extends StatelessWidget {
     this.contentPadding,
     this.onTap,
     this.useAvatarIcon,
+    this.crossAxisAlignment = CrossAxisAlignment.start,
     super.key,
   });
 
@@ -25,6 +27,9 @@ class DupraIconRow extends StatelessWidget {
   final bool leadingEdgeAccent;
   final bool showIconBackground;
   final VoidCallback? onTap;
+
+  /// Vertical alignment of the leading icon, text, and trailing within the row.
+  final CrossAxisAlignment crossAxisAlignment;
 
   /// Inner icon diameter-ish (home tiles use 32).
   final double iconSize;
@@ -37,29 +42,49 @@ class DupraIconRow extends StatelessWidget {
 
   static const double _accentBarWidth = 5;
 
-  EdgeInsets get _effectivePadding =>
-      contentPadding ??
-      (leadingEdgeAccent
-          ? const EdgeInsets.fromLTRB(13, 12, 20, 12)
-          : const EdgeInsets.symmetric(horizontal: 20, vertical: 12));
+  static EdgeInsets _scalePadding(BuildContext context, EdgeInsets p) => EdgeInsets.fromLTRB(
+        context.dupraScaled(p.left),
+        context.dupraScaled(p.top),
+        context.dupraScaled(p.right),
+        context.dupraScaled(p.bottom),
+      );
 
   @override
   Widget build(BuildContext context) {
+    final pad = contentPadding != null
+        ? _scalePadding(context, contentPadding!)
+        : (leadingEdgeAccent
+            ? EdgeInsets.fromLTRB(
+                context.dupraScaled(13),
+                context.dupraScaled(12),
+                context.dupraScaled(20),
+                context.dupraScaled(12),
+              )
+            : context.dupraScaledEdgeInsetsSymmetric(horizontal: 20, vertical: 12));
+    final iconPad = context.dupraScaled(10);
+    final gap = context.dupraScaled(gapAfterIcon);
+    final resolvedIconSize = context.dupraScaledIconSize(iconSize);
+    final avatarTriple = useAvatarIcon;
     final inner = Padding(
-      padding: _effectivePadding,
+      padding: pad,
       child: Row(
+        crossAxisAlignment: crossAxisAlignment,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(iconPad),
             decoration: showIconBackground
                 ? BoxDecoration(color: iconAccentColor.withValues(alpha: 0.12), borderRadius: BorderRadius.circular(12))
                 : null,
-            child: useAvatarIcon != null
-                ? DupraAvatar(displayName: useAvatarIcon!.$1, imageUrl: useAvatarIcon!.$2, radius: useAvatarIcon!.$3)
-                : Icon(icon, size: iconSize, color: iconAccentColor),
+            child: avatarTriple != null
+                ? DupraAvatar(
+                    displayName: avatarTriple.$1,
+                    imageUrl: avatarTriple.$2,
+                    radius: context.dupraScaledIconSize(avatarTriple.$3),
+                  )
+                : Icon(icon, size: resolvedIconSize, color: iconAccentColor),
           ),
-          SizedBox(width: gapAfterIcon),
+          SizedBox(width: gap),
           Expanded(child: child),
           if (trailing != null) trailing!,
         ],

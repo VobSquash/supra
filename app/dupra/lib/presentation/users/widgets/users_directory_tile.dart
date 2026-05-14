@@ -29,23 +29,30 @@ class _UsersDirectoryTile extends StatelessWidget {
           iconAccentColor: DupraColors.accentForUserDirectoryRow(name),
           leadingEdgeAccent: true,
           showIconBackground: false,
-          contentPadding: const EdgeInsets.symmetric(horizontal: 14),
+          contentPadding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 14),
           trailing: IconButton(
             onPressed: onTap,
-            icon: Icon(Icons.chevron_right_rounded, color: scheme.onSurfaceVariant),
+            icon: Icon(
+              Icons.chevron_right_rounded,
+              color: scheme.onSurfaceVariant,
+              size: context.dupraScaledIconSize(24),
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              FittedBox(
-                child: Text(name, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, fontSize: 21)),
+              Text(
+                name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
               ),
-              FittedBox(
-                child: Text(
-                  membershipSubtitle,
-                  style: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant, fontSize: 18),
-                ),
+              Text(
+                membershipSubtitle,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant),
               ),
             ],
           ),

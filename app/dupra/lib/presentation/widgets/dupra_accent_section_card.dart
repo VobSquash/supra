@@ -1,3 +1,4 @@
+import 'package:dupra/engine/accessibility/dupra_build_context_accessibility.dart';
 import 'package:flutter/material.dart';
 
 /// Card with a coloured header strip (same visual language as ladder team blocks).
@@ -38,22 +39,20 @@ class DupraAccentSectionCard extends StatelessWidget {
               color: accentColor.withValues(alpha: 0.75),
             ),
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: context.dupraScaledEdgeInsetsSymmetric(horizontal: 16, vertical: 12),
               child: Row(
                 children: [
-                  Icon(headerIcon, color: scheme.onSurface.withValues(alpha: 0.65), size: 22),
-                  const SizedBox(width: 10),
+                  Icon(headerIcon, color: scheme.onSurface.withValues(alpha: 0.65), size: context.dupraScaledIconSize(22)),
+                  SizedBox(width: context.dupraScaled(10)),
                   Expanded(
-                    child: FittedBox(
-                      child: Text(
-                        headerTitle,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: scheme.onSurface.withValues(alpha: 0.65),
-                        ),
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
+                    child: Text(
+                      headerTitle,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: scheme.onSurface.withValues(alpha: 0.65),
                       ),
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   if (headerTrailing != null) Flexible(child: headerTrailing!),
