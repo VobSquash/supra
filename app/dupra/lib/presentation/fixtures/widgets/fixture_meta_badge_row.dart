@@ -41,7 +41,7 @@ class FixtureMetaBadgeRow extends StatelessWidget {
 }
 
 class _FixtureHomeAwayBadge extends StatelessWidget {
-  const _FixtureHomeAwayBadge({required this.isHome, super.key});
+  const _FixtureHomeAwayBadge({required this.isHome});
 
   final bool isHome;
 
@@ -68,7 +68,7 @@ class _FixtureHomeAwayBadge extends StatelessWidget {
 }
 
 class _FixtureCateringTag extends StatelessWidget {
-  const _FixtureCateringTag({required this.isCatering, super.key});
+  const _FixtureCateringTag({required this.isCatering});
 
   final bool isCatering;
 

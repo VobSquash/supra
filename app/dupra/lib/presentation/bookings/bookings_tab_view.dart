@@ -1,11 +1,12 @@
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
-import 'package:dio/dio.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/bookings/data/booking_schedule.dart';
+import 'package:dupra/presentation/bookings/data/bookings_error_messages.dart';
 import 'package:dupra/presentation/bookings/data/bookings_layout_preference.dart';
 import 'package:dupra/presentation/bookings/widgets/booking_details_sheet.dart';
 import 'package:dupra/presentation/bookings/widgets/bookings_date_sheet.dart';
+import 'package:dupra/presentation/bookings/widgets/bookings_delete_confirmation_sheet.dart';
 import 'package:dupra/presentation/shell/shell_tab_insets.dart';
 import 'package:dupra/presentation/widgets/dupra_avatar.dart';
 import 'package:flutter/material.dart';
@@ -34,13 +35,6 @@ class _BookingsTabViewState extends State<BookingsTabView> {
         setState(() => _layout = layout);
       }
     });
-  }
-
-  Widget _bookingBandSegmentLabel(String text) {
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      child: Text(text, maxLines: 1, softWrap: false, textAlign: TextAlign.center),
-    );
   }
 
   Future<void> _pickDate() async {
@@ -79,7 +73,7 @@ class _BookingsTabViewState extends State<BookingsTabView> {
       );
     } catch (error) {
       if (!mounted) return;
-      final msg = _bookingCreateErrorMessage(error);
+      final msg = BookingsErrorMessages.createBooking(error);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     } finally {
       if (mounted) {
@@ -93,17 +87,8 @@ class _BookingsTabViewState extends State<BookingsTabView> {
     if (id == null || id.isEmpty) return;
 
     final dayUi = DateTime(selectedDate.year, selectedDate.month, selectedDate.day).formateDateForUi();
-    final shouldDelete = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Delete booking?'),
-        content: Text('This removes only this booking on $dayUi. You cannot undo this action.'),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
-          FilledButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Delete')),
-        ],
-      ),
-    );
+    final shouldDelete =
+        await showBookingsDeleteConfirmationSheet(context, formattedDayLabel: dayUi);
 
     if (!mounted || shouldDelete != true) return;
 
@@ -115,7 +100,7 @@ class _BookingsTabViewState extends State<BookingsTabView> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Booking deleted ($dayUi).')));
     } catch (error) {
       if (!mounted) return;
-      final msg = _bookingDeleteErrorMessage(error);
+      final msg = BookingsErrorMessages.deleteBooking(error);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
     } finally {
       if (mounted) {
@@ -125,14 +110,14 @@ class _BookingsTabViewState extends State<BookingsTabView> {
   }
 
   String _layoutMenuTooltip() => switch (_layout) {
-    DupraBookingsSlotLayout.grid => 'Layout: Grid. Tap to change.',
-    DupraBookingsSlotLayout.accessible => 'Layout: Accessible. Tap to change.',
-  };
+        DupraBookingsSlotLayout.grid => 'Layout: Grid. Tap to change.',
+        DupraBookingsSlotLayout.accessible => 'Layout: Accessible. Tap to change.',
+      };
 
   IconData _layoutMenuButtonIcon() => switch (_layout) {
-    DupraBookingsSlotLayout.grid => Icons.view_column_outlined,
-    DupraBookingsSlotLayout.accessible => Icons.accessibility_new,
-  };
+        DupraBookingsSlotLayout.grid => Icons.view_column_outlined,
+        DupraBookingsSlotLayout.accessible => Icons.accessibility_new,
+      };
 
   Future<void> _onPickLayout(DupraBookingsSlotLayout layout) async {
     await DupraBookingsLayoutPreferenceStore.save(layout);
@@ -236,17 +221,17 @@ class _BookingsTabViewState extends State<BookingsTabView> {
                     segments: [
                       ButtonSegment<BookingTimeBand>(
                         value: BookingTimeBand.peak,
-                        label: _bookingBandSegmentLabel('Peak'),
+                        label: const _BookingBandSegmentLabel('Peak'),
                         tooltip: 'Peak · ${BookingTimeBand.peak.rangeLabel}',
                       ),
                       ButtonSegment<BookingTimeBand>(
                         value: BookingTimeBand.afternoon,
-                        label: _bookingBandSegmentLabel('Afternoon'),
+                        label: const _BookingBandSegmentLabel('Afternoon'),
                         tooltip: 'Afternoon · ${BookingTimeBand.afternoon.rangeLabel}',
                       ),
                       ButtonSegment<BookingTimeBand>(
                         value: BookingTimeBand.morning,
-                        label: _bookingBandSegmentLabel('Morning'),
+                        label: const _BookingBandSegmentLabel('Morning'),
                         tooltip: 'Morning · ${BookingTimeBand.morning.rangeLabel}',
                       ),
                     ],
@@ -321,35 +306,17 @@ class _BookingsTabViewState extends State<BookingsTabView> {
   }
 }
 
-String _bookingDeleteErrorMessage(Object error) {
-  if (error is DioException) {
-    final text = error.error?.toString().trim();
-    if (text != null && text.isNotEmpty) return text;
-    final message = error.message?.trim();
-    if (message != null && message.isNotEmpty) return message;
-  }
-  final raw = error.toString().trim();
-  if (raw.isNotEmpty && raw != 'Exception') return raw;
-  return 'Unable to delete this booking.';
-}
+/// Band tab label fitted to stay on one line (widget class avoids a method subtree per skill).
+class _BookingBandSegmentLabel extends StatelessWidget {
+  const _BookingBandSegmentLabel(this.text);
 
-String _bookingCreateErrorMessage(Object error) {
-  if (error is DioException) {
-    final text = error.error?.toString().trim();
-    if (text != null &&
-        (text.contains('bookings_slot_unique_idx') ||
-            text.contains('already booked') ||
-            text.contains('already exists'))) {
-      return 'That slot is already booked.';
-    }
-    if (text != null && text.contains('already have a booking for this day')) {
-      return 'You already have a booking for this day.';
-    }
-    if (text != null && text.isNotEmpty) return text;
-    final message = error.message?.trim();
-    if (message != null && message.isNotEmpty) return message;
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Text(text, maxLines: 1, softWrap: false, textAlign: TextAlign.center),
+    );
   }
-  final raw = error.toString().trim();
-  if (raw.isNotEmpty && raw != 'Exception') return raw;
-  return 'Unable to create booking for this slot.';
 }
