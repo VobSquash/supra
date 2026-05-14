@@ -239,6 +239,7 @@ class _MainShellPageState extends State<MainShellPage> {
             final placement = _shellPlacement(routerState);
             _dropAdminShellIfUnauthorized(context, adminEligible: adminEligible, adminShell: placement.adminShell);
             _syncPageControllerToIndex(placement.tabIndex);
+            final suiteKey = placement.adminShell ? 'a' : 'm';
 
             const profileTabIndex = _tabCount - 1;
             final avatarLabel = _shellAvatarLabel(snapshot, profile);
@@ -272,6 +273,7 @@ class _MainShellPageState extends State<MainShellPage> {
                     ? List.generate(
                         _tabCount,
                         (i) => _LazyShellTab(
+                          key: ValueKey<String>('shell-$suiteKey-$i'),
                           tabIndex: i,
                           effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
                           builder: () => switch (i) {
@@ -286,6 +288,7 @@ class _MainShellPageState extends State<MainShellPage> {
                     : List.generate(
                         _tabCount,
                         (i) => _LazyShellTab(
+                          key: ValueKey<String>('shell-$suiteKey-$i'),
                           tabIndex: i,
                           effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
                           builder: () => switch (i) {
@@ -321,6 +324,7 @@ class _LazyShellTab extends StatefulWidget {
     required this.tabIndex,
     required this.effectiveTabIndex,
     required this.builder,
+    super.key,
   });
 
   final int tabIndex;

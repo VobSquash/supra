@@ -2,6 +2,7 @@ import 'package:app_bloc/app_bloc.dart';
 import 'package:dupra/engine/app_router.dart';
 import 'package:dupra/engine/go_router_refresh_stream.dart';
 import 'package:dupra/engine/theme/dupra_theme.dart';
+import 'package:dupra/engine/users_bloc_creator.dart';
 import 'package:dupra/presentation/widgets/glassic_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,7 @@ class DupraRoot extends StatefulWidget {
 
 class _DupraRootState extends State<DupraRoot> {
   late final AuthBloc _authBloc = appBlocSl<AuthBloc>();
-  late final UsersBloc _usersBloc = appBlocSl<UsersBloc>();
+  late final UsersBloc _usersBloc = createUsersBloc();
   late final GoRouterRefreshStream _routerRefresh = GoRouterRefreshStream(_authBloc.stream);
   late final GoRouter _router = AppRouter.create(authBloc: _authBloc, refresh: _routerRefresh);
 
