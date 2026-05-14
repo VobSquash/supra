@@ -42,6 +42,7 @@ dependencies:
   flutter_gen: ^5.13.0+1
   go_router: ^15.1.2
   image_picker: ^1.1.2
+  intl: ^0.18.1
   middleware:
     path: ../../packages/middleware
   session_storage:

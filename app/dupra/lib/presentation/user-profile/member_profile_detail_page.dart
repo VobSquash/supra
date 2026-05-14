@@ -1,14 +1,13 @@
 import 'package:client_models/client_models.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/widgets/dupra_avatar.dart';
+import 'package:dupra/presentation/widgets/dupra_contact_action_sheet.dart';
+import 'package:dupra/presentation/widgets/dupra_contact_icon_row.dart';
 import 'package:dupra/presentation/widgets/dupra_icon_row.dart';
 import 'package:dupra/presentation/widgets/dupra_profile_hero_sliver.dart';
 import 'package:dupra/presentation/widgets/dupra_section.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:url_launcher/url_launcher.dart';
 
-part 'widgets/member_profile_contact_sheet.dart';
 part 'widgets/member_profile_detail_scroll_body.dart';
 part 'widgets/member_profile_header_avatar.dart';
 part 'widgets/member_profile_section_rows.dart';
@@ -32,12 +31,6 @@ class MemberProfileDetailPage extends StatelessWidget {
     return n.isEmpty ? 'Member' : n;
   }
 
-  Future<void> _openUri(Uri uri) async {
-    final ok = await canLaunchUrl(uri);
-    if (!ok) return;
-    await launchUrl(uri, mode: LaunchMode.externalApplication);
-  }
-
   String? _formattedDob() {
     final raw = profile.dateOfBirth?.trim();
     if (raw == null || raw.isEmpty) return null;
@@ -51,8 +44,6 @@ class MemberProfileDetailPage extends StatelessWidget {
       return raw;
     }
   }
-
-  String _telDialString(String raw) => raw.replaceAll(RegExp(r'\s+'), '');
 
   @override
   Widget build(BuildContext context) {
@@ -83,8 +74,8 @@ class MemberProfileDetailPage extends StatelessWidget {
       phone: profile.contactNumber?.trim(),
       showDob: showDob,
       dob: dobStr,
-      onOpenUri: _openUri,
-      telDialString: _telDialString,
+      onOpenUri: dupraLaunchExternalUri,
+      telDialString: dupraTelDialForDialer,
     );
 
     return Scaffold(
@@ -117,13 +108,13 @@ class MemberProfileDetailPage extends StatelessWidget {
                     emergencyLine: emergencyLine,
                     contactRows: contactRows,
                     onOpenEmergencyPressed: emergencyLine != null
-                        ? () => showMemberProfileContactActionSheet(
+                        ? () => showContactInfoBottomSheet(
                             context: context,
                             fieldTitle: 'Emergency contact',
                             actionValue: emergencyLine,
-                            kind: MemberProfileContactSheetKind.phone,
-                            launchUri: _openUri,
-                            telDialString: _telDialString,
+                            kind: DupraActiobSheetKind.phone,
+                            launchUri: dupraLaunchExternalUri,
+                            telDialString: dupraTelDialForDialer,
                           )
                         : null,
                   ),

@@ -1,13 +1,23 @@
-part of '../member_profile_detail_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-enum MemberProfileContactSheetKind { email, phone, dateOfBirth }
+enum DupraActiobSheetKind { email, phone, dateOfBirth }
+
+Future<void> dupraLaunchExternalUri(Uri uri) async {
+  final ok = await canLaunchUrl(uri);
+  if (!ok) return;
+  await launchUrl(uri, mode: LaunchMode.externalApplication);
+}
+
+String dupraTelDialForDialer(String raw) => raw.replaceAll(RegExp(r'\s+'), '');
 
 /// Bottom sheet for contact fields: launch [mailto:] / [tel:] when applicable and/or copy value.
-Future<void> showMemberProfileContactActionSheet({
+Future<void> showContactInfoBottomSheet({
   required BuildContext context,
   required String fieldTitle,
   required String actionValue,
-  required MemberProfileContactSheetKind kind,
+  required DupraActiobSheetKind kind,
   required Future<void> Function(Uri uri) launchUri,
   required String Function(String raw) telDialString,
 }) {
@@ -57,7 +67,7 @@ Future<void> showMemberProfileContactActionSheet({
               ),
             ),
             const SizedBox(height: 20),
-            if (kind == MemberProfileContactSheetKind.email) ...[
+            if (kind == DupraActiobSheetKind.email) ...[
               FilledButton.icon(
                 onPressed: () => dismissThenLaunch(Uri.parse('mailto:$actionValue')),
                 icon: const Icon(Icons.mail_outline_rounded),
@@ -65,7 +75,7 @@ Future<void> showMemberProfileContactActionSheet({
               ),
               const SizedBox(height: 12),
             ],
-            if (kind == MemberProfileContactSheetKind.phone) ...[
+            if (kind == DupraActiobSheetKind.phone) ...[
               FilledButton.icon(
                 onPressed: () => dismissThenLaunch(Uri.parse('tel:${telDialString(actionValue)}')),
                 icon: const Icon(Icons.call_rounded),
@@ -73,7 +83,7 @@ Future<void> showMemberProfileContactActionSheet({
               ),
               const SizedBox(height: 12),
             ],
-            if (kind == MemberProfileContactSheetKind.dateOfBirth) ...[
+            if (kind == DupraActiobSheetKind.dateOfBirth) ...[
               FilledButton.icon(
                 onPressed: () => {},
                 icon: const Icon(Icons.calendar_month_rounded),
@@ -84,7 +94,7 @@ Future<void> showMemberProfileContactActionSheet({
             OutlinedButton.icon(
               onPressed: copyValue,
               icon: const Icon(Icons.copy_rounded),
-              label: Text(kind == MemberProfileContactSheetKind.dateOfBirth ? 'Copy' : 'Copy to clipboard'),
+              label: Text(kind == DupraActiobSheetKind.dateOfBirth ? 'Copy' : 'Copy to clipboard'),
             ),
           ],
         ),

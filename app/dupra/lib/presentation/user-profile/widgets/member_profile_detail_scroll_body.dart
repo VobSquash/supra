@@ -38,7 +38,7 @@ class _MemberProfileDetailScrollBody extends StatelessWidget {
           cardChild: Column(
             children: [
               if (emergency != null && openEmergency != null)
-                _MemberProfileContactIconRow(
+                DupraActionIconRow(
                   scheme: scheme,
                   textTheme: textTheme,
                   icon: Icons.emergency_rounded,
