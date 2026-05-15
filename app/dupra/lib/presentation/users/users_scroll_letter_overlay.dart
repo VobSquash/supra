@@ -1,8 +1,9 @@
-part of '../users_page.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 /// Letter pill driven by scroll; ignores pointers so gestures reach the list.
-class _UsersScrollLetterOverlay extends StatelessWidget {
-  const _UsersScrollLetterOverlay({required this.listenable});
+class UsersScrollLetterOverlay extends StatelessWidget {
+  const UsersScrollLetterOverlay({required this.listenable, super.key});
 
   final ValueListenable<String?> listenable;
 
@@ -22,12 +23,7 @@ class _UsersScrollLetterOverlay extends StatelessWidget {
               color: scheme.scrim.withValues(alpha: 0.44),
               borderRadius: BorderRadius.circular(26),
               border: Border.all(color: scheme.outline.withValues(alpha: 0.22)),
-              boxShadow: [
-                BoxShadow(
-                  blurRadius: 24,
-                  color: Colors.black.withValues(alpha: 0.35),
-                ),
-              ],
+              boxShadow: [BoxShadow(blurRadius: 24, color: Colors.black.withValues(alpha: 0.35))],
             ),
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 36, vertical: 28),

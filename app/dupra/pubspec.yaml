@@ -31,6 +31,7 @@ dependencies:
   app_bloc:
     path: ../../packages/app_bloc
   cached_network_image: ^3.4.1
+  characters: ^1.4.0
   client_models:
     path: ../../packages/client_models
   client_supabase:

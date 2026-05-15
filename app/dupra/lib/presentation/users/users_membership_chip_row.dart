@@ -1,10 +1,8 @@
-part of '../users_page.dart';
+import 'package:dupra/presentation/users/data/users_membership_filter.dart';
+import 'package:flutter/material.dart';
 
-class _UsersMembershipChipRow extends StatelessWidget {
-  const _UsersMembershipChipRow({
-    required this.selected,
-    required this.onSelected,
-  });
+class UsersMembershipChipRow extends StatelessWidget {
+  const UsersMembershipChipRow({required this.selected, required this.onSelected, super.key});
 
   final UsersMembershipFilter selected;
   final ValueChanged<UsersMembershipFilter> onSelected;
@@ -22,7 +20,9 @@ class _UsersMembershipChipRow extends StatelessWidget {
                 label: Text(usersMembershipFilterLabel(f)),
                 selected: selected == f,
                 onSelected: (chosen) {
-                  if (!chosen) return;
+                  if (!chosen) {
+                    return;
+                  }
                   onSelected(f);
                 },
               ),

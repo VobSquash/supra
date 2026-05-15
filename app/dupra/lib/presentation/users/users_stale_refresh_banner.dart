@@ -1,11 +1,8 @@
-part of '../users_page.dart';
+import 'package:flutter/material.dart';
 
 /// Inline warning when refresh failed but older rows are still shown.
-class _UsersStaleRefreshBanner extends StatelessWidget {
-  const _UsersStaleRefreshBanner({
-    required this.message,
-    required this.onRetry,
-  });
+class UsersStaleRefreshBanner extends StatelessWidget {
+  const UsersStaleRefreshBanner({required this.message, required this.onRetry, super.key});
 
   final String message;
   final VoidCallback onRetry;
@@ -24,10 +21,7 @@ class _UsersStaleRefreshBanner extends StatelessWidget {
             Icon(Icons.warning_amber_rounded, color: scheme.error),
             const SizedBox(width: 10),
             Expanded(child: Text(message)),
-            TextButton(
-              onPressed: onRetry,
-              child: const Text('Retry'),
-            ),
+            TextButton(onPressed: onRetry, child: const Text('Retry')),
           ],
         ),
       ),

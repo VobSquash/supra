@@ -1,12 +1,15 @@
-part of '../users_page.dart';
+import 'package:client_models/client_models.dart';
+import 'package:dupra/presentation/users/data/users_directory_metrics.dart';
+import 'package:flutter/material.dart';
 
-class _UsersProfileRefreshList extends StatelessWidget {
-  const _UsersProfileRefreshList({
+class UsersProfileRefreshList extends StatelessWidget {
+  const UsersProfileRefreshList({
     required this.scrollController,
     required this.onRefresh,
     required this.profilesEmptyMessage,
     required this.profiles,
     required this.itemBuilder,
+    super.key,
   });
 
   final ScrollController scrollController;
@@ -61,9 +64,7 @@ class _UsersProfileRefreshList extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: UsersDirectoryRowMetrics.separatorHeight,
-                            ),
+                            const SizedBox(height: UsersDirectoryRowMetrics.separatorHeight),
                           ],
                         );
                       },

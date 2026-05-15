@@ -1,4 +1,4 @@
-part of '../users_page.dart';
+import 'package:client_models/client_models.dart';
 
 /// Directory membership segment (subset of [MembershipTypeEnum] groupings).
 enum UsersMembershipFilter { all, league, social, masters }
@@ -17,7 +17,9 @@ String usersMembershipFilterLabel(UsersMembershipFilter f) {
 }
 
 bool usersMembershipMatches(BasicProfileDTO p, UsersMembershipFilter f) {
-  if (f == UsersMembershipFilter.all) return true;
+  if (f == UsersMembershipFilter.all) {
+    return true;
+  }
   final t = p.extendedProfile?.membershipType;
   if (t == null || t == MembershipTypeEnum.unknown) {
     return false;
@@ -47,8 +49,12 @@ List<BasicProfileDTO> filterUsersProfilesForDirectory({
 }) {
   final query = rawQuery.trim().toLowerCase();
   return profiles.where((p) {
-    if (!usersMembershipMatches(p, membership)) return false;
-    if (query.isEmpty) return true;
+    if (!usersMembershipMatches(p, membership)) {
+      return false;
+    }
+    if (query.isEmpty) {
+      return true;
+    }
     final name = p.displayName.toLowerCase();
     final first = (p.firstName ?? '').toLowerCase();
     final last = (p.lastName ?? '').toLowerCase();
@@ -62,14 +68,4 @@ List<BasicProfileDTO> filterUsersProfilesForDirectory({
         phone.contains(query) ||
         emergency.contains(query);
   }).toList(growable: false);
-}
-
-/// First grapheme of [displayLine] for scroll chrome (matches directory display casing).
-String usersDirectoryLeadLetter(String displayLine) {
-  final t = displayLine.trim();
-  if (t.isEmpty) {
-    return '?';
-  }
-  final g = t.characters.first.toUpperCase();
-  return g.isEmpty ? '?' : g;
 }

@@ -2,23 +2,16 @@ import 'dart:async';
 
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
-import 'package:dupra/engine/theme/dupra_colors.dart';
-import 'package:dupra/presentation/widgets/dupra_icon_row.dart';
-import 'package:flutter/foundation.dart';
+import 'package:dupra/presentation/users/data/users_directory_lead_letter.dart';
+import 'package:dupra/presentation/users/users_directory_loaded_panel.dart';
+import 'package:dupra/presentation/users/data/users_directory_metrics.dart';
+import 'package:dupra/presentation/users/users_directory_tile.dart';
+import 'package:dupra/presentation/users/users_membership_chip_row.dart';
+import 'package:dupra/presentation/users/data/users_membership_filter.dart';
+import 'package:dupra/presentation/users/users_profiles_load_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
-part 'data/users_directory_list_metrics.dart';
-part 'widgets/users_directory_loaded_panel.dart';
-part 'widgets/users_directory_tile.dart';
-part 'widgets/users_membership_chip_row.dart';
-part 'data/users_membership_filter.dart';
-part 'widgets/users_profile_refresh_list.dart';
-part 'widgets/users_profiles_load_error.dart';
-part 'widgets/users_search_bar.dart';
-part 'widgets/users_stale_refresh_banner.dart';
-part 'widgets/users_scroll_letter_overlay.dart';
 
 /// Lists active profiles from [UsersBloc], with search and membership filters.
 class UsersPage extends StatefulWidget {
@@ -68,12 +61,12 @@ class _UsersPageState extends State<UsersPage> {
     final position = _scrollController.position;
     final pixels = position.pixels.clamp(position.minScrollExtent, position.maxScrollExtent);
     final scrolledFromFirstRowTop = pixels - UsersDirectoryRowMetrics.listPaddingTop;
-    final rawIndex =
-        scrolledFromFirstRowTop <= 0 ? 0 : (scrolledFromFirstRowTop / UsersDirectoryRowMetrics.rowStride).floor();
+    final rawIndex = scrolledFromFirstRowTop <= 0
+        ? 0
+        : (scrolledFromFirstRowTop / UsersDirectoryRowMetrics.rowStride).floor();
     final startIndex = rawIndex.clamp(0, _directoryScrollSnapshot.length - 1);
     final profile = _directoryScrollSnapshot[startIndex];
-    final name =
-        profile.displayName.trim().isEmpty ? '(no name)' : profile.displayName.trim();
+    final name = profile.displayName.trim().isEmpty ? '(no name)' : profile.displayName.trim();
     final letter = usersDirectoryLeadLetter(name);
     if (_scrollLetterOverlay.value != letter) {
       _scrollLetterOverlay.value = letter;
@@ -99,9 +92,7 @@ class _UsersPageState extends State<UsersPage> {
   Future<void> _onPullToRefresh() async {
     final bloc = context.read<UsersBloc>()..add(const UsersEvent.onLoadActiveProfiles());
     try {
-      await bloc.stream
-          .timeout(const Duration(seconds: 45))
-          .firstWhere(
+      await bloc.stream.timeout(const Duration(seconds: 45)).firstWhere(
             (s) =>
                 s.status.status == BaseLoadingStatus.loadingSuccess ||
                 s.status.status == BaseLoadingStatus.loadingFailed,
@@ -137,7 +128,7 @@ class _UsersPageState extends State<UsersPage> {
                 final message = state.status.message?.trim();
 
                 if (status == BaseLoadingStatus.loadingFailed && state.profiles.isEmpty) {
-                  return _UsersProfilesLoadError(
+                  return UsersProfilesLoadError(
                     message: _effectiveErrorMessage(message),
                     onRetry: _reloadActiveProfiles,
                   );
@@ -161,12 +152,21 @@ class _UsersPageState extends State<UsersPage> {
 
                 _directoryScrollSnapshot = filtered;
 
-                return _UsersDirectoryLoadedPanel(
+                return UsersDirectoryLoadedPanel(
+                  searchHintText: 'Search name, email, phone…',
                   showStaleBanner: showStale,
                   staleMessage: _effectiveStaleMessage(message),
                   searchController: _searchController,
                   searchQueryNotEmpty: _searchController.text.trim().isNotEmpty,
-                  membershipSelected: _membershipSegment,
+                  chipSection: UsersMembershipChipRow(
+                    selected: _membershipSegment,
+                    onSelected: (f) {
+                      setState(() {
+                        _membershipSegment = f;
+                        _scrollListToTop();
+                      });
+                    },
+                  ),
                   filteredProfiles: filtered,
                   scrollController: _scrollController,
                   scrollLetterOverlay: _scrollLetterOverlay,
@@ -175,15 +175,12 @@ class _UsersPageState extends State<UsersPage> {
                     _searchController.clear();
                     setState(_scrollListToTop);
                   },
-                  onMembershipSelected: (f) {
-                    setState(() {
-                      _membershipSegment = f;
-                      _scrollListToTop();
-                    });
-                  },
                   onRefresh: _onPullToRefresh,
                   onRetryRefresh: _reloadActiveProfiles,
-                  onOpenProfile: _openProfile,
+                  itemBuilder: (context, profile) {
+                    return UsersDirectoryTile(profile: profile, onTap: () => _openProfile(profile));
+                  },
+                  emptyAfterFilterMessage: 'No profiles match your search or filters.',
                 );
               },
             ),
@@ -191,10 +188,6 @@ class _UsersPageState extends State<UsersPage> {
         ],
       ),
     );
-
-    // if (widget.embedInShell) {
-    //   return body;
-    // }
 
     return Scaffold(
       appBar: AppBar(title: const Text('Users')),

@@ -1,10 +1,19 @@
-part of '../users_page.dart';
+import 'package:client_models/client_models.dart';
+import 'package:dupra/engine/theme/dupra_colors.dart';
+import 'package:dupra/presentation/widgets/dupra_icon_row.dart';
+import 'package:flutter/material.dart';
 
-class _UsersDirectoryTile extends StatelessWidget {
-  const _UsersDirectoryTile({required this.profile, required this.onTap});
+class UsersDirectoryTile extends StatelessWidget {
+  const UsersDirectoryTile({
+    required this.profile,
+    required this.onTap,
+    this.highlightInactiveSubtitle = false,
+    super.key,
+  });
 
   final BasicProfileDTO profile;
   final VoidCallback onTap;
+  final bool highlightInactiveSubtitle;
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +23,18 @@ class _UsersDirectoryTile extends StatelessWidget {
     final t = ext?.membershipType;
 
     final name = profile.displayName.trim().isEmpty ? '(no name)' : profile.displayName.trim();
+    final inactive = !(profile.isActive ?? false);
     final useAvatarIcon = (name, profile.profilePictureUrl, 42.0);
-    final membershipSubtitle = t == null || t == MembershipTypeEnum.unknown ? 'Membership unknown' : t.friendlyName;
+    var membershipSubtitle =
+        t == null || t == MembershipTypeEnum.unknown ? 'Membership unknown' : t.friendlyName;
+    if (highlightInactiveSubtitle && inactive) {
+      membershipSubtitle = 'Inactive · $membershipSubtitle';
+    }
+
     return Material(
       color: scheme.surfaceContainerHighest.withValues(alpha: 0.35),
       borderRadius: BorderRadius.circular(12),
       clipBehavior: Clip.antiAlias,
-
       child: GestureDetector(
         onTap: onTap,
         child: DupraIconRow(
@@ -39,9 +53,13 @@ class _UsersDirectoryTile extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
                 child: Text(name, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600, fontSize: 21)),
               ),
               FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
                 child: Text(
                   membershipSubtitle,
                   style: textTheme.bodyMedium?.copyWith(color: scheme.onSurfaceVariant, fontSize: 18),
