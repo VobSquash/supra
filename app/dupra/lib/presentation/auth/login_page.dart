@@ -64,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                       onTap: () => {
                         setState(() {
                           _email.text = 'designstyles1@gmail.com';
-                          _password.text = '123123';
+                          _password.text = '111111111';
                         }),
                       },
                       child: Text(
