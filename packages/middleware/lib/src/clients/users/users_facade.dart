@@ -57,14 +57,28 @@ class UsersFacade implements IUsersFacade {
 
   @override
   Future<BasicProfileDTO> createMemberProfileAsAdmin({required CreateMemberProfileDto dto}) async {
-    final session = await _sessionStore.read();
-    final pt = ProfileTypeEnum.get(session?.profileTypeId ?? -1);
-    if (!pt.isAdminOrElevated) {
+    if (!await _actorHasAdminElevatedPrivileges()) {
       throw StateError('Only administrators or elevated users can add member profiles.');
     }
 
     final full = await _client.profiles.createMemberProfile(dto: dto);
     return _toBasic(full);
+  }
+
+  Future<bool> _actorHasAdminElevatedPrivileges() async {
+    final session = await _sessionStore.read();
+    final sid = session?.profileTypeId;
+    if (sid != null && ProfileTypeEnum.get(sid).isAdminOrElevated) {
+      return true;
+    }
+
+    final full = await _profileFullForCurrentAuthUser();
+    final raw = full?.profile.profileType?.trim();
+    if (raw != null && raw.isNotEmpty) {
+      return ProfileTypeEnum.get(raw).isAdminOrElevated;
+    }
+
+    return ProfileTypeEnum.get(sid ?? -1).isAdminOrElevated;
   }
 
   Future<ProfileFull?> _profileFullForCurrentAuthUser() async {
@@ -149,9 +163,7 @@ class UsersFacade implements IUsersFacade {
     String? extensionId,
     required UpdateAdminProfileDto dto,
   }) async {
-    final session = await _sessionStore.read();
-    final pt = ProfileTypeEnum.get(session?.profileTypeId ?? -1);
-    if (!pt.isAdminOrElevated) {
+    if (!await _actorHasAdminElevatedPrivileges()) {
       throw StateError('Only administrators or elevated users can update member profiles.');
     }
 

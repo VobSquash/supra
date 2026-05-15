@@ -12,6 +12,9 @@ enum ProfileTypeEnum {
   static ProfileTypeEnum get(Object querier) {
     if (querier is String) {
       final s = querier.toLowerCase().trim();
+      if (s == 'elevated') {
+        return ProfileTypeEnum.elivated;
+      }
       if (s == 'admin' || s == 'super_admin' || s == 'superadmin') {
         return ProfileTypeEnum.administrator;
       }
