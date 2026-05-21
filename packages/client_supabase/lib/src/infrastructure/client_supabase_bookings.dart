@@ -15,16 +15,24 @@ class ClientSupabaseBookings implements IClientSupabaseBookings {
   static const _selectWithProfile = '*,profiles(*,profile_extensions(*))';
 
   @override
-  Future<List<BookingWithProfileRow>> getBookings({
-    required DateTime forDate,
+  Future<List<BookingWithProfileRow>> getBookingsInRange({
+    required DateTime rangeStartLocal,
+    required DateTime rangeEndExclusiveLocal,
   }) async {
-    final startLocal = DateTime(forDate.year, forDate.month, forDate.day);
-    final endLocal = startLocal.add(const Duration(days: 1));
+    final startLocal = DateTime(
+      rangeStartLocal.year,
+      rangeStartLocal.month,
+      rangeStartLocal.day,
+    );
+    final endExclusiveLocal = DateTime(
+      rangeEndExclusiveLocal.year,
+      rangeEndExclusiveLocal.month,
+      rangeEndExclusiveLocal.day,
+    );
     final startUtc = startLocal.toUtc();
-    final endUtc = endLocal.toUtc();
+    final endUtc = endExclusiveLocal.toUtc();
     final a = startUtc.toIso8601String();
     final b = endUtc.toIso8601String();
-    // PostgREST: AND two filters on `booking_date` (half-open day range in UTC).
     final and = '(booking_date.gte."$a",booking_date.lt."$b")';
 
     final response = await _dio.get(
@@ -60,6 +68,18 @@ class ClientSupabaseBookings implements IClientSupabaseBookings {
         .whereType<Map<String, dynamic>>()
         .map(BookingWithProfileRow.fromPostgrestJson)
         .toList(growable: false);
+  }
+
+  @override
+  Future<List<BookingWithProfileRow>> getBookings({
+    required DateTime forDate,
+  }) async {
+    final startLocal = DateTime(forDate.year, forDate.month, forDate.day);
+    final endLocal = startLocal.add(const Duration(days: 1));
+    return getBookingsInRange(
+      rangeStartLocal: startLocal,
+      rangeEndExclusiveLocal: endLocal,
+    );
   }
 
   @override

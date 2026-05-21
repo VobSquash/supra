@@ -4,6 +4,12 @@ abstract class IBookingsFacade {
   /// Loads bookings for the calendar day of [forDate] (local date, same rules as Supabase client).
   Future<BookingListDto> loadBookings({required DateTime forDate});
 
+  /// Half-open local calendar range `[rangeStart, rangeEndExclusive)` (midnight boundaries).
+  Future<BookingListDto> loadBookingsRange({
+    required DateTime rangeStart,
+    required DateTime rangeEndExclusive,
+  });
+
   /// Creates a single booking for a selected court/slot/profile.
   Future<void> createBooking({required CreateBookingDto booking});
 

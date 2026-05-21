@@ -9,6 +9,13 @@ abstract class IClientSupabaseBookings {
   /// (start inclusive, next day exclusive), then converted to UTC for the query.
   Future<List<BookingWithProfileRow>> getBookings({required DateTime forDate});
 
+  /// Half-open local range: each row whose `booking_date` is
+  /// `>= rangeStartLocal (midnight)` and `< rangeEndExclusiveLocal (midnight)`, UTC query bounds.
+  Future<List<BookingWithProfileRow>> getBookingsInRange({
+    required DateTime rangeStartLocal,
+    required DateTime rangeEndExclusiveLocal,
+  });
+
   /// Creates a booking row in `public.bookings`.
   Future<void> createBooking({required CreateBookingDto booking});
 

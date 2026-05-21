@@ -1,4 +1,5 @@
 export 'client_configs.dart';
+export 'bookings/booking_slot_schedule.dart';
 export 'bookings/i_bookings_facade.dart';
 export 'ladder/i_ladders_facade.dart';
 export 'league_fixtures/i_league_fixtures_facade.dart';

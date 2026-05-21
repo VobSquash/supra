@@ -2,6 +2,7 @@ import 'package:dupra/engine/member_shell_tab.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/home/data/home_overview_destination.dart';
 import 'package:dupra/presentation/home/data/home_section_item.dart';
+import 'package:dupra/presentation/home/widgets/dupra_member_booking_heatmap_card.dart';
 import 'package:dupra/presentation/widgets/dupra_section.dart';
 import 'package:flutter/material.dart';
 
@@ -13,11 +14,23 @@ class HomeOverviewTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return _HomeOverviewContent(onNavigate: onNavigate);
+  }
+}
+
+class _HomeOverviewContent extends StatelessWidget {
+  const _HomeOverviewContent({required this.onNavigate});
+
+  final DupraSectionNavigate onNavigate;
+
+  @override
+  Widget build(BuildContext context) {
     final bottomInset = MediaQuery.paddingOf(context).bottom;
 
     return ListView(
       padding: EdgeInsets.fromLTRB(0, 8, 0, 24 + bottomInset + 72),
       children: [
+        const DupraMemberBookingHeatmapCard(),
         DupraSection(
           title: 'Play',
           items: const [

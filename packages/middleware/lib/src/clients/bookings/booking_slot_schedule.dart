@@ -49,4 +49,40 @@ abstract final class BookingSlotSchedule {
     final m = slotStartMinutes % 60;
     return DateTime.utc(day.year, day.month, day.day, h, m);
   }
+
+  /// Same calendar day as Dupra `booking_schedule._sameCalendarDayUtc`.
+  static bool sameCalendarDayUtc(DateTime bookingUtc, DateTime selectedCalendarDay) {
+    final u = bookingUtc.toUtc();
+    return u.year == selectedCalendarDay.year &&
+        u.month == selectedCalendarDay.month &&
+        u.day == selectedCalendarDay.day;
+  }
+
+  /// Maps DB/API court number to 1–3 (supports 0-based 0,1,2).
+  static int? courtNoOneBased(int? court) {
+    if (court == null) return null;
+    if (court >= 1 && court <= courtCount) return court;
+    if (court >= 0 && court < courtCount) return court + 1;
+    return null;
+  }
+
+  static int _minutesFromMidnight(int hour, int minute) => hour * 60 + minute;
+
+  /// Slot start minutes for UTC wall-clock hour/minute on the 45‑minute grid.
+  static int? slotStartForWallClockUtc(int hour, int minute) {
+    final mins = _minutesFromMidnight(hour, minute);
+    const lastWindowEnd = lastSlotStartMinutes + slotDurationMinutes;
+    if (mins == lastWindowEnd) {
+      return lastSlotStartMinutes;
+    }
+    if (mins < firstSlotStartMinutes || mins > lastWindowEnd) {
+      return null;
+    }
+    for (final s in allSlotStartsMinutes()) {
+      if (mins >= s && mins < s + slotDurationMinutes) {
+        return s;
+      }
+    }
+    return null;
+  }
 }

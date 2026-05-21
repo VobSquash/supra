@@ -21,9 +21,14 @@ class DupraSection extends StatelessWidget {
     this.cardAccent,
     this.titleAction,
     this.cardChild,
+    this.horizontalInset = 16,
   }) : assert(cardChild != null || items.isNotEmpty, 'Provide cardChild or at least one item');
 
   final String title;
+
+  /// Extra horizontal inset for the title row and card (in addition to any parent padding).
+  /// Use `0` when the parent already applies shell/list insets so sections align with flat content.
+  final double horizontalInset;
 
   /// When non-null, built to the right of the title (e.g. Edit link, Save/Cancel).
   final Widget? titleAction;
@@ -88,7 +93,7 @@ class DupraSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16, right: 16, bottom: 12),
+            padding: EdgeInsets.only(left: horizontalInset, right: horizontalInset, bottom: 12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -100,7 +105,7 @@ class DupraSection extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: horizontalInset),
             child: Card(
               elevation: 0,
               margin: EdgeInsets.zero,

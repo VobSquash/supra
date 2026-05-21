@@ -24,6 +24,13 @@ class _FakeBookingsFacade implements IBookingsFacade {
       );
 
   @override
+  Future<BookingListDto> loadBookingsRange({
+    required DateTime rangeStart,
+    required DateTime rangeEndExclusive,
+  }) async =>
+      loadBookings(forDate: rangeStart);
+
+  @override
   Future<void> createBooking({required CreateBookingDto booking}) async {}
 
   @override

@@ -96,6 +96,13 @@ class _FakeBookingsFacade implements IBookingsFacade {
   Future<BookingListDto> loadBookings({required DateTime forDate}) async => BookingListDto.empty();
 
   @override
+  Future<BookingListDto> loadBookingsRange({
+    required DateTime rangeStart,
+    required DateTime rangeEndExclusive,
+  }) async =>
+      BookingListDto.empty();
+
+  @override
   Future<void> createBooking({required CreateBookingDto booking}) async {}
 
   @override
@@ -243,6 +250,24 @@ void main() {
     final b = sl<BookingsBloc>();
     expect(a, isA<BookingsBloc>());
     expect(b, isA<BookingsBloc>());
+    expect(identical(a, b), isFalse);
+  });
+
+  test('registerAppBlocDependencies registers factory BookingHeatmapBloc', () {
+    final sl = GetIt.instance;
+    sl.registerSingleton<IUsersFacade>(_FakeFacade());
+    sl.registerSingleton<ILocationsFacade>(_FakeLocationsFacade());
+    sl.registerSingleton<ISettingsFacade>(_FakeSettingsFacade());
+    sl.registerSingleton<ILaddersFacade>(_FakeLaddersFacade());
+    sl.registerSingleton<ILeagueFixturesFacade>(_FakeLeagueFixturesFacade());
+    sl.registerSingleton<IBookingsFacade>(_FakeBookingsFacade());
+    sl.registerSingleton<AuthService>(_FakeAuthService());
+    registerAppBlocDependencies(sl);
+
+    final a = sl<BookingHeatmapBloc>();
+    final b = sl<BookingHeatmapBloc>();
+    expect(a, isA<BookingHeatmapBloc>());
+    expect(b, isA<BookingHeatmapBloc>());
     expect(identical(a, b), isFalse);
   });
 }

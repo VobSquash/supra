@@ -18,8 +18,30 @@ class BookingsFacade implements IBookingsFacade {
   static const _mapper = SupabaseBookingMapper();
 
   @override
+  Future<BookingListDto> loadBookingsRange({
+    required DateTime rangeStart,
+    required DateTime rangeEndExclusive,
+  }) async {
+    final start = DateTime(rangeStart.year, rangeStart.month, rangeStart.day);
+    final endExclusive = DateTime(
+      rangeEndExclusive.year,
+      rangeEndExclusive.month,
+      rangeEndExclusive.day,
+    );
+    final bookingRows = await _client.bookings.getBookingsInRange(
+      rangeStartLocal: start,
+      rangeEndExclusiveLocal: endExclusive,
+    );
+    return _mapBookingRows(bookingRows);
+  }
+
+  @override
   Future<BookingListDto> loadBookings({required DateTime forDate}) async {
     final bookingRows = await _client.bookings.getBookings(forDate: forDate);
+    return _mapBookingRows(bookingRows);
+  }
+
+  Future<BookingListDto> _mapBookingRows(List<BookingWithProfileRow> bookingRows) async {
     const profileMapper = SupabaseProfileMapper();
     final session = await middlewareSl<SessionStore>().read();
     final currentUserVobGuid = session?.vobGuid?.trim();

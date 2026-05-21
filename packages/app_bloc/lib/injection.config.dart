@@ -15,6 +15,7 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:middleware/middleware_clients.dart' as _i554;
 
 import 'auth/auth_bloc.dart' as _i20;
+import 'bookings/booking_heatmap_bloc.dart' as _i420;
 import 'bookings/bookings_bloc.dart' as _i1037;
 import 'ladders/ladders_bloc.dart' as _i558;
 import 'league_fixtures/league_fixtures_bloc.dart' as _i407;
@@ -42,6 +43,9 @@ _i174.GetIt initAppBloc(
   );
   gh.factory<_i1037.BookingsBloc>(
     () => _i1037.BookingsBloc(gh<_i554.IBookingsFacade>()),
+  );
+  gh.factory<_i420.BookingHeatmapBloc>(
+    () => _i420.BookingHeatmapBloc(gh<_i554.IBookingsFacade>()),
   );
   gh.factory<_i407.LeagueFixturesBloc>(
     () => _i407.LeagueFixturesBloc(gh<_i554.ILeagueFixturesFacade>()),

@@ -266,11 +266,11 @@ class _MainShellPageState extends State<MainShellPage> {
                     ),
                 ],
               ),
-              body: PageView(
-                controller: _pageController,
-                onPageChanged: (i) => _onPageChanged(context, i),
-                children: placement.adminShell
-                    ? List.generate(
+              body: placement.adminShell
+                  ? PageView(
+                      controller: _pageController,
+                      onPageChanged: (i) => _onPageChanged(context, i),
+                      children: List.generate(
                         _tabCount,
                         (i) => _LazyShellTab(
                           key: ValueKey<String>('shell-$suiteKey-$i'),
@@ -284,23 +284,31 @@ class _MainShellPageState extends State<MainShellPage> {
                             _ => const ProfileStubPage(),
                           },
                         ),
-                      )
-                    : List.generate(
-                        _tabCount,
-                        (i) => _LazyShellTab(
-                          key: ValueKey<String>('shell-$suiteKey-$i'),
-                          tabIndex: i,
-                          effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
-                          builder: () => switch (i) {
-                            0 => HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
-                            1 => const BookingsPage(),
-                            2 => const FixturesPage(),
-                            3 => const LaddersPage(),
-                            _ => const ProfileStubPage(),
-                          },
+                      ),
+                    )
+                  : BlocProvider(
+                      create: (_) => appBlocSl<BookingHeatmapBloc>()
+                        ..add(BookingHeatmapEvent.loadMemberMonth(anyDateInMonth: DateTime.now())),
+                      child: PageView(
+                        controller: _pageController,
+                        onPageChanged: (i) => _onPageChanged(context, i),
+                        children: List.generate(
+                          _tabCount,
+                          (i) => _LazyShellTab(
+                            key: ValueKey<String>('shell-$suiteKey-$i'),
+                            tabIndex: i,
+                            effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
+                            builder: () => switch (i) {
+                              0 => HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
+                              1 => const BookingsPage(),
+                              2 => const FixturesPage(),
+                              3 => const LaddersPage(),
+                              _ => const ProfileStubPage(),
+                            },
+                          ),
                         ),
                       ),
-              ),
+                    ),
               bottomNavigationBar: _DupraDockNav(
                 scheme: scheme,
                 mode: placement.adminShell ? _ShellDockMode.admin : _ShellDockMode.member,
