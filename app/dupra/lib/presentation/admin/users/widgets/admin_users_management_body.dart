@@ -63,6 +63,24 @@ class _AdminUsersManagementBodyState extends State<_AdminUsersManagementBody>
     context.read<UsersBloc>().add(const UsersEvent.onLoadBasicProfiles());
   }
 
+  Future<void> _openAddMemberProfile() async {
+    final usersBloc = context.read<UsersBloc>();
+    final added = await Navigator.of(context).push<bool>(
+      MaterialPageRoute<bool>(
+        settings: const RouteSettings(name: 'AdminAddMemberProfile'),
+        builder: (routeContext) => BlocProvider<UsersBloc>.value(
+          value: usersBloc,
+          child: const AddMemberProfilePage(),
+        ),
+      ),
+    );
+    if (!mounted || added != true) {
+      return;
+    }
+    context.read<UsersBloc>().add(const UsersEvent.onLoadBasicProfiles());
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Profile created.')));
+  }
+
   void _scrollBothListsToTop() {
     _activePaneKey.currentState?.scrollToTop();
     _inactivePaneKey.currentState?.scrollToTop();
@@ -83,14 +101,46 @@ class _AdminUsersManagementBodyState extends State<_AdminUsersManagementBody>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'Admin · users',
-            style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
-          ),
-          const SizedBox(height: 6),
-          Text(
-            'Active vs inactive · filter by name (both tabs)',
-            style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: variant),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Admin · users',
+                      style:
+                          Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      'Active vs inactive · filter by name (both tabs)',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: variant),
+                    ),
+                  ],
+                ),
+              ),
+              BlocBuilder<AuthBloc, AuthState>(
+                builder: (context, authState) {
+                  final canAdd = authState.maybeWhen(
+                    authenticated: (s) => ProfileTypeEnum.get(s.profileTypeId ?? -1).isAdminOrElevated,
+                    orElse: () => false,
+                  );
+                  if (!canAdd) {
+                    return const SizedBox.shrink();
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 8, top: 2),
+                    child: FilledButton.tonalIcon(
+                      onPressed: () => unawaited(_openAddMemberProfile()),
+                      icon: const Icon(Icons.person_add_outlined, size: 20),
+                      label: const Text('Add member'),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
           const SizedBox(height: 16),
           Expanded(

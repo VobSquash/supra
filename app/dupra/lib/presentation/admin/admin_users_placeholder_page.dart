@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
+import 'package:dupra/presentation/admin/add_member_profile_page.dart';
 import 'package:dupra/presentation/admin/admin_member_profile_edit_page.dart';
 import 'package:dupra/presentation/admin/data/admin_profiles_filters.dart';
 import 'package:dupra/presentation/shell/shell_tab_insets.dart';
