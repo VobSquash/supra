@@ -2,6 +2,8 @@ import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:dupra/engine/go_router_refresh_stream.dart';
 import 'package:dupra/engine/shell_locations.dart';
+import 'package:dupra/presentation/admin/admin_fees_page.dart';
+import 'package:dupra/presentation/admin/admin_system_settings_page.dart';
 import 'package:dupra/presentation/auth/login_page.dart';
 import 'package:dupra/presentation/calculator/fridge_calculator_page.dart';
 import 'package:dupra/presentation/profile/profile_stub_page.dart';
@@ -134,6 +136,22 @@ abstract final class AppRouter {
             key: state.pageKey,
             child: const FridgeCalculatorPage(),
             duration: const Duration(milliseconds: 480),
+          ),
+        ),
+        GoRoute(
+          path: '/admin-system-settings',
+          name: 'admin-system-settings',
+          pageBuilder: (context, state) => _fadePage(
+            key: state.pageKey,
+            child: const AdminSystemSettingsPage(),
+          ),
+        ),
+        GoRoute(
+          path: '/admin-fees',
+          name: 'admin-fees',
+          pageBuilder: (context, state) => _fadePage(
+            key: state.pageKey,
+            child: const AdminFeesPage(),
           ),
         ),
       ],

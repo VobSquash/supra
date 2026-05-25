@@ -11,6 +11,8 @@ create table if not exists public.settings (
 
 alter table public.settings enable row level security;
 
+drop policy if exists "settings_select_anon_authenticated" on public.settings;
+
 create policy "settings_select_anon_authenticated"
   on public.settings
   for select

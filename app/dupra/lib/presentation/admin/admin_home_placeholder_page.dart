@@ -6,6 +6,7 @@ import 'package:dupra/presentation/shell/shell_tab_insets.dart';
 import 'package:dupra/presentation/widgets/dupra_upcoming_birthday_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 part 'widgets/birthday.dart';
 
@@ -60,6 +61,36 @@ class _AdminHomePlaceholderPageState extends State<AdminHomePlaceholderPage> {
                       style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 8),
+                    Text(
+                      'Configuration',
+                      style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: variant,
+                          ),
+                    ),
+                    const SizedBox(height: 8),
+                    Card(
+                      child: Column(
+                        children: [
+                          ListTile(
+                            leading: Icon(Icons.tune_rounded, color: Theme.of(context).colorScheme.primary),
+                            title: const Text('System settings'),
+                            subtitle: const Text('Flags and ladder breakdown'),
+                            trailing: const Icon(Icons.chevron_right_rounded),
+                            onTap: () => context.pushNamed('admin-system-settings'),
+                          ),
+                          const Divider(height: 1),
+                          ListTile(
+                            leading: Icon(Icons.payments_outlined, color: Theme.of(context).colorScheme.primary),
+                            title: const Text('Fees'),
+                            subtitle: const Text('Costs from Fees2026'),
+                            trailing: const Icon(Icons.chevron_right_rounded),
+                            onTap: () => context.pushNamed('admin-fees'),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     const DupraAdminCourtHeatmapCard(),
                     Text(
                       'Birthdays in the next week (today through six days ahead)',

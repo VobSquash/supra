@@ -37,13 +37,11 @@ class _LadderTeamBlock extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: FittedBox(
-                      child: Text(
-                        title,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          color: scheme.onSurface.withValues(alpha: 0.65),
-                        ),
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: scheme.onSurface.withValues(alpha: 0.65),
                       ),
                     ),
                   ),

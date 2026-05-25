@@ -39,6 +39,44 @@ class SettingsBloc extends BaseBloc<SettingsEvent, SettingsState> {
           onResetSettings: (_) async {
             emit(SettingsState.initial());
           },
+          onSaveShowLadderBreakdown: (e) async {
+            emit(state.copyWith(status: BaseLoading.saving('Saving')));
+            try {
+              await _settingsFacade.updateShowLadderBreakdown(e.show);
+              final dto = await _settingsFacade.loadSettings();
+              emit(
+                state.copyWith(
+                  settings: dto,
+                  status: BaseLoading.successSaving(),
+                ),
+              );
+            } catch (err, _) {
+              emit(
+                state.copyWith(
+                  status: BaseLoading.errorSaving(err.toString()),
+                ),
+              );
+            }
+          },
+          onSaveLadderTeamBreakdown: (e) async {
+            emit(state.copyWith(status: BaseLoading.saving('Saving')));
+            try {
+              await _settingsFacade.updateLadderTeamBreakdown(e.breakdown);
+              final dto = await _settingsFacade.loadSettings();
+              emit(
+                state.copyWith(
+                  settings: dto,
+                  status: BaseLoading.successSaving(),
+                ),
+              );
+            } catch (err, _) {
+              emit(
+                state.copyWith(
+                  status: BaseLoading.errorSaving(err.toString()),
+                ),
+              );
+            }
+          },
         );
       },
     );

@@ -33,18 +33,11 @@ class _SplashPageState extends State<SplashPage> {
             const Icon(Icons.sports_tennis_rounded, size: 56, color: DupraColors.secondary),
             const SizedBox(height: 16),
             Text(
-              'Dupra',
-              style: textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w800,
-                color: DupraColors.textPrimary,
-              ),
+              'Vob Squash',
+              style: textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.w800, color: DupraColors.textPrimary),
             ),
             const SizedBox(height: 32),
-            const SizedBox(
-              width: 28,
-              height: 28,
-              child: CircularProgressIndicator(strokeWidth: 2.5),
-            ),
+            const SizedBox(width: 28, height: 28, child: CircularProgressIndicator(strokeWidth: 2.5)),
           ],
         ),
       ),

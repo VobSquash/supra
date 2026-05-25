@@ -21,32 +21,51 @@ mixin _$SettingsEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() onLoadSettings,
     required TResult Function() onResetSettings,
+    required TResult Function(bool show) onSaveShowLadderBreakdown,
+    required TResult Function(BreakdownTeamsDTO breakdown)
+    onSaveLadderTeamBreakdown,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? onLoadSettings,
     TResult? Function()? onResetSettings,
+    TResult? Function(bool show)? onSaveShowLadderBreakdown,
+    TResult? Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onLoadSettings,
     TResult Function()? onResetSettings,
+    TResult Function(bool show)? onSaveShowLadderBreakdown,
+    TResult Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(OnLoadSettings value) onLoadSettings,
     required TResult Function(OnResetSettings value) onResetSettings,
+    required TResult Function(OnSaveShowLadderBreakdown value)
+    onSaveShowLadderBreakdown,
+    required TResult Function(OnSaveLadderTeamBreakdown value)
+    onSaveLadderTeamBreakdown,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(OnLoadSettings value)? onLoadSettings,
     TResult? Function(OnResetSettings value)? onResetSettings,
+    TResult? Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult? Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnLoadSettings value)? onLoadSettings,
     TResult Function(OnResetSettings value)? onResetSettings,
+    TResult Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -118,6 +137,9 @@ class _$OnLoadSettingsImpl implements OnLoadSettings {
   TResult when<TResult extends Object?>({
     required TResult Function() onLoadSettings,
     required TResult Function() onResetSettings,
+    required TResult Function(bool show) onSaveShowLadderBreakdown,
+    required TResult Function(BreakdownTeamsDTO breakdown)
+    onSaveLadderTeamBreakdown,
   }) {
     return onLoadSettings();
   }
@@ -127,6 +149,8 @@ class _$OnLoadSettingsImpl implements OnLoadSettings {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? onLoadSettings,
     TResult? Function()? onResetSettings,
+    TResult? Function(bool show)? onSaveShowLadderBreakdown,
+    TResult? Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
   }) {
     return onLoadSettings?.call();
   }
@@ -136,6 +160,8 @@ class _$OnLoadSettingsImpl implements OnLoadSettings {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onLoadSettings,
     TResult Function()? onResetSettings,
+    TResult Function(bool show)? onSaveShowLadderBreakdown,
+    TResult Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
     required TResult orElse(),
   }) {
     if (onLoadSettings != null) {
@@ -149,6 +175,10 @@ class _$OnLoadSettingsImpl implements OnLoadSettings {
   TResult map<TResult extends Object?>({
     required TResult Function(OnLoadSettings value) onLoadSettings,
     required TResult Function(OnResetSettings value) onResetSettings,
+    required TResult Function(OnSaveShowLadderBreakdown value)
+    onSaveShowLadderBreakdown,
+    required TResult Function(OnSaveLadderTeamBreakdown value)
+    onSaveLadderTeamBreakdown,
   }) {
     return onLoadSettings(this);
   }
@@ -158,6 +188,10 @@ class _$OnLoadSettingsImpl implements OnLoadSettings {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(OnLoadSettings value)? onLoadSettings,
     TResult? Function(OnResetSettings value)? onResetSettings,
+    TResult? Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult? Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
   }) {
     return onLoadSettings?.call(this);
   }
@@ -167,6 +201,10 @@ class _$OnLoadSettingsImpl implements OnLoadSettings {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnLoadSettings value)? onLoadSettings,
     TResult Function(OnResetSettings value)? onResetSettings,
+    TResult Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
     required TResult orElse(),
   }) {
     if (onLoadSettings != null) {
@@ -225,6 +263,9 @@ class _$OnResetSettingsImpl implements OnResetSettings {
   TResult when<TResult extends Object?>({
     required TResult Function() onLoadSettings,
     required TResult Function() onResetSettings,
+    required TResult Function(bool show) onSaveShowLadderBreakdown,
+    required TResult Function(BreakdownTeamsDTO breakdown)
+    onSaveLadderTeamBreakdown,
   }) {
     return onResetSettings();
   }
@@ -234,6 +275,8 @@ class _$OnResetSettingsImpl implements OnResetSettings {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? onLoadSettings,
     TResult? Function()? onResetSettings,
+    TResult? Function(bool show)? onSaveShowLadderBreakdown,
+    TResult? Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
   }) {
     return onResetSettings?.call();
   }
@@ -243,6 +286,8 @@ class _$OnResetSettingsImpl implements OnResetSettings {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? onLoadSettings,
     TResult Function()? onResetSettings,
+    TResult Function(bool show)? onSaveShowLadderBreakdown,
+    TResult Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
     required TResult orElse(),
   }) {
     if (onResetSettings != null) {
@@ -256,6 +301,10 @@ class _$OnResetSettingsImpl implements OnResetSettings {
   TResult map<TResult extends Object?>({
     required TResult Function(OnLoadSettings value) onLoadSettings,
     required TResult Function(OnResetSettings value) onResetSettings,
+    required TResult Function(OnSaveShowLadderBreakdown value)
+    onSaveShowLadderBreakdown,
+    required TResult Function(OnSaveLadderTeamBreakdown value)
+    onSaveLadderTeamBreakdown,
   }) {
     return onResetSettings(this);
   }
@@ -265,6 +314,10 @@ class _$OnResetSettingsImpl implements OnResetSettings {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(OnLoadSettings value)? onLoadSettings,
     TResult? Function(OnResetSettings value)? onResetSettings,
+    TResult? Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult? Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
   }) {
     return onResetSettings?.call(this);
   }
@@ -274,6 +327,10 @@ class _$OnResetSettingsImpl implements OnResetSettings {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(OnLoadSettings value)? onLoadSettings,
     TResult Function(OnResetSettings value)? onResetSettings,
+    TResult Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
     required TResult orElse(),
   }) {
     if (onResetSettings != null) {
@@ -285,6 +342,350 @@ class _$OnResetSettingsImpl implements OnResetSettings {
 
 abstract class OnResetSettings implements SettingsEvent {
   const factory OnResetSettings() = _$OnResetSettingsImpl;
+}
+
+/// @nodoc
+abstract class _$$OnSaveShowLadderBreakdownImplCopyWith<$Res> {
+  factory _$$OnSaveShowLadderBreakdownImplCopyWith(
+    _$OnSaveShowLadderBreakdownImpl value,
+    $Res Function(_$OnSaveShowLadderBreakdownImpl) then,
+  ) = __$$OnSaveShowLadderBreakdownImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool show});
+}
+
+/// @nodoc
+class __$$OnSaveShowLadderBreakdownImplCopyWithImpl<$Res>
+    extends _$SettingsEventCopyWithImpl<$Res, _$OnSaveShowLadderBreakdownImpl>
+    implements _$$OnSaveShowLadderBreakdownImplCopyWith<$Res> {
+  __$$OnSaveShowLadderBreakdownImplCopyWithImpl(
+    _$OnSaveShowLadderBreakdownImpl _value,
+    $Res Function(_$OnSaveShowLadderBreakdownImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of SettingsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? show = null}) {
+    return _then(
+      _$OnSaveShowLadderBreakdownImpl(
+        show: null == show
+            ? _value.show
+            : show // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$OnSaveShowLadderBreakdownImpl implements OnSaveShowLadderBreakdown {
+  const _$OnSaveShowLadderBreakdownImpl({required this.show});
+
+  @override
+  final bool show;
+
+  @override
+  String toString() {
+    return 'SettingsEvent.onSaveShowLadderBreakdown(show: $show)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OnSaveShowLadderBreakdownImpl &&
+            (identical(other.show, show) || other.show == show));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, show);
+
+  /// Create a copy of SettingsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OnSaveShowLadderBreakdownImplCopyWith<_$OnSaveShowLadderBreakdownImpl>
+  get copyWith =>
+      __$$OnSaveShowLadderBreakdownImplCopyWithImpl<
+        _$OnSaveShowLadderBreakdownImpl
+      >(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onLoadSettings,
+    required TResult Function() onResetSettings,
+    required TResult Function(bool show) onSaveShowLadderBreakdown,
+    required TResult Function(BreakdownTeamsDTO breakdown)
+    onSaveLadderTeamBreakdown,
+  }) {
+    return onSaveShowLadderBreakdown(show);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? onLoadSettings,
+    TResult? Function()? onResetSettings,
+    TResult? Function(bool show)? onSaveShowLadderBreakdown,
+    TResult? Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
+  }) {
+    return onSaveShowLadderBreakdown?.call(show);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onLoadSettings,
+    TResult Function()? onResetSettings,
+    TResult Function(bool show)? onSaveShowLadderBreakdown,
+    TResult Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
+    required TResult orElse(),
+  }) {
+    if (onSaveShowLadderBreakdown != null) {
+      return onSaveShowLadderBreakdown(show);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnLoadSettings value) onLoadSettings,
+    required TResult Function(OnResetSettings value) onResetSettings,
+    required TResult Function(OnSaveShowLadderBreakdown value)
+    onSaveShowLadderBreakdown,
+    required TResult Function(OnSaveLadderTeamBreakdown value)
+    onSaveLadderTeamBreakdown,
+  }) {
+    return onSaveShowLadderBreakdown(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(OnLoadSettings value)? onLoadSettings,
+    TResult? Function(OnResetSettings value)? onResetSettings,
+    TResult? Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult? Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
+  }) {
+    return onSaveShowLadderBreakdown?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnLoadSettings value)? onLoadSettings,
+    TResult Function(OnResetSettings value)? onResetSettings,
+    TResult Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
+    required TResult orElse(),
+  }) {
+    if (onSaveShowLadderBreakdown != null) {
+      return onSaveShowLadderBreakdown(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnSaveShowLadderBreakdown implements SettingsEvent {
+  const factory OnSaveShowLadderBreakdown({required final bool show}) =
+      _$OnSaveShowLadderBreakdownImpl;
+
+  bool get show;
+
+  /// Create a copy of SettingsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OnSaveShowLadderBreakdownImplCopyWith<_$OnSaveShowLadderBreakdownImpl>
+  get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$OnSaveLadderTeamBreakdownImplCopyWith<$Res> {
+  factory _$$OnSaveLadderTeamBreakdownImplCopyWith(
+    _$OnSaveLadderTeamBreakdownImpl value,
+    $Res Function(_$OnSaveLadderTeamBreakdownImpl) then,
+  ) = __$$OnSaveLadderTeamBreakdownImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({BreakdownTeamsDTO breakdown});
+
+  $BreakdownTeamsDTOCopyWith<$Res> get breakdown;
+}
+
+/// @nodoc
+class __$$OnSaveLadderTeamBreakdownImplCopyWithImpl<$Res>
+    extends _$SettingsEventCopyWithImpl<$Res, _$OnSaveLadderTeamBreakdownImpl>
+    implements _$$OnSaveLadderTeamBreakdownImplCopyWith<$Res> {
+  __$$OnSaveLadderTeamBreakdownImplCopyWithImpl(
+    _$OnSaveLadderTeamBreakdownImpl _value,
+    $Res Function(_$OnSaveLadderTeamBreakdownImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of SettingsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? breakdown = null}) {
+    return _then(
+      _$OnSaveLadderTeamBreakdownImpl(
+        breakdown: null == breakdown
+            ? _value.breakdown
+            : breakdown // ignore: cast_nullable_to_non_nullable
+                  as BreakdownTeamsDTO,
+      ),
+    );
+  }
+
+  /// Create a copy of SettingsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $BreakdownTeamsDTOCopyWith<$Res> get breakdown {
+    return $BreakdownTeamsDTOCopyWith<$Res>(_value.breakdown, (value) {
+      return _then(_value.copyWith(breakdown: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$OnSaveLadderTeamBreakdownImpl implements OnSaveLadderTeamBreakdown {
+  const _$OnSaveLadderTeamBreakdownImpl({required this.breakdown});
+
+  @override
+  final BreakdownTeamsDTO breakdown;
+
+  @override
+  String toString() {
+    return 'SettingsEvent.onSaveLadderTeamBreakdown(breakdown: $breakdown)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OnSaveLadderTeamBreakdownImpl &&
+            (identical(other.breakdown, breakdown) ||
+                other.breakdown == breakdown));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, breakdown);
+
+  /// Create a copy of SettingsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OnSaveLadderTeamBreakdownImplCopyWith<_$OnSaveLadderTeamBreakdownImpl>
+  get copyWith =>
+      __$$OnSaveLadderTeamBreakdownImplCopyWithImpl<
+        _$OnSaveLadderTeamBreakdownImpl
+      >(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() onLoadSettings,
+    required TResult Function() onResetSettings,
+    required TResult Function(bool show) onSaveShowLadderBreakdown,
+    required TResult Function(BreakdownTeamsDTO breakdown)
+    onSaveLadderTeamBreakdown,
+  }) {
+    return onSaveLadderTeamBreakdown(breakdown);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? onLoadSettings,
+    TResult? Function()? onResetSettings,
+    TResult? Function(bool show)? onSaveShowLadderBreakdown,
+    TResult? Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
+  }) {
+    return onSaveLadderTeamBreakdown?.call(breakdown);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? onLoadSettings,
+    TResult Function()? onResetSettings,
+    TResult Function(bool show)? onSaveShowLadderBreakdown,
+    TResult Function(BreakdownTeamsDTO breakdown)? onSaveLadderTeamBreakdown,
+    required TResult orElse(),
+  }) {
+    if (onSaveLadderTeamBreakdown != null) {
+      return onSaveLadderTeamBreakdown(breakdown);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(OnLoadSettings value) onLoadSettings,
+    required TResult Function(OnResetSettings value) onResetSettings,
+    required TResult Function(OnSaveShowLadderBreakdown value)
+    onSaveShowLadderBreakdown,
+    required TResult Function(OnSaveLadderTeamBreakdown value)
+    onSaveLadderTeamBreakdown,
+  }) {
+    return onSaveLadderTeamBreakdown(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(OnLoadSettings value)? onLoadSettings,
+    TResult? Function(OnResetSettings value)? onResetSettings,
+    TResult? Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult? Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
+  }) {
+    return onSaveLadderTeamBreakdown?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(OnLoadSettings value)? onLoadSettings,
+    TResult Function(OnResetSettings value)? onResetSettings,
+    TResult Function(OnSaveShowLadderBreakdown value)?
+    onSaveShowLadderBreakdown,
+    TResult Function(OnSaveLadderTeamBreakdown value)?
+    onSaveLadderTeamBreakdown,
+    required TResult orElse(),
+  }) {
+    if (onSaveLadderTeamBreakdown != null) {
+      return onSaveLadderTeamBreakdown(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class OnSaveLadderTeamBreakdown implements SettingsEvent {
+  const factory OnSaveLadderTeamBreakdown({
+    required final BreakdownTeamsDTO breakdown,
+  }) = _$OnSaveLadderTeamBreakdownImpl;
+
+  BreakdownTeamsDTO get breakdown;
+
+  /// Create a copy of SettingsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OnSaveLadderTeamBreakdownImplCopyWith<_$OnSaveLadderTeamBreakdownImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc

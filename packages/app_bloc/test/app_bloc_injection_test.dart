@@ -58,6 +58,12 @@ class _FakeLocationsFacade implements ILocationsFacade {
 class _FakeSettingsFacade implements ISettingsFacade {
   @override
   Future<SettingsDTO> loadSettings() async => SettingsDTO.empty();
+
+  @override
+  Future<void> updateShowLadderBreakdown(bool show) async {}
+
+  @override
+  Future<void> updateLadderTeamBreakdown(BreakdownTeamsDTO breakdown) async {}
 }
 
 class _FakeLaddersFacade implements ILaddersFacade {

@@ -19,6 +19,7 @@ class DupraRoot extends StatefulWidget {
 class _DupraRootState extends State<DupraRoot> {
   late final AuthBloc _authBloc = appBlocSl<AuthBloc>();
   late final UsersBloc _usersBloc = createUsersBloc();
+  late final SettingsBloc _settingsBloc = appBlocSl<SettingsBloc>();
   late final GoRouterRefreshStream _routerRefresh = GoRouterRefreshStream(_authBloc.stream);
   late final GoRouter _router = AppRouter.create(authBloc: _authBloc, refresh: _routerRefresh);
 
@@ -35,6 +36,7 @@ class _DupraRootState extends State<DupraRoot> {
       providers: [
         BlocProvider<AuthBloc>.value(value: _authBloc),
         BlocProvider<UsersBloc>.value(value: _usersBloc),
+        BlocProvider<SettingsBloc>.value(value: _settingsBloc),
       ],
       child: BlocListener<AuthBloc, AuthState>(
         listenWhen: (prev, curr) {
@@ -58,7 +60,7 @@ class _DupraRootState extends State<DupraRoot> {
           );
         },
         child: MaterialApp.router(
-          title: 'Dupra',
+          title: 'Vob Squash',
           debugShowCheckedModeBanner: false,
           theme: DupraTheme.dark,
           routerConfig: _router,

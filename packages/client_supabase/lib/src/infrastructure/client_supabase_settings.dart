@@ -38,4 +38,63 @@ class ClientSupabaseSettings implements IClientSupabaseSettings {
 
     return data.whereType<Map<String, dynamic>>().map(SettingsRow.fromJson).toList(growable: false);
   }
+
+  @override
+  Future<void> patchSettingValueWhereNameEq({
+    required String settingName,
+    required String value,
+  }) async {
+    final response = await _dio.patch<dynamic>(
+      '/settings',
+      queryParameters: <String, dynamic>{'name': 'eq.$settingName'},
+      data: <String, dynamic>{'value': value},
+      options: Options(headers: const <String, dynamic>{'Prefer': 'return=minimal'}),
+    );
+
+    final status = response.statusCode ?? 0;
+    if (status < 200 || status >= 300) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+        error: 'Failed to update settings row (HTTP $status)',
+      );
+    }
+  }
+
+  @override
+  Future<void> patchSettingValueWhereIdEq({
+    required String id,
+    required String value,
+  }) async {
+    final response = await _dio.patch<dynamic>(
+      '/settings',
+      queryParameters: <String, dynamic>{'id': 'eq.$id'},
+      data: <String, dynamic>{'value': value},
+      options: Options(headers: const <String, dynamic>{
+        'Prefer': 'return=representation',
+      }),
+    );
+
+    final status = response.statusCode ?? 0;
+    if (status < 200 || status >= 300) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+        error: 'Failed to update settings row (HTTP $status)',
+      );
+    }
+
+    final data = response.data;
+    if (data is! List || data.isEmpty) {
+      throw DioException(
+        requestOptions: response.requestOptions,
+        response: response,
+        type: DioExceptionType.badResponse,
+        error:
+            'Settings PATCH returned no updated rows — check Supabase RLS (UPDATE policy on `settings`) or row id.',
+      );
+    }
+  }
 }

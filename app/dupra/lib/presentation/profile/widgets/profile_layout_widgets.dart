@@ -139,9 +139,7 @@ class _PrivacyReadRow extends StatelessWidget {
           ),
         ),
       ),
-      child: FittedBox(
-        child: Text(label, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
-      ),
+      child: Text(label, style: textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
     );
   }
 }

@@ -11,6 +11,12 @@ class _FakeSettingsFacade implements ISettingsFacade {
           showLadderBreakdown: true,
         ),
       );
+
+  @override
+  Future<void> updateShowLadderBreakdown(bool show) async {}
+
+  @override
+  Future<void> updateLadderTeamBreakdown(BreakdownTeamsDTO breakdown) async {}
 }
 
 void main() {

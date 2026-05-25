@@ -13,6 +13,7 @@ export 'src/dto/ladder/member_ladder_membership_with_profile_dto.dart';
 export 'src/dto/location/locations_dto.dart';
 export 'src/dto/location/locations_item_dto.dart';
 export 'src/dto/settings/fees.dart';
+export 'src/dto/settings/fees_service.dart';
 export 'src/dto/settings/ladder_team_breakdown.dart';
 export 'src/dto/settings/settings.dart';
 export 'src/dto/settings/system_settings.dart';
