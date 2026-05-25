@@ -21,7 +21,7 @@ import 'models/supabase_config.dart';
 /// Supabase REST client: supplies [config], registers DI, and exposes a configured [dio].
 ///
 /// ```dart
-/// final config = await SupabaseConfig.fromJsonFile('supabase.json');
+/// final config = await loadSupabaseConfigFromFile('supabase.json');
 /// final client = ClientSupabase(config: config);
 /// final response = await client.dio.get('/profiles');
 /// ```

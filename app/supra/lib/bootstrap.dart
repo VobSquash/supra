@@ -17,7 +17,7 @@ Future<void> bootstrap() async {
   );
 
   // Order matters (see packages/app_bloc/lib/injection.dart).
-  registerMiddleware(appConfig);
+  registerMiddleware(appConfig, supabaseClient: Supabase.instance.client);
   attachSupabaseAuthDioInterceptor();
   registerAppBlocDependencies();
 }
@@ -29,7 +29,12 @@ void attachSupabaseAuthDioInterceptor() {
   final dio = middlewareSl<IClientSupabase>().dio;
   final anon = middlewareSl<AppConfig>().anonKey;
   if (dio.interceptors.whereType<SupabaseAuthDioInterceptor>().isEmpty) {
-    dio.interceptors.add(SupabaseAuthDioInterceptor(anonKey: anon));
+    dio.interceptors.add(
+      SupabaseAuthDioInterceptor(
+        supabaseClient: middlewareSl<SupabaseClient>(),
+        anonKey: anon,
+      ),
+    );
   }
 }
 

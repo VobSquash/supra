@@ -16,14 +16,14 @@ void main() {
     expect(restored.anonKey, config.anonKey);
   });
 
-  test('SupabaseConfig.fromJsonFile reads file', () async {
+  test('loadSupabaseConfigFromFile reads JSON', () async {
     final dir = Directory.systemTemp.createTempSync('client_supabase_test');
     addTearDown(() => dir.deleteSync(recursive: true));
     final file = File(p.join(dir.path, 'supabase.json'));
     await file.writeAsString(
       '{"supabase_url":"https://x.supabase.co","anon_key":"k"}',
     );
-    final config = await SupabaseConfig.fromJsonFile(file.path);
+    final config = await loadSupabaseConfigFromFile(file.path);
     expect(config.supabaseUrl, 'https://x.supabase.co');
     expect(config.anonKey, 'k');
   });

@@ -1,8 +1,9 @@
 import 'package:auth/auth.dart';
 import 'package:client_supabase/client_supabase.dart';
 import 'package:injectable/injectable.dart';
+import '../injection.dart';
 import 'package:session_storage/session_storage.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase/supabase.dart';
 
 import 'supabase_session_mapper.dart';
 
@@ -35,14 +36,15 @@ class AppAuthService implements AuthService {
 
   @override
   Future<SessionSnapshot?> tryRestoreActiveSession() async {
-    // `Supabase.initialize` starts `recoverSession()` without awaiting it; poll briefly so
-    // cold start sees persisted GoTrue session.
-    Session? session = Supabase.instance.client.auth.currentSession;
-    User? user = Supabase.instance.client.auth.currentUser;
+    final supabaseClient = middlewareSl<SupabaseClient>();
+    // GoTrue restore can be async without awaiting initially; poll briefly so cold start
+    // sees persisted auth (same pattern as Flutter [Supabase.initialize]).
+    Session? session = supabaseClient.auth.currentSession;
+    User? user = supabaseClient.auth.currentUser;
     for (var i = 0; i < 20 && session == null; i++) {
       await Future<void>.delayed(const Duration(milliseconds: 25));
-      session = Supabase.instance.client.auth.currentSession;
-      user = Supabase.instance.client.auth.currentUser;
+      session = supabaseClient.auth.currentSession;
+      user = supabaseClient.auth.currentUser;
     }
     if (session == null || user == null) return null;
     final baseSnapshot = sessionSnapshotFromSupabase(session: session, user: user);
@@ -57,7 +59,7 @@ class AppAuthService implements AuthService {
 
   @override
   Future<void> signOut() async {
-    await Supabase.instance.client.auth.signOut();
+    await middlewareSl<SupabaseClient>().auth.signOut();
     await _sessionStore.clear();
   }
 
@@ -82,7 +84,7 @@ class AppAuthService implements AuthService {
       return const AuthResult.failure('No Supabase session after sign-in');
     }
 
-    final currentUser = Supabase.instance.client.auth.currentUser;
+    final currentUser = middlewareSl<SupabaseClient>().auth.currentUser;
     final enriched = await _enrichFromProfiles(session, currentUser);
     await _sessionStore.write(enriched);
     return AuthResult.signedIn(enriched);
@@ -95,7 +97,7 @@ class AppAuthService implements AuthService {
       return const AuthResult.failure('Password must be at least 6 characters.');
     }
     try {
-      await Supabase.instance.client.auth.updateUser(UserAttributes(password: trimmed));
+      await middlewareSl<SupabaseClient>().auth.updateUser(UserAttributes(password: trimmed));
       return const AuthResult.credentialsOk();
     } on AuthException catch (e) {
       final m = e.message.trim();

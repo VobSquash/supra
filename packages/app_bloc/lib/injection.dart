@@ -11,7 +11,7 @@ final appBlocSl = GetIt.instance;
 
 /// Registers injectable types in this package (e.g. [UsersBloc]) on [GetIt].
 ///
-/// **Order:** `registerMiddleware(appConfig)` → `registerAppBlocDependencies()`.
+/// **Order:** `registerMiddleware(appConfig, { … })` → `registerAppBlocDependencies()`.
 ///
 /// Uses a top-level initializer (not a [GetIt] extension) so this package does
 /// not define a second `GetItInjectableX` extension that would collide with

@@ -12,7 +12,7 @@ void main(List<String> arguments) async {
     return;
   }
   final path = arguments.first;
-  final config = await SupabaseConfig.fromJsonFile(path);
+  final config = await loadSupabaseConfigFromFile(path);
   final client = ClientSupabase(config: config);
   stdout.writeln('REST base URL: ${client.dio.options.baseUrl}');
 }

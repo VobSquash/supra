@@ -1,18 +1,19 @@
 import 'package:auth/auth.dart';
 import 'package:injectable/injectable.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import '../injection.dart';
+import 'package:supabase/supabase.dart';
 
 import 'password_codec.dart';
 import 'supabase_session_mapper.dart';
 
 /// Supabase Auth only: [signInWithPassword] after decoding the UI payload ([decodePasswordForSupabaseAuth]).
 ///
-/// Requires [Supabase.initialize] before use (see app `bootstrap`).
+/// Requires a [SupabaseClient] registered on [middlewareSl] (see apps’ `bootstrap` / [registerMiddleware]).
 @LazySingleton(as: AuthRepository)
 class MiddlewareAuthRepository implements AuthRepository {
   MiddlewareAuthRepository();
 
-  SupabaseClient get _client => Supabase.instance.client;
+  SupabaseClient get _client => middlewareSl<SupabaseClient>();
 
   @override
   Future<AuthResult> obtainSessionToken({required String email}) async {

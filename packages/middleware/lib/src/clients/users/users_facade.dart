@@ -7,7 +7,7 @@ import 'package:middleware/src/injection.dart';
 import 'package:middleware/src/mappers/ladder/member_ladder_membership_mapper.dart';
 import 'package:middleware/src/mappers/profiles/supabase_profile_mapper.dart';
 import 'package:session_storage/session_storage.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase/supabase.dart';
 
 import 'i_users_facade.dart';
 
@@ -18,6 +18,8 @@ class UsersFacade implements IUsersFacade {
   static const _avatarsBucket = 'avatars';
 
   final SessionStore _sessionStore;
+
+  SupabaseClient get _sb => middlewareSl<SupabaseClient>();
 
   IClientSupabase get _client => middlewareSl<IClientSupabase>();
 
@@ -82,11 +84,11 @@ class UsersFacade implements IUsersFacade {
   }
 
   Future<ProfileFull?> _profileFullForCurrentAuthUser() async {
-    final uid = Supabase.instance.client.auth.currentUser?.id.trim();
+    final uid = _sb.auth.currentUser?.id.trim();
     if (uid == null || uid.isEmpty) return null;
     var full = await _client.profiles.getByAuthUserId(uid);
     if (full == null) {
-      final email = Supabase.instance.client.auth.currentUser?.email?.trim().toLowerCase();
+      final email = _sb.auth.currentUser?.email?.trim().toLowerCase();
       if (email != null && email.isNotEmpty) {
         full = await _client.profiles.getByEmail(email);
       }
@@ -132,13 +134,13 @@ class UsersFacade implements IUsersFacade {
     if (full == null) {
       throw StateError('Could not load your profile.');
     }
-    final uid = Supabase.instance.client.auth.currentUser?.id.trim();
+    final uid = _sb.auth.currentUser?.id.trim();
     if (uid == null || uid.isEmpty) {
       throw StateError('Not signed in.');
     }
     final ext = _avatarExtensionForContentType(contentType);
     final path = '$uid/avatar.$ext';
-    await Supabase.instance.client.storage.from(_avatarsBucket).uploadBinary(
+    await _sb.storage.from(_avatarsBucket).uploadBinary(
           path,
           bytes,
           fileOptions: FileOptions(
@@ -146,7 +148,7 @@ class UsersFacade implements IUsersFacade {
             upsert: true,
           ),
         );
-    final publicUrl = Supabase.instance.client.storage.from(_avatarsBucket).getPublicUrl(path);
+    final publicUrl = _sb.storage.from(_avatarsBucket).getPublicUrl(path);
     final patched = await _client.profiles.patchOwnProfilePictureUrl(
       profileRowId: full.profile.id,
       vobGuid: full.profile.vobGuid,

@@ -17,3 +17,4 @@ export 'profile_extension_row.dart';
 export 'profile_full.dart';
 export 'profile_row.dart';
 export 'supabase_config.dart';
+export 'supabase_config_file.dart';

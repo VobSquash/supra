@@ -18,7 +18,7 @@ dependencies:
     path: ../client_supabase
   session_storage:
     path: ../session_storage
-  supabase_flutter: ^2.12.2
+  supabase: 2.10.4
   get_it: ^8.3.0
   injectable: ^2.5.0
   path: ^1.9.0

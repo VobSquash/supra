@@ -20,7 +20,7 @@ Future<void> bootstrap() async {
     anonKey: appConfig.anonKey,
   );
 
-  registerMiddleware(appConfig);
+  registerMiddleware(appConfig, supabaseClient: Supabase.instance.client);
   _attachSupabaseAuthDioInterceptor();
   registerAppBlocDependencies();
 }
@@ -29,7 +29,12 @@ void _attachSupabaseAuthDioInterceptor() {
   final dio = middlewareSl<IClientSupabase>().dio;
   final anon = middlewareSl<AppConfig>().anonKey;
   if (dio.interceptors.whereType<SupabaseAuthDioInterceptor>().isEmpty) {
-    dio.interceptors.add(SupabaseAuthDioInterceptor(anonKey: anon));
+    dio.interceptors.add(
+      SupabaseAuthDioInterceptor(
+        supabaseClient: middlewareSl<SupabaseClient>(),
+        anonKey: anon,
+      ),
+    );
   }
 }
 

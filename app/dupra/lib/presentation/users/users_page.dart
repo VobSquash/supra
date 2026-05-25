@@ -3,11 +3,11 @@ import 'dart:async';
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:dupra/presentation/users/data/users_directory_lead_letter.dart';
-import 'package:dupra/presentation/users/users_directory_loaded_panel.dart';
 import 'package:dupra/presentation/users/data/users_directory_metrics.dart';
+import 'package:dupra/presentation/users/data/users_membership_filter.dart';
+import 'package:dupra/presentation/users/users_directory_loaded_panel.dart';
 import 'package:dupra/presentation/users/users_directory_tile.dart';
 import 'package:dupra/presentation/users/users_membership_chip_row.dart';
-import 'package:dupra/presentation/users/data/users_membership_filter.dart';
 import 'package:dupra/presentation/users/users_profiles_load_error.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,9 +51,7 @@ class _UsersPageState extends State<UsersPage> {
   void _onDirectoryScrollPositionChanged() {
     _scrollLetterHideTimer?.cancel();
 
-    if (!mounted ||
-        !_scrollController.hasClients ||
-        _directoryScrollSnapshot.isEmpty) {
+    if (!mounted || !_scrollController.hasClients || _directoryScrollSnapshot.isEmpty) {
       _scrollLetterOverlay.value = null;
       return;
     }
@@ -92,7 +90,9 @@ class _UsersPageState extends State<UsersPage> {
   Future<void> _onPullToRefresh() async {
     final bloc = context.read<UsersBloc>()..add(const UsersEvent.onLoadActiveProfiles());
     try {
-      await bloc.stream.timeout(const Duration(seconds: 45)).firstWhere(
+      await bloc.stream
+          .timeout(const Duration(seconds: 45))
+          .firstWhere(
             (s) =>
                 s.status.status == BaseLoadingStatus.loadingSuccess ||
                 s.status.status == BaseLoadingStatus.loadingFailed,

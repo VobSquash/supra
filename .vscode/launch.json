@@ -14,6 +14,36 @@
       "type": "dart",
       "program": "lib/main.dart",
       "cwd": "app/dupra"
+    },
+    {
+      "name": "Kali (jaspr serve)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "app/kali",
+      "program": "tool/jaspr_serve.dart",
+      "args": [
+        "--web-port",
+        "15467",
+        "--proxy-port",
+        "15567"
+      ],
+      "console": "terminal"
+    },
+    {
+      "name": "Kali (jaspr serve, alt ports)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "app/kali",
+      "program": "tool/jaspr_serve.dart",
+      "args": [
+        "--web-port",
+        "15468",
+        "--proxy-port",
+        "15568",
+        "-p",
+        "8090"
+      ],
+      "console": "terminal"
     }
   ]
 }

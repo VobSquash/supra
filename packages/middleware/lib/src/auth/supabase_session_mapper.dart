@@ -1,5 +1,5 @@
 import 'package:session_storage/session_storage.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase/supabase.dart';
 
 /// Maps Supabase Auth [Session] + [User] into [SessionSnapshot].
 ///
