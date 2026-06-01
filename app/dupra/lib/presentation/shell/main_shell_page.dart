@@ -5,6 +5,7 @@ import 'package:dupra/engine/shell_locations.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/gen/assets.gen.dart';
 import 'package:dupra/presentation/admin/admin_bookings_placeholder_page.dart';
+import 'package:dupra/presentation/admin/admin_email_page.dart';
 import 'package:dupra/presentation/admin/admin_home_placeholder_page.dart';
 import 'package:dupra/presentation/admin/admin_ladders_placeholder_page.dart';
 import 'package:dupra/presentation/admin/admin_users_placeholder_page.dart';
@@ -100,7 +101,6 @@ class MainShellPage extends StatefulWidget {
 class _MainShellPageState extends State<MainShellPage> {
   late final PageController _pageController;
 
-  static const int _tabCount = 5;
 
   /// Last rounded page passed to [_LazyShellTab]; avoids [setState] on every scroll tick.
   int _shellLazyRoundedTabCache = -999999;
@@ -161,8 +161,8 @@ class _MainShellPageState extends State<MainShellPage> {
     });
   }
 
-  void _goToTab(BuildContext context, int index) {
-    if (index < 0 || index >= _tabCount) {
+  void _goToTab(BuildContext context, int index, {required int tabCount}) {
+    if (index < 0 || index >= tabCount) {
       return;
     }
     final routerState = GoRouterState.of(context);
@@ -178,7 +178,7 @@ class _MainShellPageState extends State<MainShellPage> {
         if (idx == null) {
           return;
         }
-        _goToTab(context, idx);
+        _goToTab(context, idx, tabCount: ShellLocations.memberTabCount);
       case HomePushRouteDestination(:final route):
         context.pushNamed(route.namedRoute);
     }
@@ -240,8 +240,9 @@ class _MainShellPageState extends State<MainShellPage> {
             _dropAdminShellIfUnauthorized(context, adminEligible: adminEligible, adminShell: placement.adminShell);
             _syncPageControllerToIndex(placement.tabIndex);
             final suiteKey = placement.adminShell ? 'a' : 'm';
+            final tabCount = ShellLocations.tabCountForSuite(suiteKey);
 
-            const profileTabIndex = _tabCount - 1;
+            final profileTabIndex = tabCount - 1;
             final avatarLabel = _shellAvatarLabel(snapshot, profile);
             final avatarUrl = _shellAvatarPhoto(snapshot, profile);
 
@@ -271,7 +272,7 @@ class _MainShellPageState extends State<MainShellPage> {
                       controller: _pageController,
                       onPageChanged: (i) => _onPageChanged(context, i),
                       children: List.generate(
-                        _tabCount,
+                        tabCount,
                         (i) => _LazyShellTab(
                           key: ValueKey<String>('shell-$suiteKey-$i'),
                           tabIndex: i,
@@ -281,6 +282,7 @@ class _MainShellPageState extends State<MainShellPage> {
                             1 => const AdminBookingsPlaceholderPage(),
                             2 => const AdminUsersPlaceholderPage(),
                             3 => const AdminLaddersPlaceholderPage(),
+                            4 => const AdminEmailPage(),
                             _ => const ProfileStubPage(),
                           },
                         ),
@@ -293,7 +295,7 @@ class _MainShellPageState extends State<MainShellPage> {
                         controller: _pageController,
                         onPageChanged: (i) => _onPageChanged(context, i),
                         children: List.generate(
-                          _tabCount,
+                          tabCount,
                           (i) => _LazyShellTab(
                             key: ValueKey<String>('shell-$suiteKey-$i'),
                             tabIndex: i,
@@ -316,7 +318,7 @@ class _MainShellPageState extends State<MainShellPage> {
                 profileTabIndex: profileTabIndex,
                 avatarDisplayName: avatarLabel,
                 avatarImageUrl: avatarUrl,
-                onTabChange: (i) => _goToTab(context, i),
+                onTabChange: (i) => _goToTab(context, i, tabCount: tabCount),
               ),
             );
           },

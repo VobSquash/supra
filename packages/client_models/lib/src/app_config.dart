@@ -13,6 +13,15 @@ class AppConfig {
     this.skinId,
     required this.supabaseUrl,
     required this.anonKey,
+    this.smtpHost,
+    this.smtpUsername,
+    this.smtpPassword,
+    this.smtpFromEmail,
+    this.smtpFromName,
+    this.smtpUseSsl,
+    this.smtpBookingCc,
+    this.smtpWelcomeCc,
+    this.emailAssetBaseUrl,
   });
 
   @JsonKey(name: 'back_4_app_client_id')
@@ -38,6 +47,35 @@ class AppConfig {
 
   @JsonKey(name: 'anon_key')
   final String anonKey;
+
+  @JsonKey(name: 'smtp_host')
+  final String? smtpHost;
+
+  @JsonKey(name: 'smtp_username')
+  final String? smtpUsername;
+
+  @JsonKey(name: 'smtp_password')
+  final String? smtpPassword;
+
+  @JsonKey(name: 'smtp_from_email')
+  final String? smtpFromEmail;
+
+  @JsonKey(name: 'smtp_from_name')
+  final String? smtpFromName;
+
+  @JsonKey(name: 'smtp_use_ssl')
+  final bool? smtpUseSsl;
+
+  @JsonKey(name: 'smtp_booking_cc')
+  final dynamic smtpBookingCc;
+
+  @JsonKey(name: 'smtp_welcome_cc')
+  final dynamic smtpWelcomeCc;
+
+  /// Public base URL for HTML email images, e.g.
+  /// `https://<project>.supabase.co/storage/v1/object/public/email-images/`.
+  @JsonKey(name: 'email_asset_base_url')
+  final String? emailAssetBaseUrl;
 
   factory AppConfig.fromJson(Map<String, dynamic> json) =>
       _$AppConfigFromJson(json);

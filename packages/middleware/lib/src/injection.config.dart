@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auth/auth.dart' as _i662;
+import 'package:client_email/client_email.dart' as _i572;
 import 'package:client_supabase/client_supabase.dart' as _i680;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -20,6 +21,8 @@ import 'auth/middleware_auth_repository.dart' as _i404;
 import 'clients/bookings/bookings_facade.dart' as _i992;
 import 'clients/bookings/i_bookings_facade.dart' as _i743;
 import 'clients/client_configs.dart' as _i692;
+import 'clients/email/email_facade.dart' as _i107;
+import 'clients/email/i_email_facade.dart' as _i488;
 import 'clients/ladder/i_ladders_facade.dart' as _i686;
 import 'clients/ladder/ladders_facade.dart' as _i432;
 import 'clients/league_fixtures/i_league_fixtures_facade.dart' as _i1055;
@@ -63,6 +66,13 @@ extension GetItInjectableX on _i174.GetIt {
       () => middlewareInfrastructureModule.clientSupabase(
         gh<_i692.ClientConfigs>(),
       ),
+    );
+    gh.lazySingleton<_i572.IClientEmail>(
+      () =>
+          middlewareInfrastructureModule.clientEmail(gh<_i692.ClientConfigs>()),
+    );
+    gh.lazySingleton<_i488.IEmailFacade>(
+      () => _i107.EmailFacade(gh<_i572.IClientEmail>()),
     );
     gh.lazySingleton<_i662.AuthService>(
       () => _i512.AppAuthService(

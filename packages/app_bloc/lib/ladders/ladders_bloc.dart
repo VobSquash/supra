@@ -52,6 +52,10 @@ class LaddersBloc extends BaseBloc<LaddersEvent, LaddersState> {
     return _laddersFacade.saveLadderDivision(division: division, items: items);
   }
 
+  Future<void> requestChallenge({required LadderItemDTO challenged}) {
+    return _laddersFacade.requestChallenge(challenged: challenged);
+  }
+
   Future<void> addMemberToDivision({
     required LadderDivision division,
     required String vobGuid,

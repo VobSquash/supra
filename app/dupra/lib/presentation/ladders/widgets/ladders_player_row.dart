@@ -4,10 +4,12 @@ class _LadderPlayerRow extends StatelessWidget {
   const _LadderPlayerRow({
     required this.item,
     required this.rankWithinTeam,
+    this.onChallenge,
   });
 
   final LadderItemDTO item;
   final int rankWithinTeam;
+  final VoidCallback? onChallenge;
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,10 @@ class _LadderPlayerRow extends StatelessWidget {
               ),
         ),
         trailing: (item.canBeChallenged ?? false)
-            ? Tooltip(
-                message: 'Can be challenged',
-                child: Icon(Icons.sports_tennis, color: scheme.primary, size: 22),
+            ? IconButton(
+                tooltip: 'Challenge player',
+                onPressed: onChallenge,
+                icon: Icon(Icons.sports_tennis, color: scheme.primary, size: 26),
               )
             : null,
       ),

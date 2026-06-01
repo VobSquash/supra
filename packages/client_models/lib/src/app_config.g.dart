@@ -15,6 +15,15 @@ AppConfig _$AppConfigFromJson(Map<String, dynamic> json) => AppConfig(
   skinId: json['skin_id'] as String?,
   supabaseUrl: json['supabase_url'] as String,
   anonKey: json['anon_key'] as String,
+  smtpHost: json['smtp_host'] as String?,
+  smtpUsername: json['smtp_username'] as String?,
+  smtpPassword: json['smtp_password'] as String?,
+  smtpFromEmail: json['smtp_from_email'] as String?,
+  smtpFromName: json['smtp_from_name'] as String?,
+  smtpUseSsl: json['smtp_use_ssl'] as bool?,
+  smtpBookingCc: json['smtp_booking_cc'],
+  smtpWelcomeCc: json['smtp_welcome_cc'],
+  emailAssetBaseUrl: json['email_asset_base_url'] as String?,
 );
 
 Map<String, dynamic> _$AppConfigToJson(AppConfig instance) => <String, dynamic>{
@@ -26,4 +35,13 @@ Map<String, dynamic> _$AppConfigToJson(AppConfig instance) => <String, dynamic>{
   'skin_id': instance.skinId,
   'supabase_url': instance.supabaseUrl,
   'anon_key': instance.anonKey,
+  'smtp_host': instance.smtpHost,
+  'smtp_username': instance.smtpUsername,
+  'smtp_password': instance.smtpPassword,
+  'smtp_from_email': instance.smtpFromEmail,
+  'smtp_from_name': instance.smtpFromName,
+  'smtp_use_ssl': instance.smtpUseSsl,
+  'smtp_booking_cc': instance.smtpBookingCc,
+  'smtp_welcome_cc': instance.smtpWelcomeCc,
+  'email_asset_base_url': instance.emailAssetBaseUrl,
 };

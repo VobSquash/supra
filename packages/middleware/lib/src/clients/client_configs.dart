@@ -1,3 +1,4 @@
+import 'package:client_email/client_email.dart';
 import 'package:client_models/client_models.dart';
 import 'package:client_supabase/client_supabase.dart' show SupabaseConfig;
 import 'package:middleware/src/mappers/app_config_mapper.dart';
@@ -31,5 +32,30 @@ class ClientConfigs {
 
   SupabaseConfig get supabaseConfig =>
       _appConfigMapper.toSupabaseConfig(currentAppConfig);
+
+  EmailConfig? get emailConfig => EmailConfig.fromAppJson(currentAppConfig.toJson());
+
+  /// Public base for HTML email images (Supabase `email-images` bucket).
+  ///
+  /// Uses [AppConfig.emailAssetBaseUrl] when set; otherwise derives from
+  /// [AppConfig.supabaseUrl].
+  String? get emailAssetBaseUrl {
+    final explicit = currentAppConfig.emailAssetBaseUrl?.trim();
+    if (explicit != null && explicit.isNotEmpty) {
+      return _normalizePublicBaseUrl(explicit);
+    }
+    return _supabaseEmailAssetsBaseUrl(currentAppConfig.supabaseUrl);
+  }
+
+  static String? _supabaseEmailAssetsBaseUrl(String supabaseUrl) {
+    final root = supabaseUrl.trim();
+    if (root.isEmpty) return null;
+    final withoutTrailing = root.endsWith('/') ? root.substring(0, root.length - 1) : root;
+    return '$withoutTrailing/storage/v1/object/public/email-images/';
+  }
+
+  static String _normalizePublicBaseUrl(String url) {
+    return url.endsWith('/') ? url : '$url/';
+  }
 }
 

@@ -1,0 +1,17 @@
+name: client_email
+description: SMTP email client with HTML template rendering for VOB club mailers.
+version: 1.0.0
+publish_to: none
+
+environment:
+  sdk: ">=3.8.0 <4.0.0"
+
+dependencies:
+  client_models:
+    path: ../client_models
+  mailer: ^6.6.0
+  meta: ^1.16.0
+
+dev_dependencies:
+  lints: ^6.0.0
+  test: ^1.25.6

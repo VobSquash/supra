@@ -1,4 +1,8 @@
 export 'client_configs.dart';
+export 'email/i_email_facade.dart';
+export 'email/i_email_html_preparer.dart';
+export 'email/i_email_template_provider.dart';
+export 'email/i_fees_pdf_exporter.dart';
 export 'bookings/booking_slot_schedule.dart';
 export 'bookings/i_bookings_facade.dart';
 export 'ladder/i_ladders_facade.dart';

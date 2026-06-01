@@ -1,6 +1,7 @@
 import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:dupra/presentation/admin/data/upcoming_admin_birthdays.dart';
+import 'package:dupra/engine/shell_locations.dart';
 import 'package:dupra/presentation/admin/widgets/dupra_admin_court_heatmap_card.dart';
 import 'package:dupra/presentation/shell/shell_tab_insets.dart';
 import 'package:dupra/presentation/widgets/dupra_upcoming_birthday_tile.dart';
@@ -86,6 +87,14 @@ class _AdminHomePlaceholderPageState extends State<AdminHomePlaceholderPage> {
                             subtitle: const Text('Costs from Fees2026'),
                             trailing: const Icon(Icons.chevron_right_rounded),
                             onTap: () => context.pushNamed('admin-fees'),
+                          ),
+                          const Divider(height: 1),
+                          ListTile(
+                            leading: Icon(Icons.mail_outline_rounded, color: Theme.of(context).colorScheme.primary),
+                            title: const Text('Email testing'),
+                            subtitle: const Text('Test booking, general, and welcome mail'),
+                            trailing: const Icon(Icons.chevron_right_rounded),
+                            onTap: () => context.go(ShellLocations.path('a', 'email')),
                           ),
                         ],
                       ),

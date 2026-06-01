@@ -9,6 +9,8 @@ import 'package:middleware/src/mappers/profiles/supabase_profile_mapper.dart';
 import 'package:session_storage/session_storage.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'package:middleware/src/clients/email/i_email_facade.dart';
+
 import 'i_users_facade.dart';
 
 @LazySingleton(as: IUsersFacade)
@@ -62,7 +64,25 @@ class UsersFacade implements IUsersFacade {
     }
 
     final full = await _client.profiles.createMemberProfile(dto: dto);
-    return _toBasic(full);
+    final basic = _toBasic(full);
+    await _trySendWelcomeEmail(basic);
+    return basic;
+  }
+
+  Future<void> _trySendWelcomeEmail(BasicProfileDTO profile) async {
+    if (!middlewareSl.isRegistered<IEmailFacade>()) return;
+    final emailFacade = middlewareSl<IEmailFacade>();
+    if (!emailFacade.isEnabled) return;
+
+    final email = profile.email?.trim();
+    if (email == null || email.isEmpty) return;
+
+    try {
+      await emailFacade.sendWelcomeEmail(recipientEmail: email);
+    } catch (e) {
+      // ignore: avoid_print
+      print('Welcome email failed: $e');
+    }
   }
 
   Future<bool> _actorHasAdminElevatedPrivileges() async {

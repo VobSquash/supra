@@ -1,7 +1,9 @@
 import 'package:client_models/client_models.dart';
 import 'package:client_supabase/client_supabase.dart';
 import 'package:injectable/injectable.dart';
+import 'package:middleware/src/clients/email/i_email_facade.dart';
 import 'package:middleware/src/clients/settings/i_settings_facade.dart';
+import 'package:middleware/src/clients/users/i_users_facade.dart';
 import 'package:middleware/src/injection.dart';
 import 'package:middleware/src/mappers/ladder/ladder_challenge_targets_applier.dart';
 import 'package:middleware/src/mappers/ladder/ladder_entry_with_profile.dart';
@@ -118,6 +120,46 @@ class LaddersFacade implements ILaddersFacade {
   @override
   Future<void> removeMemberFromDivision({required LadderDivision division, required String vobGuid}) {
     return _client.ladders.deleteLadderDivisionMember(table: _tableForDivision(division), vobGuid: vobGuid);
+  }
+
+  @override
+  Future<void> requestChallenge({required LadderItemDTO challenged}) async {
+    if (!(challenged.canBeChallenged ?? false)) {
+      throw StateError('This player is not eligible to be challenged.');
+    }
+
+    final challengedEmail = challenged.profile?.email?.trim();
+    if (challengedEmail == null || challengedEmail.isEmpty) {
+      throw StateError('The challenged member has no email address on file.');
+    }
+
+    final challenger = await middlewareSl<IUsersFacade>().loadCurrentUserProfile();
+    if (challenger == null) {
+      throw StateError('Could not load your profile to send the challenge.');
+    }
+
+    final challengerEmail = challenger.email?.trim();
+    if (challengerEmail == null || challengerEmail.isEmpty) {
+      throw StateError('Your profile has no email address for challenge notifications.');
+    }
+
+    final challengedName = challenged.profile?.displayName.trim() ?? '';
+    final challengerName = challenger.displayName.trim();
+
+    if (!middlewareSl.isRegistered<IEmailFacade>()) {
+      throw StateError('Email is not configured.');
+    }
+    final emailFacade = middlewareSl<IEmailFacade>();
+    if (!emailFacade.isEnabled) {
+      throw StateError('Email is not configured.');
+    }
+
+    await emailFacade.sendLadderChallenge(
+      challengedEmail: challengedEmail,
+      challengedDisplayName: challengedName.isNotEmpty ? challengedName : 'Member',
+      challengerDisplayName: challengerName.isNotEmpty ? challengerName : 'A VOB member',
+      challengerEmail: challengerEmail,
+    );
   }
 
   String _tableForDivision(LadderDivision division) {

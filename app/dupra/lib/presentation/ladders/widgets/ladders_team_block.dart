@@ -59,7 +59,13 @@ class _LadderTeamBlock extends StatelessWidget {
           ),
           for (var i = 0; i < items.length; i++) ...[
             if (i > 0) Divider(height: 1, color: scheme.outline),
-            _LadderPlayerRow(item: items[i], rankWithinTeam: i + 1),
+            _LadderPlayerRow(
+              item: items[i],
+              rankWithinTeam: i + 1,
+              onChallenge: (items[i].canBeChallenged ?? false)
+                  ? () => confirmLadderChallenge(context, items[i])
+                  : null,
+            ),
           ],
         ],
       ),

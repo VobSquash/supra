@@ -3,6 +3,7 @@ import 'package:client_supabase/client_supabase.dart';
 import 'package:injectable/injectable.dart';
 import 'package:middleware/src/clients/bookings/booking_slot_schedule.dart';
 import 'package:middleware/src/clients/bookings/i_bookings_facade.dart';
+import 'package:middleware/src/clients/email/i_email_facade.dart';
 import 'package:middleware/src/injection.dart';
 import 'package:middleware/src/mappers/bookings/booking_with_profile.dart';
 import 'package:middleware/src/mappers/bookings/supabase_booking_mapper.dart';
@@ -86,16 +87,47 @@ class BookingsFacade implements IBookingsFacade {
         'Unable to create booking: no vob_guid found in current session.',
       );
     }
-    await _client.bookings.createBooking(
-      booking: CreateBookingDto(
-        courtNo: booking.courtNo,
-        bookingDate: booking.bookingDate,
-        vobGuid: context.vobGuid,
-        displayName: context.displayName,
-        groupBookingId: 0,
-        legacyObjectId: '',
-      ),
+    final persisted = CreateBookingDto(
+      courtNo: booking.courtNo,
+      bookingDate: booking.bookingDate,
+      vobGuid: context.vobGuid,
+      displayName: context.displayName,
+      groupBookingId: 0,
+      legacyObjectId: '',
     );
+    await _client.bookings.createBooking(booking: persisted);
+    await _trySendBookingConfirmation(booking: persisted, context: context);
+  }
+
+  Future<void> _trySendBookingConfirmation({
+    required CreateBookingDto booking,
+    required _BookingCreateContext context,
+  }) async {
+    if (!middlewareSl.isRegistered<IEmailFacade>()) return;
+    final emailFacade = middlewareSl<IEmailFacade>();
+    if (!emailFacade.isEnabled) return;
+
+    try {
+      final profileFull = await _client.profiles.getByVobGuid(context.vobGuid);
+      final email = profileFull?.profile.email?.trim();
+      if (email == null || email.isEmpty) return;
+
+      final displayName = _firstNonEmpty(
+            booking.displayName?.trim(),
+            context.displayName,
+            _profileDisplayName(profileFull),
+          ) ??
+          'Member';
+
+      await emailFacade.sendBookingConfirmation(
+        booking: booking,
+        recipientEmail: email,
+        displayName: displayName,
+      );
+    } catch (e) {
+      // ignore: avoid_print
+      print('Booking confirmation email failed: $e');
+    }
   }
 
   @override

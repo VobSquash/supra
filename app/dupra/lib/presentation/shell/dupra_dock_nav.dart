@@ -118,6 +118,18 @@ class _DupraDockNav extends StatelessWidget {
                       onTap: () => onTabChange(3),
                     ),
                   ),
+                  if (isAdmin)
+                    Expanded(
+                      child: _DockTab(
+                        selected: selectedIndex == 4,
+                        icon: Icons.mail_outline_rounded,
+                        selectedIcon: Icons.mail_rounded,
+                        label: 'Mail',
+                        scheme: scheme,
+                        accent: dockAccent,
+                        onTap: () => onTabChange(4),
+                      ),
+                    ),
                   Expanded(
                     child: _DockProfileTab(
                       selected: selectedIndex == profileTabIndex,

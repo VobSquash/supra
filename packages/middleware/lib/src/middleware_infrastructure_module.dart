@@ -1,3 +1,4 @@
+import 'package:client_email/client_email.dart';
 import 'package:client_supabase/client_supabase.dart';
 import 'package:injectable/injectable.dart';
 import 'package:session_storage/session_storage.dart';
@@ -18,6 +19,15 @@ abstract class MiddlewareInfrastructureModule {
 
   @LazySingleton()
   IClientSupabase clientSupabase(ClientConfigs clientConfigs) => ClientSupabase(config: clientConfigs.supabaseConfig);
+
+  @LazySingleton()
+  IClientEmail clientEmail(ClientConfigs clientConfigs) {
+    final email = clientConfigs.emailConfig;
+    if (email == null || !email.isConfigured) {
+      return const NoOpClientEmail();
+    }
+    return SmtpClientEmail(config: email);
+  }
 
   /// Replace with encrypted / file-backed [SessionStore] when persisting on device.
   @lazySingleton

@@ -4,6 +4,9 @@ import 'package:app_bloc/app_bloc.dart';
 import 'package:client_models/client_models.dart';
 import 'package:client_supabase/client_supabase.dart';
 import 'package:client_supabase/client_supabase_auth.dart';
+import 'package:dupra/engine/dupra_email_html_preparer.dart';
+import 'package:dupra/engine/dupra_email_template_provider.dart';
+import 'package:dupra/engine/fees_pdf_exporter.dart';
 import 'package:dupra/gen/assets.gen.dart';
 import 'package:flutter/services.dart';
 import 'package:middleware/middleware.dart';
@@ -21,6 +24,21 @@ Future<void> bootstrap() async {
   );
 
   registerMiddleware(appConfig);
+  if (!middlewareSl.isRegistered<IEmailTemplateProvider>()) {
+    middlewareSl.registerLazySingleton<IEmailTemplateProvider>(
+      DupraEmailTemplateProvider.new,
+    );
+  }
+  if (!middlewareSl.isRegistered<IEmailHtmlPreparer>()) {
+    middlewareSl.registerLazySingleton<IEmailHtmlPreparer>(
+      DupraEmailHtmlPreparer.new,
+    );
+  }
+  if (!middlewareSl.isRegistered<IFeesPdfExporter>()) {
+    middlewareSl.registerLazySingleton<IFeesPdfExporter>(
+      DupraFeesPdfExporter.new,
+    );
+  }
   _attachSupabaseAuthDioInterceptor();
   registerAppBlocDependencies();
 }

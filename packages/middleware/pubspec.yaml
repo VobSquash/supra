@@ -12,6 +12,8 @@ dependencies:
   auto_mappr: ^2.5.0
   dart_jsonwebtoken: ^2.17.0
   auto_mappr_annotation: ^2.2.0
+  client_email:
+    path: ../client_email
   client_models:
     path: ../client_models
   client_supabase:

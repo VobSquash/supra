@@ -3,6 +3,7 @@ library;
 export 'auth/auth_bloc.dart';
 export 'base/base_bloc.dart';
 export 'bookings/bookings_bloc.dart';
+export 'email/email_bloc.dart';
 export 'bookings/booking_heatmap_aggregate.dart';
 export 'bookings/booking_heatmap_bloc.dart';
 export 'injection.dart';

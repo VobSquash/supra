@@ -31,6 +31,7 @@ final appBlocSl = GetIt.instance;
     ILaddersFacade,
     ILeagueFixturesFacade,
     IBookingsFacade,
+    IEmailFacade,
     AuthService,
   ],
 )

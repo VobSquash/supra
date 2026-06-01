@@ -17,6 +17,7 @@ import 'package:middleware/middleware_clients.dart' as _i554;
 import 'auth/auth_bloc.dart' as _i20;
 import 'bookings/booking_heatmap_bloc.dart' as _i420;
 import 'bookings/bookings_bloc.dart' as _i1037;
+import 'email/email_bloc.dart' as _i303;
 import 'ladders/ladders_bloc.dart' as _i558;
 import 'league_fixtures/league_fixtures_bloc.dart' as _i407;
 import 'locations/locations_bloc.dart' as _i57;
@@ -40,6 +41,9 @@ _i174.GetIt initAppBloc(
   );
   gh.factory<_i287.SettingsBloc>(
     () => _i287.SettingsBloc(gh<_i554.ISettingsFacade>()),
+  );
+  gh.factory<_i303.EmailBloc>(
+    () => _i303.EmailBloc(gh<_i554.IEmailFacade>(), gh<_i554.IUsersFacade>()),
   );
   gh.factory<_i1037.BookingsBloc>(
     () => _i1037.BookingsBloc(gh<_i554.IBookingsFacade>()),

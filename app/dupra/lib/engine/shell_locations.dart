@@ -5,8 +5,13 @@ abstract final class ShellLocations {
 
   static const String defaultMember = '/m/home';
 
+  static const memberTabCount = 5;
+  static const adminTabCount = 6;
+
   static const _memberTabs = ['home', 'bookings', 'fixtures', 'ladders', 'profile'];
-  static const _adminTabs = ['home', 'bookings', 'users', 'ladder', 'profile'];
+  static const _adminTabs = ['home', 'bookings', 'users', 'ladder', 'email', 'profile'];
+
+  static int tabCountForSuite(String suite) => suite == 'a' ? adminTabCount : memberTabCount;
 
   static bool isValidSuite(String suite) => suite == 'm' || suite == 'a';
 

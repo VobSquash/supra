@@ -32,6 +32,8 @@ dependencies:
     path: ../../packages/app_bloc
   cached_network_image: ^3.4.1
   characters: ^1.4.0
+  client_email:
+    path: ../../packages/client_email
   client_models:
     path: ../../packages/client_models
   client_supabase:
@@ -47,6 +49,8 @@ dependencies:
   intl: ^0.18.1
   middleware:
     path: ../../packages/middleware
+  path_provider: ^2.1.5
+  syncfusion_flutter_pdf: ^29.2.11
   session_storage:
     path: ../../packages/session_storage
   shared_preferences: ^2.5.3

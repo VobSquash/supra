@@ -15,10 +15,35 @@ class AdminFeesPage extends StatefulWidget {
 }
 
 class _AdminFeesPageState extends State<AdminFeesPage> {
+  final _feesEmailController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     context.read<SettingsBloc>().add(const SettingsEvent.onLoadSettings());
+  }
+
+  @override
+  void dispose() {
+    _feesEmailController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _sendFeesEmail() async {
+    final email = _feesEmailController.text.trim();
+    if (email.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Enter a recipient email address')),
+      );
+      return;
+    }
+
+    final bloc = appBlocSl<EmailBloc>();
+    bloc.add(EmailEvent.onSendFeesEmail(recipientEmail: email));
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Sending fees email…')),
+    );
   }
 
   Future<void> _onRefresh() async {
@@ -128,6 +153,28 @@ class _AdminFeesPageState extends State<AdminFeesPage> {
                         Text(
                           'Fee amounts are read-only in the app. Changes are made in Supabase for now.',
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(color: variant),
+                        ),
+                        const SizedBox(height: 20),
+                        Text(
+                          'Email fee schedule',
+                          style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                              ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextField(
+                          controller: _feesEmailController,
+                          decoration: const InputDecoration(
+                            labelText: 'Recipient email',
+                            border: OutlineInputBorder(),
+                          ),
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        const SizedBox(height: 12),
+                        FilledButton.icon(
+                          onPressed: items.isEmpty ? null : _sendFeesEmail,
+                          icon: const Icon(Icons.mail_outline_rounded),
+                          label: const Text('Send current fees'),
                         ),
                       ],
                     ),

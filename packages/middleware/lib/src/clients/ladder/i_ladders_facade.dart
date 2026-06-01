@@ -25,4 +25,7 @@ abstract class ILaddersFacade {
     required LadderDivision division,
     required String vobGuid,
   });
+
+  /// Sends ladder challenge notification email to [challenged] (current user is challenger).
+  Future<void> requestChallenge({required LadderItemDTO challenged});
 }
