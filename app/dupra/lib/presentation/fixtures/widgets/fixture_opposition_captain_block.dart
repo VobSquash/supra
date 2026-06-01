@@ -31,7 +31,7 @@ class FixtureOppositionCaptainBlock extends StatelessWidget {
         icon: Icons.phone_outlined,
         iconAccentColor: scheme.primary,
         label: name,
-        value: tel,
+        value: dupraFormatPhoneForDisplay(tel),
         onPressed: () => showContactInfoBottomSheet(
           context: context,
           fieldTitle: name,

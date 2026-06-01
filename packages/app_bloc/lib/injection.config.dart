@@ -15,6 +15,7 @@ import 'package:injectable/injectable.dart' as _i526;
 import 'package:middleware/middleware_clients.dart' as _i554;
 
 import 'auth/auth_bloc.dart' as _i20;
+import 'banner_events/banner_events_bloc.dart' as _i896;
 import 'bookings/booking_heatmap_bloc.dart' as _i420;
 import 'bookings/bookings_bloc.dart' as _i1037;
 import 'email/email_bloc.dart' as _i303;
@@ -35,6 +36,9 @@ _i174.GetIt initAppBloc(
     () => _i558.LaddersBloc(gh<_i554.ILaddersFacade>()),
   );
   gh.factory<_i48.UsersBloc>(() => _i48.UsersBloc(gh<_i554.IUsersFacade>()));
+  gh.factory<_i896.BannerEventsBloc>(
+    () => _i896.BannerEventsBloc(gh<_i554.IBannerEventsFacade>()),
+  );
   gh.lazySingleton<_i20.AuthBloc>(() => _i20.AuthBloc(gh<_i662.AuthService>()));
   gh.factory<_i57.LocationsBloc>(
     () => _i57.LocationsBloc(gh<_i554.ILocationsFacade>()),

@@ -17,9 +17,9 @@ final appBlocSl = GetIt.instance;
 /// not define a second `GetItInjectableX` extension that would collide with
 /// `middleware` when both are imported in the app.
 ///
-/// [IUsersFacade] / [ILocationsFacade] / [ISettingsFacade] / [ILaddersFacade] / [ILeagueFixturesFacade] / [IBookingsFacade] / [AuthService] are provided by [registerMiddleware]; listed in
-/// [ignoreUnregisteredTypes] only so this package’s codegen does not require
-/// middleware to be analyzed as part of app_bloc’s graph.
+/// [IUsersFacade] / [ILocationsFacade] / [ISettingsFacade] / [ILaddersFacade] / [ILeagueFixturesFacade] / [IBookingsFacade] / [IBannerEventsFacade] / [AuthService] are provided by [registerMiddleware]; listed in
+  /// [ignoreUnregisteredTypes] only so this package’s codegen does not require
+  /// middleware to be analyzed as part of app_bloc’s graph.
 @InjectableInit(
   initializerName: 'initAppBloc',
   preferRelativeImports: true,
@@ -31,6 +31,7 @@ final appBlocSl = GetIt.instance;
     ILaddersFacade,
     ILeagueFixturesFacade,
     IBookingsFacade,
+    IBannerEventsFacade,
     IEmailFacade,
     AuthService,
   ],

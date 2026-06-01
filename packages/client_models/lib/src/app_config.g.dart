@@ -24,6 +24,7 @@ AppConfig _$AppConfigFromJson(Map<String, dynamic> json) => AppConfig(
   smtpBookingCc: json['smtp_booking_cc'],
   smtpWelcomeCc: json['smtp_welcome_cc'],
   emailAssetBaseUrl: json['email_asset_base_url'] as String?,
+  bannerEventsBaseUrl: json['banner_events_base_url'] as String?,
 );
 
 Map<String, dynamic> _$AppConfigToJson(AppConfig instance) => <String, dynamic>{
@@ -44,4 +45,5 @@ Map<String, dynamic> _$AppConfigToJson(AppConfig instance) => <String, dynamic>{
   'smtp_booking_cc': instance.smtpBookingCc,
   'smtp_welcome_cc': instance.smtpWelcomeCc,
   'email_asset_base_url': instance.emailAssetBaseUrl,
+  'banner_events_base_url': instance.bannerEventsBaseUrl,
 };

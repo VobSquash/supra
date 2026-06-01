@@ -1,6 +1,7 @@
 library;
 
 export 'auth/auth_bloc.dart';
+export 'banner_events/banner_events_bloc.dart';
 export 'base/base_bloc.dart';
 export 'bookings/bookings_bloc.dart';
 export 'email/email_bloc.dart';

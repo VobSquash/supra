@@ -48,28 +48,22 @@ class UsersProfileRefreshList extends StatelessWidget {
                   ),
                   sliver: SliverFixedExtentList(
                     itemExtent: UsersDirectoryRowMetrics.rowStride,
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final profile = profiles[index];
-                        return Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              height: UsersDirectoryRowMetrics.tileHeight,
-                              width: double.infinity,
-                              child: ClipRect(
-                                child: Align(
-                                  alignment: Alignment.topCenter,
-                                  child: itemBuilder(context, profile),
-                                ),
-                              ),
+                    delegate: SliverChildBuilderDelegate((context, index) {
+                      final profile = profiles[index];
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SizedBox(
+                            height: UsersDirectoryRowMetrics.tileHeight,
+                            width: double.infinity,
+                            child: ClipRect(
+                              child: Align(alignment: Alignment.topCenter, child: itemBuilder(context, profile)),
                             ),
-                            const SizedBox(height: UsersDirectoryRowMetrics.separatorHeight),
-                          ],
-                        );
-                      },
-                      childCount: profiles.length,
-                    ),
+                          ),
+                          //const SizedBox(height: UsersDirectoryRowMetrics.separatorHeight),
+                        ],
+                      );
+                    }, childCount: profiles.length),
                   ),
                 ),
               ],

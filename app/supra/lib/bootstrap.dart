@@ -11,26 +11,21 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 Future<void> bootstrap() async {
   final appConfig = await _loadAppConfigFromAsset();
 
-  await Supabase.initialize(
-    url: appConfig.supabaseUrl,
-    anonKey: appConfig.anonKey,
-  );
+  await Supabase.initialize(url: appConfig.supabaseUrl, anonKey: appConfig.anonKey);
 
   // Order matters (see packages/app_bloc/lib/injection.dart).
   registerMiddleware(appConfig);
-  attachSupabaseAuthDioInterceptor();
+  _attachSupabaseDioAuthInterceptors();
   registerAppBlocDependencies();
 }
 
-/// Adds [SupabaseAuthDioInterceptor] to the shared Supabase REST client. Lives here
+/// Adds Supabase auth + 401-refresh interceptors to the shared REST client. Lives here
 /// (not in `middleware`’s `injection.dart`) so VM `dart test` for packages that
 /// import `middleware` does not pull `dart:ui` via `client_supabase_auth`.
-void attachSupabaseAuthDioInterceptor() {
+void _attachSupabaseDioAuthInterceptors() {
   final dio = middlewareSl<IClientSupabase>().dio;
   final anon = middlewareSl<AppConfig>().anonKey;
-  if (dio.interceptors.whereType<SupabaseAuthDioInterceptor>().isEmpty) {
-    dio.interceptors.add(SupabaseAuthDioInterceptor(anonKey: anon));
-  }
+  attachSupabaseDioAuthInterceptors(dio, anonKey: anon);
 }
 
 Future<AppConfig> _loadAppConfigFromAsset() async {

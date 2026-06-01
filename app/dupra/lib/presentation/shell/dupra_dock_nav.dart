@@ -284,6 +284,7 @@ class _DockProfileTab extends StatelessWidget {
                       displayName: displayName,
                       imageUrl: imageUrl,
                       radius: _avatarRadius,
+                      zoomOnTap: false,
                     ),
                   ),
                   AnimatedContainer(

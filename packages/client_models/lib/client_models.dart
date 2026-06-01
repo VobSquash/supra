@@ -1,6 +1,7 @@
 library;
 
 export 'src/app_config.dart';
+export 'src/dto/banner_events/event_banner_dto.dart';
 export 'src/dto/bookings/booking_dto.dart';
 export 'src/dto/bookings/booking_list_dto.dart';
 export 'src/dto/bookings/create_booking_dto.dart';

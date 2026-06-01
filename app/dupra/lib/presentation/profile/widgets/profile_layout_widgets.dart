@@ -55,7 +55,13 @@ class _AvatarBlock extends StatelessWidget {
                   BoxShadow(color: scheme.primary.withValues(alpha: 0.15), spreadRadius: 3),
                 ],
               ),
-              child: DupraAvatar(radius: radius, displayName: _label(), imageUrl: _photo(), loading: uploading),
+              child: DupraAvatar(
+                radius: radius,
+                displayName: _label(),
+                imageUrl: _photo(),
+                loading: uploading,
+                zoomOnTap: false,
+              ),
             ),
             Positioned(
               right: 2,

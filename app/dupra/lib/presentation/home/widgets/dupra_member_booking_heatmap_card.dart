@@ -1,5 +1,4 @@
 import 'package:app_bloc/app_bloc.dart';
-import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/widgets/dupra_section.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +16,10 @@ class DupraMemberBookingHeatmapCard extends StatefulWidget {
 
 class _DupraMemberBookingHeatmapCardState extends State<DupraMemberBookingHeatmapCard> {
   _MemberHeatTab _tab = _MemberHeatTab.rolling28;
+
+  /// Cold start can hit PostgREST with a stale JWT before GoTrue refreshes; retry quietly.
+  int _unauthorizedRetries = 0;
+  static const _maxUnauthorizedRetries = 2;
 
   static const _weekdayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
 
@@ -291,12 +294,33 @@ class _DupraMemberBookingHeatmapCardState extends State<DupraMemberBookingHeatma
     );
   }
 
+  bool _looksLikeUnauthorized(String? message) {
+    final m = message?.toLowerCase() ?? '';
+    return m.contains('401') || m.contains('unauthorized');
+  }
+
+  void _retryAfterSessionRefresh(BookingHeatmapState state) {
+    if (_unauthorizedRetries >= _maxUnauthorizedRetries) return;
+    if (state.status.status != BaseLoadingStatus.loadingFailed) return;
+    if (!_looksLikeUnauthorized(state.status.message)) return;
+
+    _unauthorizedRetries++;
+    Future<void>.delayed(const Duration(milliseconds: 500), () {
+      if (!mounted) return;
+      context.read<BookingHeatmapBloc>().add(
+            BookingHeatmapEvent.loadMemberMonth(anyDateInMonth: DateTime.now()),
+          );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final variant = Theme.of(context).colorScheme.onSurfaceVariant;
     final scheme = Theme.of(context).colorScheme;
 
-    return BlocBuilder<BookingHeatmapBloc, BookingHeatmapState>(
+    return BlocConsumer<BookingHeatmapBloc, BookingHeatmapState>(
+      listenWhen: (p, c) => p.status != c.status,
+      listener: (context, state) => _retryAfterSessionRefresh(state),
       buildWhen: (p, c) =>
           p.status != c.status ||
           p.memberMonth != c.memberMonth ||
@@ -305,20 +329,26 @@ class _DupraMemberBookingHeatmapCardState extends State<DupraMemberBookingHeatma
       builder: (context, state) {
         final status = state.status.status;
 
+        if (status == BaseLoadingStatus.loadingFailed) {
+          final canRetryUnauthorized =
+              _looksLikeUnauthorized(state.status.message) && _unauthorizedRetries < _maxUnauthorizedRetries;
+          if (!canRetryUnauthorized) {
+            return const SizedBox.shrink();
+          }
+          return DupraSection(
+            title: 'Your court activity',
+            cardChild: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 36),
+              child: Center(child: CircularProgressIndicator.adaptive()),
+            ),
+          );
+        }
+
         Widget cardBody;
         if (status == BaseLoadingStatus.initial || status == BaseLoadingStatus.loading) {
           cardBody = const Padding(
             padding: EdgeInsets.symmetric(vertical: 36),
             child: Center(child: CircularProgressIndicator.adaptive()),
-          );
-        } else if (status == BaseLoadingStatus.loadingFailed) {
-          final msg = state.status.message?.trim();
-          cardBody = Padding(
-            padding: const EdgeInsets.all(22),
-            child: Text(
-              (msg != null && msg.isNotEmpty) ? msg : 'Could not load booking activity',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: DupraColors.error),
-            ),
           );
         } else {
           final month = state.memberMonth;

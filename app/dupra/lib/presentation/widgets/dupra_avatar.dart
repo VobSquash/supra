@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
+import 'package:dupra/presentation/widgets/zoomable_network_image_viewer.dart';
 import 'package:flutter/material.dart';
 
 /// Circular user avatar: caches [imageUrl] via [CachedNetworkImage], otherwise initials.
@@ -11,6 +12,7 @@ class DupraAvatar extends StatelessWidget {
     this.radius = 20,
     this.cacheKey,
     this.loading = false,
+    this.zoomOnTap = true,
   });
 
   final String displayName;
@@ -24,6 +26,11 @@ class DupraAvatar extends StatelessWidget {
 
   /// When true, shows a centered progress indicator instead of image or initials.
   final bool loading;
+
+  /// When true and an image is shown, tap opens fullscreen pinch-zoom.
+  ///
+  /// Disable on own profile (photo picker) and on shell tab avatars (tab navigation).
+  final bool zoomOnTap;
 
   String _initialsGlyph(String displayName) {
     final t = displayName.trim();
@@ -65,7 +72,7 @@ class DupraAvatar extends StatelessWidget {
     final trimmed = imageUrl?.trim();
     if (trimmed != null && trimmed.isNotEmpty) {
       final key = cacheKey ?? trimmed;
-      return SizedBox(
+      Widget avatar = SizedBox(
         width: size,
         height: size,
         child: ClipOval(
@@ -95,6 +102,17 @@ class DupraAvatar extends StatelessWidget {
           ),
         ),
       );
+      if (zoomOnTap) {
+        avatar = Tooltip(
+          message: 'Tap to zoom',
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => showZoomableNetworkImage(context, imageUrl: trimmed, cacheKey: key),
+            child: avatar,
+          ),
+        );
+      }
+      return avatar;
     }
 
     return CircleAvatar(

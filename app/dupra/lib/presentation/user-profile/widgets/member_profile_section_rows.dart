@@ -54,7 +54,7 @@ List<Widget> buildMemberProfileContactRows({
         icon: Icons.phone_outlined,
         iconAccentColor: scheme.primary,
         label: 'Phone',
-        value: phone,
+        value: dupraFormatPhoneForDisplay(phone),
         onPressed: () => openSheet(DupraActiobSheetKind.phone, 'Phone', phone),
       ),
     );

@@ -288,9 +288,17 @@ class _MainShellPageState extends State<MainShellPage> {
                         ),
                       ),
                     )
-                  : BlocProvider(
-                      create: (_) => appBlocSl<BookingHeatmapBloc>()
-                        ..add(BookingHeatmapEvent.loadMemberMonth(anyDateInMonth: DateTime.now())),
+                  : MultiBlocProvider(
+                      providers: [
+                        BlocProvider(
+                          create: (_) => appBlocSl<BookingHeatmapBloc>()
+                            ..add(BookingHeatmapEvent.loadMemberMonth(anyDateInMonth: DateTime.now())),
+                        ),
+                        BlocProvider(
+                          create: (_) => appBlocSl<BannerEventsBloc>()
+                            ..add(const BannerEventsEvent.onLoadEventBanners()),
+                        ),
+                      ],
                       child: PageView(
                         controller: _pageController,
                         onPageChanged: (i) => _onPageChanged(context, i),

@@ -57,5 +57,21 @@ class ClientConfigs {
   static String _normalizePublicBaseUrl(String url) {
     return url.endsWith('/') ? url : '$url/';
   }
+
+  /// Public base for event banner images (Supabase `banner_events` bucket).
+  String? get bannerEventsBaseUrl {
+    final explicit = currentAppConfig.bannerEventsBaseUrl?.trim();
+    if (explicit != null && explicit.isNotEmpty) {
+      return _normalizePublicBaseUrl(explicit);
+    }
+    return _supabaseBannerEventsBaseUrl(currentAppConfig.supabaseUrl);
+  }
+
+  static String? _supabaseBannerEventsBaseUrl(String supabaseUrl) {
+    final root = supabaseUrl.trim();
+    if (root.isEmpty) return null;
+    final withoutTrailing = root.endsWith('/') ? root.substring(0, root.length - 1) : root;
+    return '$withoutTrailing/storage/v1/object/public/banner_events/';
+  }
 }
 

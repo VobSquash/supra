@@ -18,6 +18,8 @@ import 'package:session_storage/session_storage.dart' as _i698;
 
 import 'auth/app_auth_service.dart' as _i512;
 import 'auth/middleware_auth_repository.dart' as _i404;
+import 'clients/banner_events/banner_events_facade.dart' as _i587;
+import 'clients/banner_events/i_banner_events_facade.dart' as _i649;
 import 'clients/bookings/bookings_facade.dart' as _i992;
 import 'clients/bookings/i_bookings_facade.dart' as _i743;
 import 'clients/client_configs.dart' as _i692;
@@ -52,6 +54,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i787.ILocationsFacade>(() => _i922.LocationsFacade());
     gh.lazySingleton<_i1055.ILeagueFixturesFacade>(
       () => _i99.LeagueFixturesFacade(),
+    );
+    gh.lazySingleton<_i649.IBannerEventsFacade>(
+      () => _i587.BannerEventsFacade(),
     );
     gh.lazySingleton<_i662.AuthRepository>(
       () => _i404.MiddlewareAuthRepository(),

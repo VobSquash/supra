@@ -2,6 +2,7 @@ import 'package:dupra/engine/member_shell_tab.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/home/data/home_overview_destination.dart';
 import 'package:dupra/presentation/home/data/home_section_item.dart';
+import 'package:dupra/presentation/home/widgets/dupra_event_banners_strip.dart';
 import 'package:dupra/presentation/home/widgets/dupra_member_booking_heatmap_card.dart';
 import 'package:dupra/presentation/widgets/dupra_section.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class _HomeOverviewContent extends StatelessWidget {
     return ListView(
       padding: EdgeInsets.fromLTRB(0, 8, 0, 24 + bottomInset + 72),
       children: [
+        const DupraEventBannersStrip(),
         const DupraMemberBookingHeatmapCard(),
         DupraSection(
           title: 'Play',
@@ -64,9 +66,9 @@ class _HomeOverviewContent extends StatelessWidget {
               destination: HomeShellTabDestination(MemberShellTab.ladders),
             ),
             HomeSectionItem(
-              title: 'Users',
+              title: 'Members',
               icon: Icons.people_rounded,
-              subtitle: 'List of users',
+              subtitle: 'List of members',
               leadingEdgeAccent: true,
               accentColor: DupraColors.error,
               destination: HomePushRouteDestination(HomePushRoute.users),

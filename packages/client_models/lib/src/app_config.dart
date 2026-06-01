@@ -22,6 +22,7 @@ class AppConfig {
     this.smtpBookingCc,
     this.smtpWelcomeCc,
     this.emailAssetBaseUrl,
+    this.bannerEventsBaseUrl,
   });
 
   @JsonKey(name: 'back_4_app_client_id')
@@ -76,6 +77,11 @@ class AppConfig {
   /// `https://<project>.supabase.co/storage/v1/object/public/email-images/`.
   @JsonKey(name: 'email_asset_base_url')
   final String? emailAssetBaseUrl;
+
+  /// Public base URL for event banner images, e.g.
+  /// `https://<project>.supabase.co/storage/v1/object/public/banner_events/`.
+  @JsonKey(name: 'banner_events_base_url')
+  final String? bannerEventsBaseUrl;
 
   factory AppConfig.fromJson(Map<String, dynamic> json) =>
       _$AppConfigFromJson(json);

@@ -51,9 +51,7 @@ class _UsersPageState extends State<UsersPage> {
   void _onDirectoryScrollPositionChanged() {
     _scrollLetterHideTimer?.cancel();
 
-    if (!mounted ||
-        !_scrollController.hasClients ||
-        _directoryScrollSnapshot.isEmpty) {
+    if (!mounted || !_scrollController.hasClients || _directoryScrollSnapshot.isEmpty) {
       _scrollLetterOverlay.value = null;
       return;
     }
@@ -92,7 +90,9 @@ class _UsersPageState extends State<UsersPage> {
   Future<void> _onPullToRefresh() async {
     final bloc = context.read<UsersBloc>()..add(const UsersEvent.onLoadActiveProfiles());
     try {
-      await bloc.stream.timeout(const Duration(seconds: 45)).firstWhere(
+      await bloc.stream
+          .timeout(const Duration(seconds: 45))
+          .firstWhere(
             (s) =>
                 s.status.status == BaseLoadingStatus.loadingSuccess ||
                 s.status.status == BaseLoadingStatus.loadingFailed,
@@ -190,7 +190,7 @@ class _UsersPageState extends State<UsersPage> {
     );
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Users')),
+      appBar: AppBar(title: const Text('Members')),
       body: body,
     );
   }

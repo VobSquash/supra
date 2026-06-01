@@ -39,16 +39,14 @@ Future<void> bootstrap() async {
       DupraFeesPdfExporter.new,
     );
   }
-  _attachSupabaseAuthDioInterceptor();
+  _attachSupabaseDioAuthInterceptors();
   registerAppBlocDependencies();
 }
 
-void _attachSupabaseAuthDioInterceptor() {
+void _attachSupabaseDioAuthInterceptors() {
   final dio = middlewareSl<IClientSupabase>().dio;
   final anon = middlewareSl<AppConfig>().anonKey;
-  if (dio.interceptors.whereType<SupabaseAuthDioInterceptor>().isEmpty) {
-    dio.interceptors.add(SupabaseAuthDioInterceptor(anonKey: anon));
-  }
+  attachSupabaseDioAuthInterceptors(dio, anonKey: anon);
 }
 
 Future<AppConfig> _loadAppConfigFromAsset() async {

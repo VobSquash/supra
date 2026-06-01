@@ -1,4 +1,5 @@
 export 'client_configs.dart';
+export 'banner_events/i_banner_events_facade.dart';
 export 'email/i_email_facade.dart';
 export 'email/i_email_html_preparer.dart';
 export 'email/i_email_template_provider.dart';

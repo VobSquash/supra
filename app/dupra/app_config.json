@@ -12,5 +12,6 @@
   "smtp_password": "BV5P1tZmYrORwsTh",
   "smtp_from_email": "administrator@vobsquash.co.za",
     "smtp_from_name": "Vob Squash Mailer",
-    "email_asset_base_url": "https://gyqndbxplxbhxznzogcw.supabase.co/storage/v1/object/public/email-images/"
+    "email_asset_base_url": "https://gyqndbxplxbhxznzogcw.supabase.co/storage/v1/object/public/email-images/",
+    "banner_events_base_url": "https://gyqndbxplxbhxznzogcw.supabase.co/storage/v1/object/public/banner_events/"
 }
