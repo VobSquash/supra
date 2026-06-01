@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_models|lib/client_models.dart","client_supabase|lib/client_supabase.dart","middleware|lib/src/mappers/app_config_mapper.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["pointycastle|lib/export.dart","pointycastle|lib/key_derivators/concat_kdf.dart","pointycastle|lib/key_derivators/ecdh_kdf.dart","pointycastle|lib/src/registry/registry.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

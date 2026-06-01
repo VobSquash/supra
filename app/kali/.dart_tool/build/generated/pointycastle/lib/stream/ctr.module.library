@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/api.dart","pointycastle|lib/stream/sic.dart","pointycastle|lib/src/registry/registry.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_models|lib/src/dto/export_dto.dart","freezed_annotation|lib/freezed_annotation.dart"],"parts":["client_models|lib/src/dto/settings/settings.freezed.dart"],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

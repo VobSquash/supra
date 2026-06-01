@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/src/adapter.dart","dio|lib/src/dio_exception.dart","dio|lib/src/options.dart","dio|lib/src/redirect_record.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","io","typed_data"],"hasMain":false}

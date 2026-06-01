@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["collection|lib/collection.dart","realtime_client|lib/realtime_client.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

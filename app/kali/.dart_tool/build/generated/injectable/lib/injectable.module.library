@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["injectable|lib/src/injectable_annotations.dart","injectable|lib/src/environment_filter.dart","injectable|lib/src/get_it_helper.dart","injectable|lib/src/micro_package_module.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

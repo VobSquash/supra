@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["session_storage|lib/session_storage.dart","auth|lib/src/auth_result.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

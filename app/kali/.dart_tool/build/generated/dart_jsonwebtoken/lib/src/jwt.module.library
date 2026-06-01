@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["clock|lib/clock.dart","collection|lib/collection.dart","dart_jsonwebtoken|lib/src/algorithms.dart","dart_jsonwebtoken|lib/src/exceptions.dart","dart_jsonwebtoken|lib/src/helpers.dart","dart_jsonwebtoken|lib/src/keys.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["collection","convert","typed_data"],"hasMain":false}

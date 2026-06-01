@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["gotrue|lib/src/fetch.dart","gotrue|lib/src/helper.dart","gotrue|lib/src/types/fetch_options.dart","gotrue|lib/src/types/mfa.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

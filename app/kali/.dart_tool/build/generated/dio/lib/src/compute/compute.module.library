@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":[],"parts":[],"conditionalDeps":[{"$default":"dio|lib/src/compute/compute_io.dart","dart.library.js_interop":"dio|lib/src/compute/compute_web.dart","dart.library.html":"dio|lib/src/compute/compute_web.dart"}],"sdkDeps":["async"],"hasMain":false}

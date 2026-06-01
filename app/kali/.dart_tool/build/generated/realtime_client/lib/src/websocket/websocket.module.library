@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":[],"parts":[],"conditionalDeps":[{"$default":"realtime_client|lib/src/websocket/websocket_stub.dart","dart.library.io":"realtime_client|lib/src/websocket/websocket_io.dart","dart.library.js_interop":"realtime_client|lib/src/websocket/websocket_web.dart"}],"sdkDeps":[],"hasMain":false}

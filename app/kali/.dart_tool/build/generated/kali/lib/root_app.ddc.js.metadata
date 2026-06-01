@@ -1,0 +1,1 @@
+{"version":"1.0.2","name":"packages/kali/root_app","closureName":"load__packages__kali__root_app","sourceMapUri":"packages/kali/root_app.ddc.js.map","moduleUri":"packages/kali/root_app.ddc.js","fullDillUri":"packages/kali/root_app.ddc.full.dill","libraries":[{"name":"root_app","importUri":"package:kali/root_app.dart","fileUri":"/packages/kali/root_app.dart","partUris":[]}]}

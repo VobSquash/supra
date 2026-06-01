@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/api.dart","pointycastle|lib/digests/blake2b.dart","pointycastle|lib/src/impl/base_key_derivator.dart","pointycastle|lib/src/registry/registry.dart","pointycastle|lib/src/ufixnum.dart","pointycastle|lib/src/utils.dart","pointycastle|lib/key_derivators/api.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["typed_data"],"hasMain":false}

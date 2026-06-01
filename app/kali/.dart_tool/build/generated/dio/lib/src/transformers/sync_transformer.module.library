@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/src/adapter.dart","dio|lib/src/headers.dart","dio|lib/src/options.dart","dio|lib/src/transformer.dart","dio|lib/src/transformers/util/consolidate_bytes.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","convert"],"hasMain":false}

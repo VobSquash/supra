@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["freezed_annotation|lib/freezed_annotation.dart","client_models|lib/src/enums/ladder_types.dart","client_models|lib/src/dto/club_captains/club_captain_dto.dart"],"parts":["client_models|lib/src/dto/league_fixtures/league_fixture.freezed.dart"],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

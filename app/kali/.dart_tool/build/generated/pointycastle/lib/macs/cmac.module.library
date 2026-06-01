@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/api.dart","pointycastle|lib/src/registry/registry.dart","pointycastle|lib/src/impl/base_mac.dart","pointycastle|lib/paddings/iso7816d4.dart","pointycastle|lib/block/modes/cbc.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["typed_data"],"hasMain":false}

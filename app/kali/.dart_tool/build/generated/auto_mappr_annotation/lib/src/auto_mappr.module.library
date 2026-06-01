@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["auto_mappr_annotation|lib/src/auto_mappr_interface.dart","auto_mappr_annotation|lib/src/map_type.dart","auto_mappr_annotation|lib/src/type_converter.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

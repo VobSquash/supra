@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["fixnum|lib/src/int32.dart","fixnum|lib/src/int64.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

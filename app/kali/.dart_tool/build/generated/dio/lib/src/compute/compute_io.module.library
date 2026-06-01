@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/src/utils.dart","dio|lib/src/compute/compute.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","developer","isolate"],"hasMain":false}

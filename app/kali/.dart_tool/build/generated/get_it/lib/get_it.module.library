@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["async|lib/async.dart","collection|lib/collection.dart","meta|lib/meta.dart"],"parts":["get_it|lib/get_it_impl.dart"],"conditionalDeps":[],"sdkDeps":["async","collection"],"hasMain":false}

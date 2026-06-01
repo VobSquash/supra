@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["jaspr|lib/client.dart","kali|lib/bootstrap.dart","kali|lib/root_app.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":true}

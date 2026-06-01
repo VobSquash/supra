@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["session_storage|lib/session_storage.dart","supabase|lib/supabase.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/srp/srp6_standard_groups.dart","pointycastle|lib/srp/srp6_util.dart","pointycastle|lib/pointycastle.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["typed_data"],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["freezed_annotation|lib/freezed_annotation.dart"],"parts":["client_models|lib/src/dto/settings/fees.freezed.dart","client_models|lib/src/dto/settings/fees.g.dart"],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/export.dart","pointycastle|lib/src/ufixnum.dart","pointycastle|lib/src/utils.dart","pointycastle|lib/src/impl/base_aead_block_cipher.dart","pointycastle|lib/src/registry/registry.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["typed_data"],"hasMain":false}

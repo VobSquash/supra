@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/api.dart","pointycastle|lib/adapters/stream_cipher_as_block_cipher.dart","pointycastle|lib/stream/ctr.dart","pointycastle|lib/src/registry/registry.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

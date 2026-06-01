@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["supabase|lib/src/version.dart"],"parts":[],"conditionalDeps":[{"$default":"supabase|lib/src/platform_stub.dart","dart.library.io":"supabase|lib/src/platform_io.dart"}],"sdkDeps":[],"hasMain":false}

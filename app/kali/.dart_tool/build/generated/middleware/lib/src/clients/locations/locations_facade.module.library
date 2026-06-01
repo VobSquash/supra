@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_models|lib/client_models.dart","client_supabase|lib/client_supabase.dart","injectable|lib/injectable.dart","middleware|lib/src/injection.dart","middleware|lib/src/mappers/locations/supabase_location_mapper.dart","middleware|lib/src/clients/locations/i_locations_facade.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

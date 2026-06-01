@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/dio.dart","dio|lib/src/utils.dart","meta|lib/meta.dart","web|lib/web.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","convert","js_interop","typed_data"],"hasMain":false}

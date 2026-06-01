@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/api.dart","pointycastle|lib/asymmetric/api.dart","pointycastle|lib/key_generators/api.dart","pointycastle|lib/src/registry/registry.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

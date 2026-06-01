@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["rxdart|lib/src/utils/forwarding_sink.dart","rxdart|lib/src/utils/forwarding_stream.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","collection"],"hasMain":false}

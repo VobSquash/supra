@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["client_models|lib/client_models.dart","middleware|lib/middleware.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["convert","io"],"hasMain":true}

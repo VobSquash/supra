@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["client_supabase|lib/client_supabase.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["io"],"hasMain":true}

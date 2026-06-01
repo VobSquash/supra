@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_supabase|lib/src/models/ladder_entry_with_profile_row.dart","client_supabase|lib/src/models/ladder_entry_upsert.dart","client_supabase|lib/src/models/member_ladder_membership_with_profile_row.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

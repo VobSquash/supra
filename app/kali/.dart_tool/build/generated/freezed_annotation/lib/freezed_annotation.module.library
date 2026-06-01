@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["collection|lib/collection.dart","json_annotation|lib/json_annotation.dart","meta|lib/meta.dart"],"parts":["freezed_annotation|lib/freezed_annotation.g.dart"],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

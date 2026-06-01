@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["auto_mappr_annotation|lib/auto_mappr_annotation.dart","client_models|lib/src/dto/settings/fees.dart","client_supabase|lib/src/models/settings_row.dart","middleware|lib/src/mappers/settings/settings_fees_mapper.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

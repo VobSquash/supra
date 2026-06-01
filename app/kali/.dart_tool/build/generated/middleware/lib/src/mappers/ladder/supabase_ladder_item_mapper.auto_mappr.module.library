@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["auto_mappr_annotation|lib/auto_mappr_annotation.dart","client_models|lib/src/dto/ladder/ladder_item_dto.dart","middleware|lib/src/mappers/ladder/ladder_entry_with_profile.dart","middleware|lib/src/mappers/ladder/supabase_ladder_item_mapper.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

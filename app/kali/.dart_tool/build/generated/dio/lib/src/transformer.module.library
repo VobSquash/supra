@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["http_parser|lib/http_parser.dart","dio|lib/src/adapter.dart","dio|lib/src/options.dart","dio|lib/src/utils.dart","dio|lib/src/transformers/background_transformer.dart","dio|lib/src/transformers/fused_transformer.dart","dio|lib/src/transformers/sync_transformer.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async"],"hasMain":false}

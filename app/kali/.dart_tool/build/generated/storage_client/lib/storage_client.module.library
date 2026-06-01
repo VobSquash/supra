@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["storage_client|lib/src/storage_client.dart","storage_client|lib/src/storage_file_api.dart","storage_client|lib/src/types.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

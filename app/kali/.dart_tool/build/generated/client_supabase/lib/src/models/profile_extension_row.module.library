@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["json_annotation|lib/json_annotation.dart","client_supabase|lib/src/models/profile_extension.dart"],"parts":["client_supabase|lib/src/models/profile_extension_row.g.dart"],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["http|lib/http.dart","logging|lib/logging.dart","storage_client|lib/src/constants.dart","storage_client|lib/src/storage_bucket_api.dart","storage_client|lib/src/storage_file_api.dart","storage_client|lib/src/version.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

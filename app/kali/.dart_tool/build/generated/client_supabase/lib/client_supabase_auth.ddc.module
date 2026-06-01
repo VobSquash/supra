@@ -1,0 +1,1 @@
+{"p":["client_supabase","lib/client_supabase_auth.dart"],"s":[["client_supabase","lib/client_supabase_auth.dart"],["client_supabase","lib/src/injectables/supabase_auth_dio_interceptor.dart"]],"d":[["dio","lib/dio.dart"],["supabase","lib/src/auth_http_client.dart"]],"m":false,"is":true,"pf":"ddc"}

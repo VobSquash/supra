@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["app_bloc|lib/app_bloc.dart","jaspr|lib/dom.dart","jaspr|lib/jaspr.dart","middleware|lib/middleware.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

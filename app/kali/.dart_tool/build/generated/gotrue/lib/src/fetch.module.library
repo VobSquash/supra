@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["collection|lib/collection.dart","gotrue|lib/src/constants.dart","gotrue|lib/src/types/api_version.dart","gotrue|lib/src/types/auth_exception.dart","gotrue|lib/src/types/error_code.dart","gotrue|lib/src/types/fetch_options.dart","http|lib/http.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["convert"],"hasMain":false}

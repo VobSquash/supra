@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["http|lib/http.dart","supabase|lib/supabase.dart","yet_another_json_isolate|lib/yet_another_json_isolate.dart","supabase|lib/src/counter.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

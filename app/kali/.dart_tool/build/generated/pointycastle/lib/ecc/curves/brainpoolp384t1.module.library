@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/ecc/api.dart","pointycastle|lib/ecc/ecc_base.dart","pointycastle|lib/src/ec_standard_curve_constructor.dart","pointycastle|lib/src/registry/registry.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["rxdart|lib/src/rx.dart","rxdart|lib/streams.dart","rxdart|lib/subjects.dart","rxdart|lib/transformers.dart","rxdart|lib/utils.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

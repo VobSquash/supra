@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["auto_mappr_annotation|lib/auto_mappr_annotation.dart","client_models|lib/client_models.dart","middleware|lib/src/mappers/bookings/booking_with_profile.dart","middleware|lib/src/mappers/bookings/supabase_booking_mapper.auto_mappr.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

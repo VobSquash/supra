@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["ed25519_edwards|lib/ed25519_edwards.dart","pointycastle|lib/pointycastle.dart","dart_jsonwebtoken|lib/src/exceptions.dart","dart_jsonwebtoken|lib/src/key_parser.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["typed_data"],"hasMain":false}

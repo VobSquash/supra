@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["app_bloc|lib/app_bloc.dart","kali|lib/navigation/kali_admin_eligibility.dart","kali|lib/navigation/nav_items.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

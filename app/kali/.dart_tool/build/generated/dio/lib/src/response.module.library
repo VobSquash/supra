@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/src/headers.dart","dio|lib/src/options.dart","dio|lib/src/redirect_record.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["convert"],"hasMain":false}

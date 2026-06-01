@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["logging|lib/logging.dart","rxdart|lib/rxdart.dart","supabase|lib/supabase.dart"],"parts":["supabase|lib/src/supabase_stream_filter_builder.dart"],"conditionalDeps":[],"sdkDeps":["async"],"hasMain":false}

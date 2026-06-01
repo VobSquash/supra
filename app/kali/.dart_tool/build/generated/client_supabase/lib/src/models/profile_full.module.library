@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_supabase|lib/src/models/profile_extension_row.dart","client_supabase|lib/src/models/profile_row.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

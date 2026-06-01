@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["app_bloc|lib/app_bloc.dart","client_models|lib/client_models.dart","jaspr|lib/dom.dart","jaspr|lib/jaspr.dart","middleware|lib/middleware_clients.dart","web|lib/web.dart","kali|lib/utils/admin_bookings_helpers.dart","kali|lib/utils/booking_slot_label.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async"],"hasMain":false}

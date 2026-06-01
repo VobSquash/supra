@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["dart_jsonwebtoken|lib/src/jwt.dart","dart_jsonwebtoken|lib/src/exceptions.dart","dart_jsonwebtoken|lib/src/algorithms.dart","dart_jsonwebtoken|lib/src/keys.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

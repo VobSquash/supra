@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":[],"parts":[],"conditionalDeps":[{"$default":"adaptive_number|lib/src/stub.dart","dart.library.io":"adaptive_number|lib/src/int.dart","dart.library.html":"adaptive_number|lib/src/int64.dart"}],"sdkDeps":[],"hasMain":false}

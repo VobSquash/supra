@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["middleware|lib/src/mappers/app_config_mapper.dart","middleware|lib/src/mappers/profiles/supabase_profile_mapper.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

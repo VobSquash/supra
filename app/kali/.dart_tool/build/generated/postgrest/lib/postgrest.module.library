@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["postgrest|lib/src/postgrest.dart","postgrest|lib/src/postgrest_builder.dart","postgrest|lib/src/types.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

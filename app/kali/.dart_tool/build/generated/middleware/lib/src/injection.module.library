@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_models|lib/client_models.dart","get_it|lib/get_it.dart","injectable|lib/injectable.dart","middleware|lib/src/injection.config.dart","supabase|lib/supabase.dart","middleware|lib/src/clients/client_configs.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

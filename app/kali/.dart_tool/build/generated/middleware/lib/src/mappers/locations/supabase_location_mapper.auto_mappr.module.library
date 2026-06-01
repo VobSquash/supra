@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["auto_mappr_annotation|lib/auto_mappr_annotation.dart","client_models|lib/src/dto/location/locations_item_dto.dart","client_supabase|lib/src/models/location_row.dart","middleware|lib/src/mappers/locations/supabase_location_mapper.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

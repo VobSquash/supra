@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_models|lib/src/enums/booking_enums.dart","client_models|lib/src/enums/ladder_types.dart","client_models|lib/src/enums/membership_types.dart","client_models|lib/src/enums/profile_type_enum.dart","client_models|lib/src/enums/settings_types.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

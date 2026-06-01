@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/export.dart","pointycastle|lib/src/platform_check/platform_check.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

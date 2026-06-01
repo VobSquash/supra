@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["client_supabase|lib/src/client_supabase_base.dart","client_supabase|lib/src/injectables/injectables_exports.dart","client_supabase|lib/src/injection.dart","client_supabase|lib/src/interfaces/export.dart","client_supabase|lib/src/models/export.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

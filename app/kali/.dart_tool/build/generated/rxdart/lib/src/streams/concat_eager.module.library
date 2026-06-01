@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["rxdart|lib/src/streams/concat.dart","rxdart|lib/src/utils/collection_extensions.dart","rxdart|lib/src/utils/subscription.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async"],"hasMain":false}

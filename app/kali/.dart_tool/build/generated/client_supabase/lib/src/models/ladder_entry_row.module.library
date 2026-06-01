@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["json_annotation|lib/json_annotation.dart","client_supabase|lib/src/models/ladder_entry.dart"],"parts":["client_supabase|lib/src/models/ladder_entry_row.g.dart"],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

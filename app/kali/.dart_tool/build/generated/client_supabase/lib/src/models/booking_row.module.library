@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["json_annotation|lib/json_annotation.dart"],"parts":["client_supabase|lib/src/models/booking_row.g.dart"],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

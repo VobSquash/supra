@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["dio|lib/src/adapters/browser_adapter.dart","dio|lib/src/dio/dio_for_browser.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_models|lib/client_models.dart","freezed_annotation|lib/freezed_annotation.dart"],"parts":["client_models|lib/src/dto/bookings/booking_dto.freezed.dart"],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

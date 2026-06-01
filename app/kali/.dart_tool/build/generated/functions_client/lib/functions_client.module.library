@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["http|lib/http.dart","functions_client|lib/src/functions_client.dart","functions_client|lib/src/types.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

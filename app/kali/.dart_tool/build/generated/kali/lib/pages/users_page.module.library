@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["jaspr|lib/jaspr.dart","kali|lib/components/admin_placeholder_panel.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["realtime_client|lib/src/constants.dart","realtime_client|lib/src/realtime_channel.dart","realtime_client|lib/src/realtime_client.dart","realtime_client|lib/src/realtime_presence.dart","realtime_client|lib/src/transformers.dart","realtime_client|lib/src/types.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

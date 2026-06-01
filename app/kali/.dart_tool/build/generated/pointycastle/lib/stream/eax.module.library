@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/api.dart","pointycastle|lib/macs/cmac.dart","pointycastle|lib/src/impl/base_aead_cipher.dart","pointycastle|lib/src/registry/registry.dart","pointycastle|lib/src/utils.dart","pointycastle|lib/stream/ctr.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["core","math","typed_data"],"hasMain":false}

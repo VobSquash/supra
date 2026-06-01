@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["meta|lib/meta.dart","dio|lib/src/adapter.dart","dio|lib/src/dio_exception.dart","dio|lib/src/options.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","typed_data"],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["crypto|lib/crypto.dart","ed25519_edwards|lib/ed25519_edwards.dart","pointycastle|lib/pointycastle.dart","dart_jsonwebtoken|lib/src/exceptions.dart","dart_jsonwebtoken|lib/src/keys.dart","dart_jsonwebtoken|lib/src/helpers.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["convert","math","typed_data"],"hasMain":false}

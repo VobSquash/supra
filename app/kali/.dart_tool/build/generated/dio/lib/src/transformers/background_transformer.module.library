@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/src/compute/compute.dart","dio|lib/src/transformers/sync_transformer.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","convert"],"hasMain":false}

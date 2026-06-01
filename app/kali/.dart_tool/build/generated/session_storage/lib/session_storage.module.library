@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["session_storage|lib/src/in_memory_session_store.dart","session_storage|lib/src/session_snapshot.dart","session_storage|lib/src/session_store.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

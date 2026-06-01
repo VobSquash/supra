@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["adaptive_number|lib/adaptive_number.dart","ed25519_edwards|lib/src/numbers.dart","ed25519_edwards|lib/src/const.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["typed_data"],"hasMain":false}

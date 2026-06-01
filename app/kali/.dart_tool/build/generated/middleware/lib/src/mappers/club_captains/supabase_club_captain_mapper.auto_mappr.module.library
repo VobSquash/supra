@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["auto_mappr_annotation|lib/auto_mappr_annotation.dart","client_models|lib/src/dto/club_captains/club_captain_dto.dart","client_supabase|lib/src/models/club_captain_row.dart","middleware|lib/src/mappers/club_captains/supabase_club_captain_mapper.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

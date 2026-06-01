@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["pointycastle|lib/api.dart","pointycastle|lib/src/ufixnum.dart","pointycastle|lib/src/utils.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["typed_data"],"hasMain":false}

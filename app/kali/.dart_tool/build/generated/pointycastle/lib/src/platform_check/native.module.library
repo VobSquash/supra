@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["pointycastle|lib/src/impl/entropy.dart","pointycastle|lib/src/platform_check/platform_check.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["io","math","typed_data"],"hasMain":false}

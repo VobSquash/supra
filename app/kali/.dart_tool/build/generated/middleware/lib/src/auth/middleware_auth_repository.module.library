@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["auth|lib/auth.dart","injectable|lib/injectable.dart","middleware|lib/src/injection.dart","supabase|lib/supabase.dart","middleware|lib/src/auth/password_codec.dart","middleware|lib/src/auth/supabase_session_mapper.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

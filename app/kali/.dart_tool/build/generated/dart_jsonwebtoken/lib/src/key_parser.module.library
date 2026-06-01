@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["pointycastle|lib/asn1/object_identifiers.dart","pointycastle|lib/pointycastle.dart","pointycastle|lib/ecc/ecc_fp.dart","ed25519_edwards|lib/ed25519_edwards.dart","dart_jsonwebtoken|lib/src/helpers.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["convert","typed_data"],"hasMain":false}

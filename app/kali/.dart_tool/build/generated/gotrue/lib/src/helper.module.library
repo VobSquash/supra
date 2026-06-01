@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["crypto|lib/crypto.dart","gotrue|lib/src/base64url.dart","gotrue|lib/src/types/auth_exception.dart","gotrue|lib/src/types/jwt.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["convert","math"],"hasMain":false}

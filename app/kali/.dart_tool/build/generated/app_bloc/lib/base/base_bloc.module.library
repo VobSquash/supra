@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["bloc|lib/bloc.dart","freezed_annotation|lib/freezed_annotation.dart"],"parts":["app_bloc|lib/base/base_bloc.freezed.dart"],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

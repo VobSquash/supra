@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["app_bloc|lib/app_bloc.dart","client_models|lib/client_models.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["storage_client|lib/src/fetch.dart","storage_client|lib/src/types.dart"],"parts":[],"conditionalDeps":[{"$default":"storage_client|lib/src/file_io.dart","dart.library.js":"storage_client|lib/src/file_stub.dart"}],"sdkDeps":["typed_data"],"hasMain":false}

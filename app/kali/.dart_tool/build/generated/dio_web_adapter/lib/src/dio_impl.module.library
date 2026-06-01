@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/dio.dart","dio_web_adapter|lib/src/adapter_impl.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

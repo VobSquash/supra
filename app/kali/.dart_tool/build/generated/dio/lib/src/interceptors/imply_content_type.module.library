@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/src/dio_mixin.dart","dio|lib/src/form_data.dart","dio|lib/src/headers.dart","dio|lib/src/options.dart","dio|lib/src/utils.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

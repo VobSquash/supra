@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/src/multipart_file.dart","dio|lib/src/options.dart","dio|lib/src/utils.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","convert","math","typed_data"],"hasMain":false}

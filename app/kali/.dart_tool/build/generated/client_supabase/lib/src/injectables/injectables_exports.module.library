@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_supabase|lib/src/injectables/supabase_dio_factory.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

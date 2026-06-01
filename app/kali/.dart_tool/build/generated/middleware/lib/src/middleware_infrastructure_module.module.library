@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_supabase|lib/client_supabase.dart","injectable|lib/injectable.dart","session_storage|lib/session_storage.dart","middleware|lib/src/clients/client_configs.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

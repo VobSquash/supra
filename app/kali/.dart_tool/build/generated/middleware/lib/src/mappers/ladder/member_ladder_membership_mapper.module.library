@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_models|lib/client_models.dart","client_supabase|lib/client_supabase.dart","middleware|lib/src/mappers/profiles/supabase_profile_mapper.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

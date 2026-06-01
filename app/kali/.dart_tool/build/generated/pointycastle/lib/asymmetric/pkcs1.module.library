@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/api.dart","pointycastle|lib/random/fortuna_random.dart","pointycastle|lib/src/impl/base_asymmetric_block_cipher.dart","pointycastle|lib/src/platform_check/platform_check.dart","pointycastle|lib/src/registry/registry.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["typed_data"],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_models|lib/src/extensions/date_time.dart","client_models|lib/src/extensions/int.dart","client_models|lib/src/extensions/list.dart","client_models|lib/src/extensions/map.dart","client_models|lib/src/extensions/string.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

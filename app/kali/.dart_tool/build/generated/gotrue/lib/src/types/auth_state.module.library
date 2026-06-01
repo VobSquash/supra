@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["gotrue|lib/src/constants.dart","gotrue|lib/src/types/session.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

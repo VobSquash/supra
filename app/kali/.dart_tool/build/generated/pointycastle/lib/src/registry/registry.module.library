@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["pointycastle|lib/api.dart","pointycastle|lib/src/registry/registration.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["supabase|lib/supabase.dart","web|lib/web.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

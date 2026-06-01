@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["ed25519_edwards|lib/src/edwards25519.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

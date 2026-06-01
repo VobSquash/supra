@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["auth|lib/auth.dart","bloc|lib/bloc.dart","freezed_annotation|lib/freezed_annotation.dart","injectable|lib/injectable.dart","session_storage|lib/session_storage.dart"],"parts":["app_bloc|lib/auth/auth_bloc.freezed.dart","app_bloc|lib/auth/auth_events.dart","app_bloc|lib/auth/auth_state.dart"],"conditionalDeps":[],"sdkDeps":["convert"],"hasMain":false}

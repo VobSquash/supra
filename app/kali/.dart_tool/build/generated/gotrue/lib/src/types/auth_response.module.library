@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["gotrue|lib/gotrue.dart","gotrue|lib/src/constants.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

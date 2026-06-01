@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":[],"parts":[],"conditionalDeps":[{"$default":"pointycastle|lib/key_derivators/argon2_register64_impl.dart","dart.library.io":"pointycastle|lib/key_derivators/argon2_native_int_impl.dart"}],"sdkDeps":[],"hasMain":false}

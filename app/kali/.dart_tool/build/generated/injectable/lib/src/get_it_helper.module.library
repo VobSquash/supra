@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["get_it|lib/get_it.dart","injectable|lib/injectable.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async"],"hasMain":false}

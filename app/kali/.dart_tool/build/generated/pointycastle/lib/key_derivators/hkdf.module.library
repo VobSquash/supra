@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["collection|lib/collection.dart","pointycastle|lib/export.dart","pointycastle|lib/src/impl/base_key_derivator.dart","pointycastle|lib/src/registry/registry.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["math","typed_data"],"hasMain":false}

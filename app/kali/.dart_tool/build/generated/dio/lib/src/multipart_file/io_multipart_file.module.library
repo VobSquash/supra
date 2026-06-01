@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["path|lib/path.dart","dio|lib/src/multipart_file.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","io"],"hasMain":false}

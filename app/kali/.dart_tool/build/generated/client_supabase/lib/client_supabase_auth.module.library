@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["client_supabase|lib/src/injectables/supabase_auth_dio_interceptor.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

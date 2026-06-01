@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["functions_client|lib/src/constants.dart","functions_client|lib/src/types.dart","functions_client|lib/src/version.dart","http|lib/http.dart","logging|lib/logging.dart","yet_another_json_isolate|lib/yet_another_json_isolate.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["convert","typed_data"],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["auth|lib/src/auth_repository.dart","auth|lib/src/auth_result.dart","auth|lib/src/auth_service.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

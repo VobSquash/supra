@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["gotrue|lib/gotrue.dart","gotrue|lib/src/fetch.dart","gotrue|lib/src/helper.dart","gotrue|lib/src/types/auth_response.dart","gotrue|lib/src/types/fetch_options.dart","http|lib/http.dart","gotrue|lib/src/gotrue_admin_mfa_api.dart","gotrue|lib/src/gotrue_admin_oauth_api.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

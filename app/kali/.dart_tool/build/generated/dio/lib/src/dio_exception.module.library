@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/src/options.dart","dio|lib/src/response.dart","dio|lib/src/utils.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

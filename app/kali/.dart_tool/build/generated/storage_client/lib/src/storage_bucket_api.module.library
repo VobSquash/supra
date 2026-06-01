@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["http|lib/http.dart","meta|lib/meta.dart","storage_client|lib/src/fetch.dart","storage_client|lib/src/types.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

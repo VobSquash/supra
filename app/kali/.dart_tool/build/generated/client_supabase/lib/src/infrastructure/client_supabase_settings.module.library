@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/dio.dart","client_supabase|lib/src/interfaces/i_client_supabase_settings.dart","client_supabase|lib/src/models/settings_row.dart","client_supabase|lib/src/models/supabase_config.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

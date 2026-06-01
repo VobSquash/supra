@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_supabase|lib/src/models/booking_with_profile_row.dart","client_models|lib/client_models.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

@@ -1,0 +1,1 @@
+{"isEntrypoint":true,"deps":["pointycastle|lib/asn1/asn1_tags.dart","pointycastle|lib/asn1/primitives/asn1_integer.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":[],"hasMain":false}

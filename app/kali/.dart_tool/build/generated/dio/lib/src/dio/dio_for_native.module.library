@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dio|lib/src/adapter.dart","dio|lib/src/adapters/io_adapter.dart","dio|lib/src/cancel_token.dart","dio|lib/src/dio.dart","dio|lib/src/dio_exception.dart","dio|lib/src/dio_mixin.dart","dio|lib/src/headers.dart","dio|lib/src/options.dart","dio|lib/src/response.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["async","io"],"hasMain":false}

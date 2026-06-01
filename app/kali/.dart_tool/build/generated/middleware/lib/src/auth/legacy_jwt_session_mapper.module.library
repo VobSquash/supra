@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["dart_jsonwebtoken|lib/dart_jsonwebtoken.dart","auth|lib/auth.dart","session_storage|lib/session_storage.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["convert"],"hasMain":false}

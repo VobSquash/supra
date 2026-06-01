@@ -1,0 +1,1 @@
+{"isEntrypoint":false,"deps":["client_models|lib/src/extensions/date_time.dart"],"parts":[],"conditionalDeps":[],"sdkDeps":["convert"],"hasMain":false}
