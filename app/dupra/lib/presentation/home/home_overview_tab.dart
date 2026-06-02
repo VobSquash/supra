@@ -1,6 +1,7 @@
 import 'package:dupra/engine/member_shell_tab.dart';
 import 'package:dupra/engine/theme/dupra_colors.dart';
 import 'package:dupra/presentation/home/data/home_overview_destination.dart';
+import 'package:dupra/presentation/shell/shell_tab_insets.dart';
 import 'package:dupra/presentation/home/data/home_section_item.dart';
 import 'package:dupra/presentation/home/widgets/dupra_event_banners_strip.dart';
 import 'package:dupra/presentation/home/widgets/dupra_member_booking_heatmap_card.dart';
@@ -26,10 +27,8 @@ class _HomeOverviewContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bottomInset = MediaQuery.paddingOf(context).bottom;
-
     return ListView(
-      padding: EdgeInsets.fromLTRB(0, 8, 0, 24 + bottomInset + 72),
+      padding: EdgeInsets.fromLTRB(0, 8, 0, dupraShellTabBottomInset(context)),
       children: [
         const DupraEventBannersStrip(),
         const DupraMemberBookingHeatmapCard(),

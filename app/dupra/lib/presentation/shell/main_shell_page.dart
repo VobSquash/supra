@@ -15,6 +15,7 @@ import 'package:dupra/presentation/home/data/home_overview_destination.dart';
 import 'package:dupra/presentation/home/home_overview_tab.dart';
 import 'package:dupra/presentation/ladders/ladders_page.dart';
 import 'package:dupra/presentation/profile/profile_stub_page.dart';
+import 'package:dupra/presentation/shell/shell_tab_insets.dart';
 import 'package:dupra/presentation/widgets/dupra_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -267,66 +268,74 @@ class _MainShellPageState extends State<MainShellPage> {
                     ),
                 ],
               ),
-              body: placement.adminShell
-                  ? PageView(
-                      controller: _pageController,
-                      onPageChanged: (i) => _onPageChanged(context, i),
-                      children: List.generate(
-                        tabCount,
-                        (i) => _LazyShellTab(
-                          key: ValueKey<String>('shell-$suiteKey-$i'),
-                          tabIndex: i,
-                          effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
-                          builder: () => switch (i) {
-                            0 => const AdminHomePlaceholderPage(),
-                            1 => const AdminBookingsPlaceholderPage(),
-                            2 => const AdminUsersPlaceholderPage(),
-                            3 => const AdminLaddersPlaceholderPage(),
-                            4 => const AdminEmailPage(),
-                            _ => const ProfileStubPage(),
-                          },
-                        ),
-                      ),
-                    )
-                  : MultiBlocProvider(
-                      providers: [
-                        BlocProvider(
-                          create: (_) => appBlocSl<BookingHeatmapBloc>()
-                            ..add(BookingHeatmapEvent.loadMemberMonth(anyDateInMonth: DateTime.now())),
-                        ),
-                        BlocProvider(
-                          create: (_) => appBlocSl<BannerEventsBloc>()
-                            ..add(const BannerEventsEvent.onLoadEventBanners()),
-                        ),
-                      ],
-                      child: PageView(
-                        controller: _pageController,
-                        onPageChanged: (i) => _onPageChanged(context, i),
-                        children: List.generate(
-                          tabCount,
-                          (i) => _LazyShellTab(
-                            key: ValueKey<String>('shell-$suiteKey-$i'),
-                            tabIndex: i,
-                            effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
-                            builder: () => switch (i) {
-                              0 => HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
-                              1 => const BookingsPage(),
-                              2 => const FixturesPage(),
-                              3 => const LaddersPage(),
-                              _ => const ProfileStubPage(),
-                            },
+              body: Stack(
+                fit: StackFit.expand,
+                children: [
+                  placement.adminShell
+                      ? PageView(
+                          controller: _pageController,
+                          onPageChanged: (i) => _onPageChanged(context, i),
+                          children: List.generate(
+                            tabCount,
+                            (i) => _LazyShellTab(
+                              key: ValueKey<String>('shell-$suiteKey-$i'),
+                              tabIndex: i,
+                              effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
+                              builder: () => switch (i) {
+                                0 => const AdminHomePlaceholderPage(),
+                                1 => const AdminBookingsPlaceholderPage(),
+                                2 => const AdminUsersPlaceholderPage(),
+                                3 => const AdminLaddersPlaceholderPage(),
+                                4 => const AdminEmailPage(),
+                                _ => const ProfileStubPage(),
+                              },
+                            ),
+                          ),
+                        )
+                      : MultiBlocProvider(
+                          providers: [
+                            BlocProvider(
+                              create: (_) => appBlocSl<BookingHeatmapBloc>()
+                                ..add(BookingHeatmapEvent.loadMemberMonth(anyDateInMonth: DateTime.now())),
+                            ),
+                            BlocProvider(
+                              create: (_) => appBlocSl<BannerEventsBloc>()
+                                ..add(const BannerEventsEvent.onLoadEventBanners()),
+                            ),
+                          ],
+                          child: PageView(
+                            controller: _pageController,
+                            onPageChanged: (i) => _onPageChanged(context, i),
+                            children: List.generate(
+                              tabCount,
+                              (i) => _LazyShellTab(
+                                key: ValueKey<String>('shell-$suiteKey-$i'),
+                                tabIndex: i,
+                                effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
+                                builder: () => switch (i) {
+                                  0 => HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
+                                  1 => const BookingsPage(),
+                                  2 => const FixturesPage(),
+                                  3 => const LaddersPage(),
+                                  _ => const ProfileStubPage(),
+                                },
+                              ),
+                            ),
                           ),
                         ),
-                      ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: _DupraDockNav(
+                      scheme: scheme,
+                      mode: placement.adminShell ? _ShellDockMode.admin : _ShellDockMode.member,
+                      selectedIndex: placement.tabIndex,
+                      profileTabIndex: profileTabIndex,
+                      avatarDisplayName: avatarLabel,
+                      avatarImageUrl: avatarUrl,
+                      onTabChange: (i) => _goToTab(context, i, tabCount: tabCount),
                     ),
-              bottomNavigationBar: _DupraDockNav(
-                scheme: scheme,
-                mode: placement.adminShell ? _ShellDockMode.admin : _ShellDockMode.member,
-                selectedIndex: placement.tabIndex,
-                profileTabIndex: profileTabIndex,
-                avatarDisplayName: avatarLabel,
-                avatarImageUrl: avatarUrl,
-                onTabChange: (i) => _goToTab(context, i, tabCount: tabCount),
+                  ),
+                ],
               ),
             );
           },

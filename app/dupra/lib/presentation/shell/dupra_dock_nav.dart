@@ -25,11 +25,8 @@ class _DupraDockNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final isAdmin = mode == _ShellDockMode.admin;
     final dockAccent = isAdmin ? DupraColors.warning : DupraColors.secondary;
-    final barColor = Color.lerp(
-      scheme.surfaceContainerHigh,
-      DupraColors.warning,
-      isAdmin ? 0.14 : 0,
-    )!.withValues(alpha: 0.98);
+    final tinted = Color.lerp(scheme.surfaceContainerHigh, DupraColors.warning, isAdmin ? 0.14 : 0)!;
+    final barColor = Color.lerp(tinted, Colors.black, isAdmin ? 0.1 : 0.46)!.withValues(alpha: 0.98);
 
     final gradientColors = isAdmin
         ? [
@@ -43,107 +40,122 @@ class _DupraDockNav extends StatelessWidget {
             DupraColors.tertiary.withValues(alpha: 0.85),
           ];
 
-    return Material(
-      elevation: 12,
-      shadowColor: Colors.black.withValues(alpha: 0.45),
-      color: barColor,
-      surfaceTintColor: scheme.surfaceTint,
-      child: SafeArea(
-        top: false,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              height: 3,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(colors: gradientColors),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(2, 2, 2, 4),
-              child: Row(
+    return SafeArea(
+      top: false,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(
+          kDupraDockNavHorizontalMargin,
+          0,
+          kDupraDockNavHorizontalMargin,
+          kDupraDockNavFloatMargin,
+        ),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(color: Colors.black.withValues(alpha: 0.38), blurRadius: 24, offset: const Offset(0, 10)),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(28),
+            child: Material(
+              color: barColor,
+              surfaceTintColor: scheme.surfaceTint,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
-                    child: _DockTab(
-                      selected: selectedIndex == 0,
-                      icon: Icons.home_outlined,
-                      selectedIcon: Icons.home_rounded,
-                      label: 'Home',
-                      scheme: scheme,
-                      accent: dockAccent,
-                      onTap: () => onTabChange(0),
-                    ),
+                  Container(
+                    height: 3,
+                    width: double.infinity,
+                    decoration: BoxDecoration(gradient: LinearGradient(colors: gradientColors)),
                   ),
-                  Expanded(
-                    child: _DockTab(
-                      selected: selectedIndex == 1,
-                      icon: Icons.calendar_month_outlined,
-                      selectedIcon: Icons.calendar_month_rounded,
-                      label: 'Bookings',
-                      scheme: scheme,
-                      accent: dockAccent,
-                      onTap: () => onTabChange(1),
-                    ),
-                  ),
-                  Expanded(
-                    child: isAdmin
-                        ? _DockTab(
-                            selected: selectedIndex == 2,
-                            icon: Icons.people_outline_rounded,
-                            selectedIcon: Icons.people_rounded,
-                            label: 'Users',
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(2, 2, 2, 4),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: _DockTab(
+                            selected: selectedIndex == 0,
+                            icon: Icons.home_outlined,
+                            selectedIcon: Icons.home_rounded,
+                            label: 'Home',
                             scheme: scheme,
                             accent: dockAccent,
-                            onTap: () => onTabChange(2),
-                          )
-                        : _DockTab(
-                            selected: selectedIndex == 2,
-                            icon: Icons.sports_tennis_outlined,
-                            selectedIcon: Icons.sports_tennis_rounded,
-                            label: 'Fixtures',
-                            scheme: scheme,
-                            accent: dockAccent,
-                            onTap: () => onTabChange(2),
+                            onTap: () => onTabChange(0),
                           ),
-                  ),
-                  Expanded(
-                    child: _DockTab(
-                      selected: selectedIndex == 3,
-                      icon: Icons.emoji_events_outlined,
-                      selectedIcon: Icons.emoji_events_rounded,
-                      label: isAdmin ? 'Ladder' : 'Ladders',
-                      scheme: scheme,
-                      accent: dockAccent,
-                      onTap: () => onTabChange(3),
-                    ),
-                  ),
-                  if (isAdmin)
-                    Expanded(
-                      child: _DockTab(
-                        selected: selectedIndex == 4,
-                        icon: Icons.mail_outline_rounded,
-                        selectedIcon: Icons.mail_rounded,
-                        label: 'Mail',
-                        scheme: scheme,
-                        accent: dockAccent,
-                        onTap: () => onTabChange(4),
-                      ),
-                    ),
-                  Expanded(
-                    child: _DockProfileTab(
-                      selected: selectedIndex == profileTabIndex,
-                      displayName: avatarDisplayName,
-                      imageUrl: avatarImageUrl,
-                      scheme: scheme,
-                      accent: dockAccent,
-                      onTap: () => onTabChange(profileTabIndex),
+                        ),
+                        Expanded(
+                          child: _DockTab(
+                            selected: selectedIndex == 1,
+                            icon: Icons.calendar_month_outlined,
+                            selectedIcon: Icons.calendar_month_rounded,
+                            label: 'Bookings',
+                            scheme: scheme,
+                            accent: dockAccent,
+                            onTap: () => onTabChange(1),
+                          ),
+                        ),
+                        Expanded(
+                          child: isAdmin
+                              ? _DockTab(
+                                  selected: selectedIndex == 2,
+                                  icon: Icons.people_outline_rounded,
+                                  selectedIcon: Icons.people_rounded,
+                                  label: 'Users',
+                                  scheme: scheme,
+                                  accent: dockAccent,
+                                  onTap: () => onTabChange(2),
+                                )
+                              : _DockTab(
+                                  selected: selectedIndex == 2,
+                                  icon: Icons.sports_tennis_outlined,
+                                  selectedIcon: Icons.sports_tennis_rounded,
+                                  label: 'Fixtures',
+                                  scheme: scheme,
+                                  accent: dockAccent,
+                                  onTap: () => onTabChange(2),
+                                ),
+                        ),
+                        Expanded(
+                          child: _DockTab(
+                            selected: selectedIndex == 3,
+                            icon: Icons.emoji_events_outlined,
+                            selectedIcon: Icons.emoji_events_rounded,
+                            label: isAdmin ? 'Ladder' : 'Ladders',
+                            scheme: scheme,
+                            accent: dockAccent,
+                            onTap: () => onTabChange(3),
+                          ),
+                        ),
+                        if (isAdmin)
+                          Expanded(
+                            child: _DockTab(
+                              selected: selectedIndex == 4,
+                              icon: Icons.mail_outline_rounded,
+                              selectedIcon: Icons.mail_rounded,
+                              label: 'Mail',
+                              scheme: scheme,
+                              accent: dockAccent,
+                              onTap: () => onTabChange(4),
+                            ),
+                          ),
+                        Expanded(
+                          child: _DockProfileTab(
+                            selected: selectedIndex == profileTabIndex,
+                            displayName: avatarDisplayName,
+                            imageUrl: avatarImageUrl,
+                            scheme: scheme,
+                            accent: dockAccent,
+                            onTap: () => onTabChange(profileTabIndex),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-          ],
+          ),
         ),
       ),
     );
@@ -172,9 +184,7 @@ class _DockTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final fg = selected ? accent : scheme.onSurfaceVariant;
-    final labelStyle = Theme.of(
-      context,
-    ).textTheme.labelSmall?.copyWith(color: fg, fontWeight: FontWeight.w500);
+    final labelStyle = Theme.of(context).textTheme.labelSmall?.copyWith(color: fg, fontWeight: FontWeight.w500);
     final showLabel = context.appAccessibilityVisibility;
 
     return Semantics(
