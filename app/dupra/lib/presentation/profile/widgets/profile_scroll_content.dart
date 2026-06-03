@@ -221,7 +221,7 @@ class _ProfileScrollContent extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 16 + bottomInset),
+        SizedBox(height: 60 + bottomInset),
       ],
     );
   }

@@ -117,7 +117,7 @@ class DupraAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: DupraColors.scaffoldBackground.withValues(alpha: 0.75),
+      backgroundColor: DupraColors.offBlack.withValues(alpha: 0.75),
       child: Text(initials, style: initialsStyle, textAlign: TextAlign.center),
     );
   }

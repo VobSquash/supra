@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 /// Carried forward from legacy Supra palette (see supra `SupraColors`).
 abstract final class DupraColors {
+  static const Color offBlack = Color.fromARGB(255, 10, 9, 9);
   static const Color scaffoldBackground = Color(0xFF1f1f1f);
   static const Color scaffoldSecondary = Color(0xFF3E4145);
   static const Color primary = Color(0xFF575757);
@@ -40,11 +41,7 @@ abstract final class DupraColors {
 
   /// Solid fill for booked court cells (pair with light / white foreground), aligned with Supra bookings.
   static Color courtBookedFill(int courtNo) {
-    final courtColors = [
-      Colors.blue.shade800,
-      Colors.green.shade800,
-      Colors.orange.shade800,
-    ];
+    final courtColors = [Colors.blue.shade800, Colors.green.shade800, Colors.orange.shade800];
     return switch (courtNo) {
       1 => courtColors[0],
       2 => courtColors[1],

@@ -256,7 +256,7 @@ class _ProfileStubPageState extends State<ProfileStubPage> {
                         onAvatarTap: _uploadingPhoto ? null : _pickPhoto,
                       ),
                       SliverPadding(
-                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 24),
+                        padding: const EdgeInsets.fromLTRB(0, 20, 0, 40),
                         sliver: SliverToBoxAdapter(
                           child: profile == null
                               ? _ProfileLoadingBody(

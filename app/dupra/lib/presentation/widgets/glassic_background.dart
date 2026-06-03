@@ -10,113 +10,115 @@ class GlassicBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            DupraColors.scaffoldBackground,
-            DupraColors.scaffoldBackground.withValues(alpha: 0.95),
-            DupraColors.tertiary.withValues(alpha: 0.15),
-            DupraColors.scaffoldBackground,
+            DupraColors.offBlack,
+            DupraColors.offBlack,
+            // DupraColors.tertiary.withValues(alpha: 0.15),
+            // DupraColors.offBlack,
           ],
-          stops: const [0.0, 0.4, 0.7, 1.0],
+          stops: [0.0, 0.6],
         ),
       ),
-      child: Stack(
-        children: [
-          Positioned(
-            top: -120,
-            left: -120,
-            child: Container(
-              width: 350,
-              height: 350,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    DupraColors.secondary.withValues(alpha: 0.15),
-                    DupraColors.tertiary.withValues(alpha: 0.12),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
+      child: Stack(children: [_TopLeft(), _BottomRight(), _MiddleRight(), _MiddleLeft(), child]),
+    );
+  }
+}
+
+class _MiddleLeft extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: MediaQuery.sizeOf(context).height * 0.5,
+      left: -210,
+      child: Container(
+        width: 430,
+        height: 430,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: RadialGradient(
+            colors: [
+              DupraColors.secondary.withValues(alpha: 0.34),
+              DupraColors.tertiary.withValues(alpha: 0.12),
+              Colors.transparent,
+            ],
           ),
-          Positioned(
-            bottom: -180,
-            right: -120,
-            child: Container(
-              width: 500,
-              height: 500,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    DupraColors.tertiary.withValues(alpha: 0.22),
-                    DupraColors.tertiary.withValues(alpha: 0.12),
-                    DupraColors.success.withValues(alpha: 0.06),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
+        ),
+      ),
+    );
+  }
+}
+
+class _MiddleRight extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 180,
+      right: -200,
+      child: Container(
+        width: 430,
+        height: 430,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: RadialGradient(
+            colors: [
+              DupraColors.secondary.withValues(alpha: 0.34),
+              DupraColors.tertiary.withValues(alpha: 0.12),
+              Colors.transparent,
+            ],
           ),
-          Positioned(
-            top: MediaQuery.sizeOf(context).height * 0.35,
-            right: -80,
-            child: Container(
-              width: 280,
-              height: 280,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    DupraColors.secondary.withValues(alpha: 0.1),
-                    DupraColors.tertiary.withValues(alpha: 0.12),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
+        ),
+      ),
+    );
+  }
+}
+
+class _TopLeft extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: 10,
+      left: -110,
+      child: Container(
+        width: 250,
+        height: 250,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: RadialGradient(
+            colors: [
+              DupraColors.secondary.withValues(alpha: 0.35),
+              DupraColors.tertiary.withValues(alpha: 0.12),
+              Colors.transparent,
+            ],
           ),
-          Positioned(
-            top: MediaQuery.sizeOf(context).height * 0.5,
-            left: -100,
-            child: Container(
-              width: 320,
-              height: 320,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    DupraColors.tertiary.withValues(alpha: 0.18),
-                    DupraColors.tertiary.withValues(alpha: 0.08),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BottomRight extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: -180,
+      right: -160,
+      child: Container(
+        width: 450,
+        height: 450,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: RadialGradient(
+            colors: [
+              DupraColors.secondary.withValues(alpha: 0.35),
+              DupraColors.tertiary.withValues(alpha: 0.12),
+              Colors.transparent,
+            ],
           ),
-          Positioned(
-            bottom: MediaQuery.sizeOf(context).height * 0.2,
-            left: -60,
-            child: Container(
-              width: 200,
-              height: 200,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: RadialGradient(
-                  colors: [
-                    DupraColors.success.withValues(alpha: 0.08),
-                    Colors.transparent,
-                  ],
-                ),
-              ),
-            ),
-          ),
-          child,
-        ],
+        ),
       ),
     );
   }

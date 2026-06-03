@@ -25,7 +25,7 @@ class _DupraDockNav extends StatelessWidget {
   Widget build(BuildContext context) {
     final isAdmin = mode == _ShellDockMode.admin;
     final dockAccent = isAdmin ? DupraColors.warning : DupraColors.secondary;
-    final tinted = Color.lerp(scheme.surfaceContainerHigh, DupraColors.warning, isAdmin ? 0.14 : 0)!;
+    final tinted = Color.lerp(DupraColors.offBlack, DupraColors.warning, isAdmin ? 0.14 : 0)!;
     final barColor = Color.lerp(tinted, Colors.black, isAdmin ? 0.1 : 0.46)!.withValues(alpha: 0.98);
 
     final gradientColors = isAdmin

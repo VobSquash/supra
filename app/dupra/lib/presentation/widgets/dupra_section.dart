@@ -93,7 +93,7 @@ class DupraSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(left: horizontalInset, right: horizontalInset, bottom: 12),
+            padding: EdgeInsets.only(left: horizontalInset, right: horizontalInset, bottom: 6),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

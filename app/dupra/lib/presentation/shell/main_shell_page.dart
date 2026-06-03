@@ -102,7 +102,6 @@ class MainShellPage extends StatefulWidget {
 class _MainShellPageState extends State<MainShellPage> {
   late final PageController _pageController;
 
-
   /// Last rounded page passed to [_LazyShellTab]; avoids [setState] on every scroll tick.
   int _shellLazyRoundedTabCache = -999999;
 
@@ -271,58 +270,60 @@ class _MainShellPageState extends State<MainShellPage> {
               body: Stack(
                 fit: StackFit.expand,
                 children: [
-                  placement.adminShell
-                      ? PageView(
-                          controller: _pageController,
-                          onPageChanged: (i) => _onPageChanged(context, i),
-                          children: List.generate(
-                            tabCount,
-                            (i) => _LazyShellTab(
-                              key: ValueKey<String>('shell-$suiteKey-$i'),
-                              tabIndex: i,
-                              effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
-                              builder: () => switch (i) {
-                                0 => const AdminHomePlaceholderPage(),
-                                1 => const AdminBookingsPlaceholderPage(),
-                                2 => const AdminUsersPlaceholderPage(),
-                                3 => const AdminLaddersPlaceholderPage(),
-                                4 => const AdminEmailPage(),
-                                _ => const ProfileStubPage(),
-                              },
-                            ),
-                          ),
-                        )
-                      : MultiBlocProvider(
-                          providers: [
-                            BlocProvider(
-                              create: (_) => appBlocSl<BookingHeatmapBloc>()
+                  if (placement.adminShell)
+                    PageView(
+                      controller: _pageController,
+                      onPageChanged: (i) => _onPageChanged(context, i),
+                      children: List.generate(
+                        tabCount,
+                        (i) => _LazyShellTab(
+                          key: ValueKey<String>('shell-$suiteKey-$i'),
+                          tabIndex: i,
+                          effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
+                          builder: () => switch (i) {
+                            0 => const AdminHomePlaceholderPage(),
+                            1 => const AdminBookingsPlaceholderPage(),
+                            2 => const AdminUsersPlaceholderPage(),
+                            3 => const AdminLaddersPlaceholderPage(),
+                            4 => const AdminEmailPage(),
+                            _ => const ProfileStubPage(),
+                          },
+                        ),
+                      ),
+                    )
+                  else
+                    MultiBlocProvider(
+                      providers: [
+                        BlocProvider(
+                          create: (_) =>
+                              appBlocSl<BookingHeatmapBloc>()
                                 ..add(BookingHeatmapEvent.loadMemberMonth(anyDateInMonth: DateTime.now())),
-                            ),
-                            BlocProvider(
-                              create: (_) => appBlocSl<BannerEventsBloc>()
-                                ..add(const BannerEventsEvent.onLoadEventBanners()),
-                            ),
-                          ],
-                          child: PageView(
-                            controller: _pageController,
-                            onPageChanged: (i) => _onPageChanged(context, i),
-                            children: List.generate(
-                              tabCount,
-                              (i) => _LazyShellTab(
-                                key: ValueKey<String>('shell-$suiteKey-$i'),
-                                tabIndex: i,
-                                effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
-                                builder: () => switch (i) {
-                                  0 => HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
-                                  1 => const BookingsPage(),
-                                  2 => const FixturesPage(),
-                                  3 => const LaddersPage(),
-                                  _ => const ProfileStubPage(),
-                                },
-                              ),
-                            ),
+                        ),
+                        BlocProvider(
+                          create: (_) =>
+                              appBlocSl<BannerEventsBloc>()..add(const BannerEventsEvent.onLoadEventBanners()),
+                        ),
+                      ],
+                      child: PageView(
+                        controller: _pageController,
+                        onPageChanged: (i) => _onPageChanged(context, i),
+                        children: List.generate(
+                          tabCount,
+                          (i) => _LazyShellTab(
+                            key: ValueKey<String>('shell-$suiteKey-$i'),
+                            tabIndex: i,
+                            effectiveTabIndex: _effectiveShellTabIndex(placement.tabIndex),
+                            builder: () => switch (i) {
+                              0 => HomeOverviewTab(onNavigate: _handleHomeOverviewDestination),
+                              1 => const BookingsPage(),
+                              2 => const FixturesPage(),
+                              3 => const LaddersPage(),
+                              _ => const ProfileStubPage(),
+                            },
                           ),
                         ),
+                      ),
+                    ),
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: _DupraDockNav(
@@ -347,12 +348,7 @@ class _MainShellPageState extends State<MainShellPage> {
 
 /// Builds a shell tab only once it becomes visible, then keeps the subtree alive.
 class _LazyShellTab extends StatefulWidget {
-  const _LazyShellTab({
-    required this.tabIndex,
-    required this.effectiveTabIndex,
-    required this.builder,
-    super.key,
-  });
+  const _LazyShellTab({required this.tabIndex, required this.effectiveTabIndex, required this.builder, super.key});
 
   final int tabIndex;
   final int effectiveTabIndex;
